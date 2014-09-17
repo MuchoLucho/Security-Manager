@@ -84,9 +84,9 @@ class PrivLevel {
     public static String toStringPrivLevels(){
         StringBuilder str = new StringBuilder();
         mapNiveles.forEach(null);
-        for(PrivLevel p:mapNiveles.values()){
+        mapNiveles.values().stream().forEach((p) -> {
             str.append(p.toString()).append("\n");
-        }
+        });
         return str.toString();
     }
 

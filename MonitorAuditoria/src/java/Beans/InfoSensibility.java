@@ -16,11 +16,9 @@ public class InfoSensibility {
     ArrayList<Tablespace> tbsList = new ArrayList<>();
     
     public Tablespace getTableSpace(String name){
-        for(Tablespace t:tbsList){
-            if(t.getName().equals(name))
-                return t;
-        }
-        return null;
+        return tbsList.stream()
+                .filter((t)->t.getName().equals(name))
+                .findFirst().orElse(null);
     }
     
     public boolean setSensibiltiy(String tablespace,String table, String column,int sens){

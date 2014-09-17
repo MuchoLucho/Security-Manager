@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class User {
     private String name;
     private PrivLevel userLevel;
+    private boolean auditing;
     private ArrayList<Role> listRoles = new ArrayList<>();
 
     public User(String name) {
@@ -42,6 +43,24 @@ public class User {
         if((!listRoles.stream().anyMatch((r)->r.getName().equals(rol.getName())))&&rol.getMaxLvl()<=userLevel.getLevelNo())
             listRoles.add(rol);
     }
+
+    public PrivLevel getUserLevel() {
+        return userLevel;
+    }
+
+    public void setUserLevel(PrivLevel userLevel) {
+        this.userLevel = userLevel;
+    }
+
+    public boolean isAuditing() {
+        return auditing;
+    }
+
+    public void setAuditing(boolean auditing) {
+        this.auditing = auditing;
+    }
+    
+    
     
     
     

@@ -31,19 +31,14 @@ public class Table implements Permissible{
     }
 
     public Column getColumn(String n) {
-        for (Column c : cols) {
-            if (c.getName().equals(n)) {
-                return c;
-            }
-        }
-        return null;
+        return cols.stream()
+                .filter((c)->c.getName().equals(n))
+                .findFirst().orElse(null);
     }
 
     public boolean containsColumn(String name) {
-        if (cols.stream().anyMatch((x) -> (x.getName().equals(name)))) {
-            return true;
-        }
-        return false;
+        return cols.stream()
+                .anyMatch((x) -> (x.getName().equals(name)));
     }
 
     public boolean setColumn(String name) {

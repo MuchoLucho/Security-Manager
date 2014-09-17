@@ -25,21 +25,14 @@ public class Tablespace {
     }
 
     public Table getTable(String n) {
-        for (Table t : tabs) {
-            if (t.getName().equals(n)) {
-                return t;
-            }
-        }
-        return null;
+        return tabs.stream().
+                filter((t)->t.getName().equals(n))
+                .findFirst().orElse(null);
     }
 
     public boolean containsTable(String name) {
-        for (Table x : tabs) {
-            if (x.getName().equals(name)) {
-                return true;
-            }
-        }
-        return false;
+        return tabs.stream()
+                .anyMatch( (x) -> x.getName().equals(name) );
     }
 
     public boolean setTable(String name) {
