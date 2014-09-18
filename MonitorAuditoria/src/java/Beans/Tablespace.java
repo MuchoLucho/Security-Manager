@@ -52,14 +52,11 @@ public class Tablespace {
 
     public boolean setSensibility(String table, int lvl) {
         Table aux = getTable(table);
-        if (aux != null) {
-            return aux.setSensibility(lvl);
-        }
-        return false;
+        return aux != null ? aux.setSensibility(lvl):false;
     }
+
     
-    @Override
-    public String toString() {
+    public String toStringTables() {//Tablespace_name\nTable\nTable\n(...).
         StringBuilder str = new StringBuilder();
         str.append(name).append("\n");
         tabs.stream().forEach((c) -> str.append(c.toString()).append("\n"));

@@ -57,7 +57,14 @@ public class Table implements Permissible{
     }
 
     @Override
-    public String toString() {
+    public String toString() {//Name;Sensitivity\n
+        StringBuilder str = new StringBuilder();
+        str.append(name).append(";").append(level.toString());
+        //cols.stream().forEach((c) -> str.append(c.toString()).append("\n"));
+        return str.toString();
+    }
+    
+    public String toStringCols() {//Name;Sensitivity\nCol\nCol\nCol(...)
         StringBuilder str = new StringBuilder();
         str.append(name).append(";").append(level.toString()).append("\n");
         cols.stream().forEach((c) -> str.append(c.toString()).append("\n"));
@@ -74,10 +81,12 @@ public class Table implements Permissible{
         return false;
     }
 
-    public boolean setSensibility(int lvl) {
+    public boolean setSensibility(int lvl) {//THIS OVERWRITES ALL COLUMNS
         PrivLevel privs = PrivLevel.getPrivLevel(lvl);
         if (privs != null) {
             this.setPrivLevel(level);
+            this.cols.stream()
+                    .forEach((col)->col.setPrivLevel(privs));
             return true;
         }
         return false;

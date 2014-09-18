@@ -60,7 +60,13 @@ public class User {
         this.auditing = auditing;
     }
     
-    
+    public static boolean createOReplaceUser() {
+        return false;//THIS IS SUPPOSED TO CREATE A ROLE IN THE DATABASE.
+    }
+
+    public static User createFromDatabase() {
+        return null;//Should somehow get a role already created and represent it as a logical object.
+    }
     
     
     

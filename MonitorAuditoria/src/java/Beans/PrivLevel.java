@@ -12,6 +12,8 @@ import java.util.HashMap;
  * @author Javier
  */
 class PrivLevel {
+
+ 
     private int levelNo;
     private String desc;
     public static HashMap<Integer,PrivLevel> mapNiveles = new HashMap<>();
@@ -38,6 +40,12 @@ class PrivLevel {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+        
+    public String toString(){
+        StringBuilder str = new StringBuilder();
+        str.append(Integer.toString(levelNo)).append(";").append(desc);
+        return str.toString();
     }
     
 
@@ -71,12 +79,18 @@ class PrivLevel {
         return null;
     }
     
-    
-    public String toString(){
-        StringBuilder str = new StringBuilder();
-        str.append(Integer.toString(levelNo)).append(";").append(desc);
-        return str.toString();
+       public static boolean editPrivLevel(int num, String newDesc) {
+           PrivLevel lev = mapNiveles.values().stream()
+                   .filter((lvl)->lvl.getLevelNo()==num)
+                   .findFirst().orElse(null);
+           if(lev!=null){
+               lev.setDesc(newDesc);
+               return true;
+           }
+           return false;
     }
+    
+
     
     public static int hashMapSize(){//How many levels currently in map.
         return mapNiveles.size();
