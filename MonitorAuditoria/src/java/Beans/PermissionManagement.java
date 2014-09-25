@@ -184,6 +184,8 @@ public class PermissionManagement {
     
     public PrivLevel createPrivLevel(String d) {
         PrivLevel privlvl = !existsPrivilege(d) ? (new PrivLevel(d)):null;
+        if(privlvl!=null)
+            this.createTrash(privlvl.getDesc());
         listPrivL.add(privlvl);
         return privlvl;
     }
