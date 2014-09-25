@@ -17,7 +17,7 @@ public class User {
     private PrivLevel userLevel;
     private boolean auditing;
     private ArrayList<Role> listRoles = new ArrayList<>();
-
+    
     public User(String name) {
         this.name = name;
     }
@@ -40,7 +40,7 @@ public class User {
     }
 
     public void setRole(Role rol) {
-        if((!listRoles.stream().anyMatch((r)->r.getName().equals(rol.getName())))&&rol.getMaxLvl()<=userLevel.getLevelNo())
+        if((!listRoles.stream().anyMatch((r)->r.getName().equals(rol.getName()))))
             listRoles.add(rol);
     }
 

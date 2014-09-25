@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class SensibilityService extends HttpServlet {
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
@@ -17,7 +16,7 @@ public class SensibilityService extends HttpServlet {
                 switch (str) {
                     /*Call for Tables*/
                     case "tables":
-                        out.print("[{\"tName\": \"t1\", \"insert\": \"false\", \"select\": \"true\", \"delete\": \"true\", \"update\": \"true\"}, {\"tName\": \"t2\", \"insert\": \"false\", \"select\": \"true\", \"delete\": \"false\", \"update\": \"true\"}]");
+                        out.print("[{\"tName\": \"t1\", \"tablespace\":\"swag\", \"insert\": \"false\", \"select\": \"true\", \"delete\": \"true\", \"update\": \"true\"}, {\"tName\": \"t2\", \"tablespace\":\"swag\", \"insert\": \"false\", \"select\": \"true\", \"delete\": \"false\", \"update\": \"true\"}]");
                         break;
                     /*Call for columns*/
                     case "columns":
@@ -34,7 +33,6 @@ public class SensibilityService extends HttpServlet {
             } else if (request.getParameter("new") != null) { /*New Level*/
                 /*getParameter("new")-->Número de nivel*/
                 /*getParameter("name")-->Nombre de nuevo nivel*/
-
             } else /*Delete Level*/ if (request.getParameter("delete") != null) {
                 //Reemplazar out.print por método que elimine una sensibilidad
                 out.print(request.getParameter("delete"));

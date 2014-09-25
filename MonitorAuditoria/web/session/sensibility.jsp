@@ -135,6 +135,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>Table Name</th>
+                                                    <th>Tablespace</th>
                                                     <th>Select</th>
                                                     <th>Insert</th>
                                                     <th>Delete</th>

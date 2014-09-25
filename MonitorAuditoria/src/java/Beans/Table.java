@@ -3,7 +3,6 @@ package Beans;
 import java.util.ArrayList;
 
 public class Table implements Permissible{
-
     private PrivLevel level;
     private String name;
     ArrayList<Column> cols;
@@ -43,7 +42,7 @@ public class Table implements Permissible{
 
     public boolean setColumn(String name) {
         if (!containsColumn(name)) {
-            return cols.add(new Column(name));
+            return cols.add(new Column(this,name));
         }
         return false;
     }
@@ -51,7 +50,7 @@ public class Table implements Permissible{
     public String getName() {
         return name;
     }
-
+    
     public void setName(String name) {
         this.name = name;
     }
@@ -71,24 +70,29 @@ public class Table implements Permissible{
         return str.toString();
     }
 
-    public boolean setSensibility(String column, int lvl) {
-        Column aux = this.getColumn(name);
-        PrivLevel privs = PrivLevel.getPrivLevel(lvl);
-        if (aux != null && privs != null) {
-            aux.setPrivLevel(privs);
-            return true;
-        }
-        return false;
-    }
+//    public boolean setSensibility(String column, int lvl) {
+//        Column aux = this.getColumn(name);
+//        PrivLevel privs = PrivLevel.getPrivLevel(lvl);
+//        if (aux != null && privs != null) {
+//            aux.setPrivLevel(privs);
+//            return true;
+//        }
+//        return false;
+//    }
+//
+//    public boolean setSensibility(int lvl) {//THIS OVERWRITES ALL COLUMNS
+//        PrivLevel privs = PrivLevel.getPrivLevel(lvl);
+//        if (privs != null) {
+//            this.setPrivLevel(level);
+//            this.cols.stream()
+//                    .forEach((col)->col.setPrivLevel(privs));
+//            return true;
+//        }
+//        return false;
+//    }
 
-    public boolean setSensibility(int lvl) {//THIS OVERWRITES ALL COLUMNS
-        PrivLevel privs = PrivLevel.getPrivLevel(lvl);
-        if (privs != null) {
-            this.setPrivLevel(level);
-            this.cols.stream()
-                    .forEach((col)->col.setPrivLevel(privs));
-            return true;
-        }
-        return false;
+    @Override
+    public String getDBDir() {//Might have to include a reference to tablespace to put complete name.
+        return name;
     }
 }

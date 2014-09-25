@@ -5,6 +5,7 @@
  */
 package Beans;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -13,27 +14,26 @@ import java.util.HashMap;
  */
 class PrivLevel {
 
- 
-    private int levelNo;
+    //private int levelNo;
     private String desc;
-    public static HashMap<Integer,PrivLevel> mapNiveles = new HashMap<>();
+    private ArrayList<Permission> listPermissions;
+    //public static HashMap<Integer,PrivLevel> mapNiveles = new HashMap<>();
 
-    public PrivLevel(int levelNo, String desc) {
-        this.levelNo = levelNo;
-        this.desc = desc;
-    }
-    
     public PrivLevel() {
     }
 
-    public int getLevelNo() {
-        return levelNo;
+    public PrivLevel(String desc) {
+        //this.levelNo = levelNo;
+        this.desc = desc;
     }
 
-    public void setLevelNo(int levelNo) {
-        this.levelNo = levelNo;
-    }
-
+//    public int getLevelNo() {
+//        return levelNo;
+//    }
+//
+//    public void setLevelNo(int levelNo) {
+//        this.levelNo = levelNo;
+//    }
     public String getDesc() {
         return desc;
     }
@@ -41,67 +41,116 @@ class PrivLevel {
     public void setDesc(String desc) {
         this.desc = desc;
     }
-        
-    public String toString(){
-        StringBuilder str = new StringBuilder();
-        str.append(Integer.toString(levelNo)).append(";").append(desc);
-        return str.toString();
-    }
-    
 
     
-    ///////////////STATIC METHODS.
-    public static PrivLevel getPrivLevel(int n){
-         return mapNiveles.containsKey(n)? mapNiveles.get(n):null;
+    public Permission getPerm(Permissible p) {
+        return listPermissions.stream()
+                .filter((priv) -> priv.getSubject().equals(p))
+                .findFirst().orElse(null);
     }
     
-    public static PrivLevel createPrivLevel(int n,String d){
-        if(!mapNiveles.containsKey(n)&&mapNiveles.size()>=n-1){
-            if(n>0&&n<=mapNiveles.size()){
-                for(int i=n;i<mapNiveles.size()+1;i++){
-                    mapNiveles.replace(i+1,mapNiveles.get(i)).setLevelNo(i+1);
-                }
-            }
-            return mapNiveles.put(n,new PrivLevel(n,d));
-        } 
-        return null;
-    }
     
-    public static PrivLevel createPrivLevelFunctional(int n,String d){//A little test.
-        if(!mapNiveles.containsKey(n)&&mapNiveles.size()>=n-1){
-            if(n>0&&n<=mapNiveles.size()){
-                for(int i=n;i<mapNiveles.size()+1;i++){
-                    mapNiveles.replace(i+1,mapNiveles.get(i)).setLevelNo(i+1);
-                }
-            }
-            return mapNiveles.put(n,new PrivLevel(n,d));
-        } 
-        return null;
+    public boolean editPermission(Table t, boolean select, boolean insert, boolean delete, boolean update) {
+        Permission p = this.getPerm(t);
+        if (p != null) {
+            p.setPrivileges(select, insert, delete, update);
+            return true;
+        }
+        return false;
     }
-    
-       public static boolean editPrivLevel(int num, String newDesc) {
-           PrivLevel lev = mapNiveles.values().stream()
-                   .filter((lvl)->lvl.getLevelNo()==num)
-                   .findFirst().orElse(null);
-           if(lev!=null){
-               lev.setDesc(newDesc);
-               return true;
-           }
-           return false;
-    }
-    
 
-    
-    public static int hashMapSize(){//How many levels currently in map.
-        return mapNiveles.size();
+    public boolean editPermission(Column c, boolean select, boolean update) {
+        Permission p = this.getPerm(c);
+        if (p != null) {
+            p.setPrivileges(select, update);
+            return true;
+        }
+        return false;
     }
-    public static String toStringPrivLevels(){
+
+    public boolean editPermission(Column c, boolean update) {
+        Permission p = this.getPerm(c);
+        if (p != null) {
+            p.setPrivileges(update);
+            return true;
+        }
+        return false;
+    }
+
+
+    public boolean addPermission(Permission perm) {
+        return !listPermissions.stream().anyMatch((p) -> p.getSubject().equals(perm.getSubject())) ? listPermissions.add(perm) : false;
+    }
+    public ArrayList<Permission> getAllPermissions(){
+        return listPermissions;
+    }
+    
+//    public String toString(){
+//        StringBuilder str = new StringBuilder();
+//        str.append(Integer.toString(levelNo)).append(";").append(desc);
+//        return str.toString();
+//    }
+    public String toString() {
         StringBuilder str = new StringBuilder();
-        mapNiveles.forEach(null);
-        mapNiveles.values().stream().forEach((p) -> {
+        str.append(desc).append(";");
+        listPermissions.stream().forEach((p) -> {
             str.append(p.toString()).append("\n");
         });
         return str.toString();
     }
 
+
+
+    ///////////////STATIC METHODS.
+//    public static PrivLevel getPrivLevel(int n) {
+//        return mapNiveles.containsKey(n) ? mapNiveles.get(n) : null;
+//    }
+//
+//    public static PrivLevel createPrivLevel(int n, String d) {
+//        if (!mapNiveles.containsKey(n) && mapNiveles.size() >= n - 1) {
+//            if (n > 0 && n <= mapNiveles.size()) {
+//                for (int i = n; i < mapNiveles.size() + 1; i++) {
+//                    mapNiveles.replace(i + 1, mapNiveles.get(i)).setLevelNo(i + 1);
+//                }
+//            }
+//            return mapNiveles.put(n, new PrivLevel(n, d));
+//        }
+//        return null;
+//    }
+//
+//    public static PrivLevel createPrivLevelFunctional(int n, String d) {//A little test.
+//        if (!mapNiveles.containsKey(n) && mapNiveles.size() >= n - 1) {
+//            if (n > 0 && n <= mapNiveles.size()) {
+//                for (int i = n; i < mapNiveles.size() + 1; i++) {
+//                    mapNiveles.replace(i + 1, mapNiveles.get(i)).setLevelNo(i + 1);
+//                }
+//            }
+//            return mapNiveles.put(n, new PrivLevel(n, d));
+//        }
+//        return null;
+//    }
+//
+//    public static boolean editPrivLevel(int num, String newDesc) {
+//        PrivLevel lev = mapNiveles.values().stream()
+//                .filter((lvl) -> lvl.getLevelNo() == num)
+//                .findFirst().orElse(null);
+//        if (lev != null) {
+//            lev.setDesc(newDesc);
+//            return true;
+//        }
+//        return false;
+//    }
+//
+//    public static int hashMapSize() {//How many levels currently in map.
+//        return mapNiveles.size();
+//    }
+//
+//    public static String toStringPrivLevels() {
+//        StringBuilder str = new StringBuilder();
+//        mapNiveles.forEach(null);
+//        mapNiveles.values().stream().forEach((p) -> {
+//            str.append(p.toString()).append("\n");
+//        });
+//        return str.toString();
+//    }
 }

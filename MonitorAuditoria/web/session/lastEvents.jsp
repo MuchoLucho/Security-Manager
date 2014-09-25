@@ -64,7 +64,7 @@
                         <div class="col-md-12">
                             <h2>Last Events</h2>  
                         </div>
-                    </div><!-- /. ROW -->
+                    </div><!-- /. ROW --
                     <hr/>
                     <p>If you do not see any row make sure Audit Mode is On in the <strong>Settings</strong> (<i class="fa fa-cogs"></i>) Tab.
                         If it is on and you do not see any change could be there is not activity in the database</p>

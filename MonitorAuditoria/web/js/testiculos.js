@@ -7,7 +7,8 @@ tables.forEach(function (x) {
 
 });
 
-$.inArray(value, array)
+
+$.inArray(value, array);
 
 function genSens(i) {
     $.ajax({

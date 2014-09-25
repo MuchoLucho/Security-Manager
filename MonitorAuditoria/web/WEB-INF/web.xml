@@ -28,6 +28,10 @@
         <servlet-name>LastEvents</servlet-name>
         <servlet-class>Services.LastEvents</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SettingsService</servlet-name>
+        <servlet-class>Services.SettingsService</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>LastEvents</servlet-name>
         <url-pattern>/session/LastEvents</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SettingsService</servlet-name>
+        <url-pattern>/session/SettingsService</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

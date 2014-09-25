@@ -42,18 +42,18 @@ public class Tablespace {
         return false;
     }
 
-    public boolean setSensibility(String table, String column, int lvl) {
-        Table aux = getTable(table);
-        if (aux != null) {
-            return aux.setSensibility(column, lvl);
-        }
-        return false;
-    }
-
-    public boolean setSensibility(String table, int lvl) {
-        Table aux = getTable(table);
-        return aux != null ? aux.setSensibility(lvl):false;
-    }
+//    public boolean setSensibility(String table, String column, int lvl) {
+//        Table aux = getTable(table);
+//        if (aux != null) {
+//            return aux.setSensibility(column, lvl);
+//        }
+//        return false;
+//    }
+//
+//    public boolean setSensibility(String table, int lvl) {
+//        Table aux = getTable(table);
+//        return aux != null ? aux.setSensibility(lvl):false;
+//    }
 
     
     public String toStringTables() {//Tablespace_name\nTable\nTable\n(...).
