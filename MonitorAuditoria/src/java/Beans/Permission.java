@@ -12,7 +12,7 @@ package Beans;
 public class Permission implements Comparable<Permission>{
 
     private Permissible subject;
-    boolean[] privileges = new boolean[4];/* 0-SELECT 1-INSERT 2-DELETE 3-UPDATE IF PROCEDURE THEN ONLY 0-EXECUT.*/
+    boolean[] privileges = new boolean[4];/* 0-select 1-insert 2-delete 3-update IF PROCEDURE THEN ONLY 0-EXECUT.*/
     //FOR COLUMN 2 update
 
     public Permission(Permissible p, boolean select, boolean insert, boolean delete, boolean update) {//For a table
@@ -100,14 +100,14 @@ public class Permission implements Comparable<Permission>{
     public String toQuery() {
         StringBuilder str = new StringBuilder();
         if(subject instanceof Table){
-                if(privileges[0])str.append("SELECT").append(";");
-                if(privileges[1])str.append("INSERT").append(";");
-                if(privileges[2])str.append("UPDATE").append(";");
-                if(privileges[3])str.append("DELETE").append(";");
+                if(privileges[0])str.append("select").append(";");
+                if(privileges[1])str.append("insert").append(";");
+                if(privileges[2])str.append("update").append(";");
+                if(privileges[3])str.append("delete").append(";");
         }
         else{
-            if(privileges[0])str.append("SELECT").append(";");
-            if(privileges[0])str.append("UPDATE").append(";");
+            if(privileges[0])str.append("select").append(";");
+            if(privileges[0])str.append("update").append(";");
         }
         return str.toString();
     }
@@ -115,14 +115,20 @@ public class Permission implements Comparable<Permission>{
     public String toString() {
 		
             StringBuilder json=new StringBuilder();
+            
+           
             if(subject instanceof Table)
             {
-                if(privileges[0])json.append("\"SELECT\":\"").append(subject.getDBDir()).append("\",");
-                if(privileges[1])json.append("\"INSERT\":\"").append(subject.getDBDir()).append("\",");
-                if(privileges[2])json.append("\"UPDATE\":\"").append(subject.getDBDir()).append("\",");
-                if(privileges[3])json.append("\"DELETE\":\"").append(subject.getDBDir()).append("\"");
+                json.append("\"tName\":\"").append(this.subject.getName()).append("\",");
+                /*if(privileges[0])*/json.append("\"select\":\"").append(privileges[0] ? "true":"false").append("\",");
+                /*if(privileges[1])*/json.append("\"insert\":\"").append(privileges[1] ? "true":"false").append("\",");
+                /*if(privileges[2])*/json.append("\"update\":\"").append(privileges[2] ? "true":"false").append("\",");
+                /*if(privileges[3])*/json.append("\"delete\":\"").append(privileges[3] ? "true":"false").append("\"");
             } else {
-                    if(privileges[1])json.append("\"UPDATE\":\"").append(subject.getDBDir()).append("\"");
+                    String tName = this.subject.getDBDir().split(".")[0];
+                    json.append("\"tName\":\"").append(tName).append("\",");
+                    json.append("\"cName\":\"").append(this.subject.getName()).append("\",");
+                    /*if(privileges[1])*/json.append("\"update\":\"").append(privileges[2] ? "true":"false").append("\"");
                 }
             return json.toString();
 	}

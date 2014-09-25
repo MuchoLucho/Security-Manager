@@ -229,12 +229,69 @@ public class PermissionManagement {
         return listPrivL.size();
     }
 
-    public String toStringPrivLevels() {
-        StringBuilder str = new StringBuilder();
-        listPrivL.forEach(null);
+    public String toStringAllPrivLevels() {
+        StringBuilder str = new StringBuilder("\"[");
+        
         listPrivL.stream().forEach((p) -> {
-            str.append(p.toString()).append("\n");
+            str.append(p.toStringSummary());
         });
+        str.replace(str.length()-1,str.length(),"]\"");
+        return str.toString();
+    }
+    
+    public String toStringPrivLevelTables(String privLevel) {
+        StringBuilder str = new StringBuilder("\"[");
+        PrivLevel p = this.listPrivL.stream().filter(x->x.getDesc().equals(privLevel)).findFirst().get();
+        str.append(p.toString(true))
+            .replace(str.length()-1,str.length(),"]\"");
+
+        return str.toString();
+    }
+    
+    public String toStringPrivLevelColumns(String privLevel) {
+        StringBuilder str = new StringBuilder("\"[");
+        PrivLevel p = this.listPrivL.stream().filter(x->x.getDesc().equals(privLevel)).findFirst().get();
+        str.append(p.toString(false))
+            .replace(str.length()-1,str.length(),"]\"");
+
+        return str.toString();
+    }
+    
+    public String toStringRolesSpecific(String roles) {
+        StringBuilder str = new StringBuilder("\"[");
+        Role p = this.listRoles.stream().filter(x->x.getName().equals(roles)).findFirst().get();
+        str.append(p.toString())
+            .replace(str.length()-1,str.length(),"]\"");
+        return str.toString();
+    }
+    
+    
+    public String toStringRolesGeneral() {
+        StringBuilder str = new StringBuilder("\"[");
+        
+        listRoles.stream().forEach((p) -> {
+            str.append(p.toStringSummary());
+        });
+        str.replace(str.length()-1,str.length(),"]\"");
+        return str.toString();
+    }
+    
+    public String toStringUsersSpecific(String userName) {
+        StringBuilder str = new StringBuilder("\"[");
+        User u = this.listUsers.stream().filter(x->x.getName().equals(userName)).findFirst().get();
+        str.append(u.toString())
+            .replace(str.length()-1,str.length(),"]\"");
+
+        return str.toString();
+    }
+    
+    public String toStringUsersGeneral() {
+        StringBuilder str = new StringBuilder("\"[");
+        
+        listUsers.stream().forEach((p) -> {
+            str.append(p.toStringSummary());
+        });
+        str.replace(str.length()-1,str.length(),"]\"");
         return str.toString();
     }
     

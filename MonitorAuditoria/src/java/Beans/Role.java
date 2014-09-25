@@ -12,6 +12,7 @@ import java.util.ArrayList;
  * @author Javier
  */
 public class Role {
+
     private String name;
     //private ArrayList<Permission> listPerm = new ArrayList<>();
     private ArrayList<PrivLevel> listAssignedLevels = new ArrayList<>();
@@ -43,7 +44,6 @@ public class Role {
 //                .filter((priv) -> priv.getSubject().equals(p))
 //                .findFirst().orElse(null);
 //    }
-    
     public boolean addAssignedLevel(PrivLevel pr) {
         return !listAssignedLevels.stream().anyMatch((p) -> p.getDesc().equals(pr.getDesc())) ? listAssignedLevels.add(pr) : false;
     }
@@ -88,29 +88,30 @@ public class Role {
         ArrayList<Permission> allPerms = new ArrayList<>();
         ArrayList<Permission> distinctPerms = new ArrayList<>();
         listAssignedLevels.stream()
-                .forEach(p->allPerms.addAll(p.getAllPermissions()));
+                .forEach(p -> allPerms.addAll(p.getAllPermissions()));
         allPerms.stream()
                 .sorted()
-                .forEach(x->System.out.println(x.getSubject().getName()));
+                .forEach(x -> System.out.println(x.getSubject().getName()));
         //Watch out!
         Permission a;
         Permission b;
         Permission aux = null;
-        for(int i=0;i<allPerms.size()-1;i++){
-            a=allPerms.get(i);
-            b=allPerms.get(i+1);
-            if(a.compareTo(b)==0){
-                if(aux==null)
+        for (int i = 0; i < allPerms.size() - 1; i++) {
+            a = allPerms.get(i);
+            b = allPerms.get(i + 1);
+            if (a.compareTo(b) == 0) {
+                if (aux == null) {
                     aux = Permission.mergePermissions(a, b);
-                else
+                } else {
                     aux = Permission.mergePermissions(b, aux);
-            }else{
-                if(aux==null) 
+                }
+            } else {
+                if (aux == null) {
                     distinctPerms.add(a);
-                else {
+                } else {
                     distinctPerms.add(aux);
                     aux = null;
-                }  
+                }
             }
         }
         return distinctPerms;
@@ -120,12 +121,30 @@ public class Role {
 //        this.getUnifiedPermissions().stream().forEach(x->str.append(x.toQuery()).append("\n"));//THIS WONT ACTUALLY WORK CAUSE COLUMN CANT YET GET TABLE NAME.
 //        return str.toString();
 //    }
-    
-    public void generateDBRoles(){
+
+    public void generateDBRoles() {
         this.getUnifiedPermissions().stream().forEach(
-                x->{
-                    DBConnector.GrantRoles(x.toQuery(),this.name);
+                x -> {
+                    DBConnector.GrantRoles(x.toQuery(), this.name);
                 }
-        );//THIS WONT ACTUALLY WORK CAUSE COLUMN CANT YET GET TABLE NAME.
+        );
     }
+
+    public String toString() {
+        StringBuilder json = new StringBuilder();
+        json.append("{\"name\":\"").append(this.name).append("\",");
+        listAssignedLevels.stream().forEach((p) -> {
+            json.append(p.toStringSummary());
+        });
+        json.append("},");
+
+        return json.toString();
+    }
+
+    public String toStringSummary() {
+        StringBuilder json = new StringBuilder();
+        json.append("{\"name\":\"").append(this.name).append("\"},");
+        return json.toString();
+    }
+
 }
