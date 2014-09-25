@@ -3,7 +3,7 @@ package Beans;
 import java.util.ArrayList;
 
 public class Table implements Permissible{
-    private PrivLevel level;
+    //private PrivLevel level;
     private String name;
     ArrayList<Column> cols;
 
@@ -14,20 +14,20 @@ public class Table implements Permissible{
     public Table() {
     }
 
-    public Table(PrivLevel nivel) {
-        this.level = nivel;
-    }
+//    public Table(PrivLevel nivel) {
+//        this.level = nivel;
+//    }
+//
+//    public PrivLevel getPrivLevel() {
+//        return level;
+//    }
 
-    public PrivLevel getPrivLevel() {
-        return level;
-    }
-
-    public void setPrivLevel(PrivLevel nivel) {
-        this.level = nivel;
-        cols.stream().forEach((c) -> {
-            c.setPrivLevel(nivel);
-        });
-    }
+//    public void setPrivLevel(PrivLevel nivel) {
+//        //this.level = nivel;
+//        cols.stream().forEach((c) -> {
+//            c.setPrivLevel(nivel);
+//        });
+//    }
 
     public Column getColumn(String n) {
         return cols.stream()
@@ -58,14 +58,14 @@ public class Table implements Permissible{
     @Override
     public String toString() {//Name;Sensitivity\n
         StringBuilder str = new StringBuilder();
-        str.append(name).append(";").append(level.toString());
+        str.append(name).append(";");
         //cols.stream().forEach((c) -> str.append(c.toString()).append("\n"));
         return str.toString();
     }
     
     public String toStringCols() {//Name;Sensitivity\nCol\nCol\nCol(...)
         StringBuilder str = new StringBuilder();
-        str.append(name).append(";").append(level.toString()).append("\n");
+        str.append(name).append(";").append("\n");
         cols.stream().forEach((c) -> str.append(c.toString()).append("\n"));
         return str.toString();
     }

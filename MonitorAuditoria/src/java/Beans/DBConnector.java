@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package beans;
+package Beans;
 
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.sql.*;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -63,7 +64,7 @@ public class DBConnector {
         char letra[] = roles.toCharArray();
         String rol = new String();
 
-        for (int i = 0; i < s; i++) {
+        for (int i = 0; i < s; i++) {   
             if (letra[i] != ';') {
                 rol += letra[i];
             } else {
@@ -97,7 +98,7 @@ public class DBConnector {
         return true;
     }
 
-    public static void Roles() {
+    public static void getRoles() {
 
         sql = "select granted_role \"ROL\" from dba_role_privs where grantee not in ('OUTLN', 'DATAPUMP_IMP_FULL_DATABASE', 'SELECT_CATALOG_ROLE', 'HS_ADMIN_ROLE', 'EXP_FULL_DATABASE', 'DBSNMP', 'IMP_FULL_DATABASE', 'LOGSTDBY_ADMINISTRATOR', 'OEM_MONITOR', 'EXECUTE_CATALOG_ROLE', 'DATAPUMP_EXP_FULL_DATABASE')";
 
@@ -107,7 +108,6 @@ public class DBConnector {
 
             while (rs.next()) {
                 String rol = rs.getString("ROL");
-
                 System.out.println(rol);
             }
         } catch (SQLException ex) {
@@ -116,37 +116,42 @@ public class DBConnector {
         }
     }
 
-    public static void tablespaces() {
+    public static void getTablespaces(ArrayList<Tablespace> lista){
         sql = "select tablespace_name \"TS\" from dba_tablespaces where tablespace_name not in ('SYSTEM', 'SYSAUX', 'UNDOTBS1')";
-
+        
         try {
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
 
             while (rs.next()) {
                 String TS = rs.getString("TS");
-
                 System.out.println(TS);
+                lista.add(new Tablespace(TS));
             }
-        } catch (SQLException ex) {
+        } catch (SQLException ex){
             ex.printStackTrace();
             System.out.println("Error");
         }
     }
 
-    public static void tablas() {
+    public static void tablas(ArrayList<Tablespace> tablespaces,ArrayList<Table> tables) {
         sql = "select table_name \"Tab\" ,tablespace_name \"TS\" from dba_tables where OWNER not in ('ANONYMOUS', 'APEX_030200', 'APEX_PUBLIC_USER', 'APPQOSSYS', 'BI', 'CTXSYS', 'DBSNMP', 'DIP', 'EXFSYS', 'FLOWS_FILES', 'HR', 'IX', 'MDDATA', 'MDSYS', 'MGMT_VIEW', 'OE', 'OLAPSYS', 'ORACLE_OCM', 'ORDDATA', 'ORDPLUGINS', 'ORDSYS', 'OUTLN', 'OWBSYS', 'OWBSYS_AUDIT', 'PM', 'SCOTT', 'SH', 'SI_INFORMTN_SCHEMA', 'SPATIAL_CSW_ADMIN_USR', 'SPATIAL_WFS_ADMIN_USR', 'SYS', 'SYSMAN', 'SYSTEM', 'WMSYS', 'XDB', 'XS$NULL', 'APEX_040000')";
 
         try {
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
-
+            Tablespace t = null;
             while (rs.next()) {
-                String Table = rs.getString("Tab");
-                String Ts = rs.getString("TS");
-
-                System.out.println(Table);
-                System.out.println(Ts);
+                String tabname = rs.getString("Tab");
+                String tsname=  rs.getString("TS");
+                
+                tablespaces.stream()
+                        .filter(x->x.getName().equals(tsname))
+                        .findAny().get()
+                        .setTable(tabname);
+                
+                System.out.println(tabname);
+                System.out.println(tsname);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -154,19 +159,19 @@ public class DBConnector {
         }
     }
 
-    public static void columnas(String table) {
+    public static void columnas(Table table) {
         //BUSCAR ALTERNATIVA A DESCRIBE
-        String Col = table.toUpperCase();
-        sql = "select DISTINCT column_name \"Col\" from all_tab_columns where table_name = '" + Col + "'";
+        String upperCaseTable = table.getName().toUpperCase();
+        sql = "select DISTINCT column_name \"Col\" from all_tab_columns where table_name = '" + upperCaseTable + "'";
 
         try {
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
 
             while (rs.next()) {
-                String Column = rs.getString("Col");
-
-                System.out.println(Column);
+                String auxCol = rs.getString("Col");
+                table.setColumn(auxCol);
+                System.out.println(auxCol);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -198,7 +203,7 @@ public class DBConnector {
         try {
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
-
+            
             System.out.println("User " + Usr + " Creado");
 
         } catch (SQLException ex) {
@@ -224,7 +229,7 @@ public class DBConnector {
         }
     }
 
-    public static void RolesUser(String usr) {
+    public static void RolesUser(String usr) {//NOT CURRENTLY IN USE.
         String Usr = usr.toUpperCase();
         sql = "SELECT grantee \"USR\", granted_role \"ROL\" from dba_role_privs where grantee = '" + Usr + "' order by grantee";
 
@@ -426,31 +431,31 @@ public class DBConnector {
         }
     }
 
-    public static void main(String[] args) {
-        // TODO code application logic here
-
-        if (conectDB()) {
-            System.out.println("Exito");
-            //ActivarAudit();
-            //ReiniciarBase();
-            //Roles();
-            //tablespaces();
-            tablas();
-            //columnas("t1");
-            //CreateRole("adiosa");
-            //CreateUser("sofia","sophi");
-            //OtorgaRol("hola","sofia");
-            //RolesUser("sofia");
-            //Usuarios();
-            //ResumenAudit();
-            //accionesAudit();
-            //consultasxUsuario();
-            //Procedures();
-            //QuitaRol("hola", "sofia");
-            //GrantRoles("connect;resource;","hola");// este metodo recibe un string con el rol+; y el nombre del rol en el que se almacenaran todos
-        } else {
-            System.out.println("No Exito");
-        }
-    }
+//    public static void main(String[] args) {
+//        // TODO code application logic here
+//
+//        if (conectDB()) {
+//            System.out.println("Exito");
+//            //ActivarAudit();
+//            //ReiniciarBase();
+//            //Roles();
+//            //tablespaces();
+//            tablas();
+//            //columnas("t1");
+//            //CreateRole("adiosa");
+//            //CreateUser("sofia","sophi");
+//            //OtorgaRol("hola","sofia");
+//            //RolesUser("sofia");
+//            //Usuarios();
+//            //ResumenAudit();
+//            //accionesAudit();
+//            //consultasxUsuario();
+//            //Procedures();
+//            //QuitaRol("hola", "sofia");
+//            //GrantRoles("connect;resource;","hola");// este metodo recibe un string con el rol+; y el nombre del rol en el que se almacenaran todos
+//        } else {
+//            System.out.println("No Exito");
+//        }
+//    }
 
 }

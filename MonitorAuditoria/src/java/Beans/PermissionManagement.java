@@ -30,20 +30,23 @@ public class PermissionManagement {
                 .get();
     }
 
-    public boolean insertUser(String name) {
+    public boolean insertUser(String name,String pass) {
         if (!listUsers.stream().anyMatch(((x) -> x.getName().equals(name)))) {
+            DBConnector.CreateUser(name, pass);
             return listUsers.add(new User(name));
         }
         return false;
     }
 
-    public boolean insertUser(User u) {
+    public boolean insertUser(User u,String pass) {
         if (!listUsers.stream().anyMatch(((x) -> x.getName().equals(u.getName())))) {
+            DBConnector.CreateUser(u.getName(), pass);
             return listUsers.add(u);
         }
         return false;
     }
 
+    
     public String toStringUsers() {
         StringBuilder str = new StringBuilder();
         listUsers.stream()
@@ -51,6 +54,12 @@ public class PermissionManagement {
         return str.toString();
     }
 
+    public String toStringRoles(){
+        StringBuilder str = new StringBuilder();
+        listRoles.stream().forEach(x -> str.append(x.toString()));
+        return str.toString();
+    }
+    
     public Role getRole(String roleName) {
         return listRoles.stream()
                 .filter((x) -> x.getName().equals(roleName))
@@ -64,7 +73,18 @@ public class PermissionManagement {
         }
         return false;
     }
-
+    
+    public boolean grantRole(String user,String roleName){
+        Role r = this.getRole(roleName);
+        User u = this.getUser(user);
+        if(r!=null && u!=null){
+            u.setRole(r);
+            DBConnector.GrantRoles(roleName, user);
+            return true;
+        }
+        return false;
+    }
+    
      //Manage Table Permissions 
     public boolean addPermission(String levelName, String tableSpaceName, String tableName, boolean select, boolean insert, boolean delete, boolean update) {//For a table
         Table t = this.infoSens.getTable(tableSpaceName, tableName);
@@ -77,7 +97,6 @@ public class PermissionManagement {
         PrivLevel p = this.getPrivLevel(levelName);
         return (t != null && p != null) ? p.editPermission(t, select, insert, delete, update) : false;
     }
-
     //Manage Column Permissions
     public boolean addPermission(String levelName, String tableSpaceName, String tableName, String colName, boolean select, boolean update) {//For a column
         Column c = this.infoSens.getColumn(tableSpaceName, tableName, colName);
@@ -119,17 +138,6 @@ public class PermissionManagement {
 //        return (c != null && r != null) ? this.getRole(roleName).editPermission(c, select, update) : false;
 //    }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
     //Manage Function/Procedure Permissions
     //Not implemented yet.  
     private void getFromDatabase() {
@@ -154,6 +162,12 @@ public class PermissionManagement {
                 .filter((x) -> x.getDesc().equals(levelName))
                 .findFirst()
                 .orElse(null);
+    }
+    
+    public String getAllPrivLevels(){
+        StringBuilder str = new StringBuilder();
+        listPrivL.stream().forEach(x -> str.append(x.toString()));
+        return str.toString();
     }
     
     public PrivLevel createPrivLevel(String d) {
@@ -184,7 +198,19 @@ public class PermissionManagement {
         }
         return false;
     }
-
+    
+    public boolean editPrivLevelPermissionsTable(String lvlDesc,String tablespace,String table,boolean select,boolean insert,boolean update,boolean delete){
+        PrivLevel lev = this.getPrivLevel(lvlDesc);
+        Table tab = this.infoSens.getTable(tablespace,table);
+        return lev.editPermission(tab, select, insert, delete, update);
+    }
+    
+    public boolean editPrivLevelPermissionsColumn(String lvlDesc,String tablespace,String table,String column,boolean update){
+        PrivLevel lev = this.getPrivLevel(lvlDesc);
+        Column col = this.infoSens.getTable(tablespace,table).getColumn(column);
+        return lev.editPermission(col, update);
+    }
+    
     public int listPermissionSize() {//How many levels currently in map.
         return listPrivL.size();
     }

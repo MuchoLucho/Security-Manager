@@ -112,6 +112,20 @@ public class Permission implements Comparable<Permission>{
         return str.toString();
     }
     
+    public String toString() {
+		
+            StringBuilder json=new StringBuilder();
+            if(subject instanceof Table)
+            {
+                if(privileges[0])json.append("\"SELECT\":\"").append(subject.getDBDir()).append("\",");
+                if(privileges[1])json.append("\"INSERT\":\"").append(subject.getDBDir()).append("\",");
+                if(privileges[2])json.append("\"UPDATE\":\"").append(subject.getDBDir()).append("\",");
+                if(privileges[3])json.append("\"DELETE\":\"").append(subject.getDBDir()).append("\"");
+            } else {
+                    if(privileges[1])json.append("\"UPDATE\":\"").append(subject.getDBDir()).append("\"");
+                }
+            return json.toString();
+	}
     
 
 }

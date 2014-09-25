@@ -12,7 +12,7 @@ package Beans;
 public class Column implements Permissible {
 
     private String name;
-    private PrivLevel nivel;
+    //private PrivLevel nivel;
     private Table table;
 
     public Column() {
@@ -27,10 +27,10 @@ public class Column implements Permissible {
         this.name = nombre;
     }
 
-    public Column(String nombre, PrivLevel nivel) {
-        this.name = nombre;
-        this.nivel = nivel;
-    }
+//    public Column(String nombre, PrivLevel nivel) {
+//        this.name = nombre;
+//        this.nivel = nivel;
+//    }
 
     public String getName() {
         return name;
@@ -40,25 +40,37 @@ public class Column implements Permissible {
         this.name = nombre;
     }
 
-    public PrivLevel getPrivLevel() {
-        return nivel;
-    }
+//    public PrivLevel getPrivLevel() {
+//        return nivel;
+//    }
+//
+//    public void setPrivLevel(PrivLevel nivel) {
+//        this.nivel = nivel;
+//    }
 
-    public void setPrivLevel(PrivLevel nivel) {
-        this.nivel = nivel;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder str = new StringBuilder();
-        str.append(name).append(";").append(nivel.toString());
-        return str.toString();
-    }
+//    @Override
+//    public String toString() {
+//        StringBuilder str = new StringBuilder();
+//        str.append(name).append(";").append(nivel.toString());
+//        return str.toString();
+//    }
 
     @Override
     public String getDBDir(){//THIS WONT ACTUALLY WORK
         return new StringBuilder()
                 .append(table.getDBDir())
                 .append(name).toString();
+    }
+    
+    public String toString() {
+        StringBuilder json = new StringBuilder();
+        
+        json.append("[{\"Name\":\"").append(name).append("}]");
+        
+        return json.toString();
+        
+        /*StringBuilder str = new StringBuilder();
+        str.append(name).append(";").append(nivel.toString());
+        return str.toString();*/
     }
 }

@@ -42,14 +42,12 @@ class PrivLevel {
         this.desc = desc;
     }
 
-    
     public Permission getPerm(Permissible p) {
         return listPermissions.stream()
                 .filter((priv) -> priv.getSubject().equals(p))
                 .findFirst().orElse(null);
     }
-    
-    
+
     public boolean editPermission(Table t, boolean select, boolean insert, boolean delete, boolean update) {
         Permission p = this.getPerm(t);
         if (p != null) {
@@ -77,29 +75,47 @@ class PrivLevel {
         return false;
     }
 
-
     public boolean addPermission(Permission perm) {
         return !listPermissions.stream().anyMatch((p) -> p.getSubject().equals(perm.getSubject())) ? listPermissions.add(perm) : false;
     }
-    public ArrayList<Permission> getAllPermissions(){
+
+    public ArrayList<Permission> getAllPermissions() {
         return listPermissions;
     }
-    
+
 //    public String toString(){
 //        StringBuilder str = new StringBuilder();
 //        str.append(Integer.toString(levelNo)).append(";").append(desc);
 //        return str.toString();
 //    }
+//    public String toString() {
+//        StringBuilder str = new StringBuilder();
+//        str.append(desc).append(";");
+//        listPermissions.stream().forEach((p) -> {
+//            str.append(p.toString()).append("\n");
+//        });
+//        return str.toString();
+//    }
+
     public String toString() {
-        StringBuilder str = new StringBuilder();
-        str.append(desc).append(";");
+
+        StringBuilder json = new StringBuilder();
+        json.append("\"Desc\":\"").append(desc).append("\",");
         listPermissions.stream().forEach((p) -> {
-            str.append(p.toString()).append("\n");
+            json.append(p.toString());
         });
-        return str.toString();
+
+        return json.toString();
+
+        /*
+         StringBuilder str = new StringBuilder();
+         str.append(desc).append(";");
+         listPermissions.stream().forEach((p) -> {
+         str.append(p.toString()).append("\n");
+         });
+         return str.toString();
+         */
     }
-
-
 
     ///////////////STATIC METHODS.
 //    public static PrivLevel getPrivLevel(int n) {
