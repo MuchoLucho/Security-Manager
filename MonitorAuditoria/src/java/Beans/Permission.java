@@ -13,7 +13,7 @@ public class Permission implements Comparable<Permission>{
 
     private Permissible subject;
     boolean[] privileges = new boolean[4];/* 0-SELECT 1-INSERT 2-DELETE 3-UPDATE IF PROCEDURE THEN ONLY 0-EXECUT.*/
-    //FOR COLUMN 0 SELECT 1 UPDATE
+    //FOR COLUMN 2 update
 
     public Permission(Permissible p, boolean select, boolean insert, boolean delete, boolean update) {//For a table
         subject = p;
@@ -100,16 +100,18 @@ public class Permission implements Comparable<Permission>{
     public String toQuery() {
         StringBuilder str = new StringBuilder();
         if(subject instanceof Table){
-                if(privileges[0])str.append("GRANT SELECT ON").append(subject.getDBDir());
-                if(privileges[1])str.append("GRANT INSERT ON").append(subject.getDBDir());
-                if(privileges[2])str.append("GRANT UPDATE ON").append(subject.getDBDir());
-                if(privileges[3])str.append("GRANT DELETE ON").append(subject.getDBDir());
+                if(privileges[0])str.append("SELECT").append(";");
+                if(privileges[1])str.append("INSERT").append(";");
+                if(privileges[2])str.append("UPDATE").append(";");
+                if(privileges[3])str.append("DELETE").append(";");
         }
         else{
-            if(privileges[0])str.append("GRANT SELECT ON").append(subject.getDBDir());
-            if(privileges[0])str.append("GRANT UPDATE ON").append(subject.getDBDir());
+            if(privileges[0])str.append("SELECT").append(";");
+            if(privileges[0])str.append("UPDATE").append(";");
         }
         return str.toString();
     }
+    
+    
 
 }
