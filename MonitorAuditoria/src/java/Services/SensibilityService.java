@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class SensibilityService extends HttpServlet {
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
@@ -26,6 +27,7 @@ public class SensibilityService extends HttpServlet {
                     case "rsrc":
                         out.print("[{\"rName\": \"p1\", \"type\": \"procedure\", \"selected\": \"false\"}, {\"rName\": \"p2\", \"type\": \"function\", \"selected\": \"true\"}]");
                         break;
+                    /*Call for sensibilities*/
                     case "sens":
                         out.print("[{\"sName\": \"admin\"}, {\"sName\": \"peasant\"}]");
                         break;
@@ -33,6 +35,7 @@ public class SensibilityService extends HttpServlet {
             } else if (request.getParameter("new") != null) { /*New Level*/
                 /*getParameter("new")-->Número de nivel*/
                 /*getParameter("name")-->Nombre de nuevo nivel*/
+
             } else /*Delete Level*/ if (request.getParameter("delete") != null) {
                 //Reemplazar out.print por método que elimine una sensibilidad
                 out.print(request.getParameter("delete"));
