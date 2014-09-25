@@ -65,7 +65,7 @@ public class Column implements Permissible {
     public String toString() {
         StringBuilder json = new StringBuilder();
         
-        json.append("[{\"Name\":\"").append(name).append("}]");
+        json.append("[{\"tName\":\"").append(name).append("}]");
         
         return json.toString();
         

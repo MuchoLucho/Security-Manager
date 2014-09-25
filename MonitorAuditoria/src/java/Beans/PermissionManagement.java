@@ -151,7 +151,19 @@ public class PermissionManagement {
 //            return listPermissions.containsKey(n) ? listPermissions.get(n) : null;
 //    }
 
+    private void createTrash(String privlvl){
+        ArrayList<Tablespace> lista = infoSens.tbsList;
+        for(Tablespace tbs:lista){
+            for(Table tab:tbs.getTabs()){
+                this.addPermission(privlvl, tbs.getName(),tab.getName(), false, false, false,false);
+                for(Column col:tab.getCols()){
+                    this.addPermission(privlvl, tbs.getName(),tab.getName(),col.getName(), false, false);
+                }
+            }
+        }   
+                
     
+    }
     
     public boolean existsPrivilege(String d){
         return listPrivL.stream().anyMatch(x->x.getDesc().equals(d));

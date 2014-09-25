@@ -7,6 +7,10 @@ public class Table implements Permissible{
     private String name;
     ArrayList<Column> cols;
 
+    public ArrayList<Column> getCols() {
+        return cols;
+    }
+
     public Table(String name) {
         this.name = name;
     }

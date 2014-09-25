@@ -54,7 +54,11 @@ class PrivLevel {
             p.setPrivileges(select, insert, delete, update);
             return true;
         }
-        return false;
+        else{
+            p = new Permission(t, select, insert, delete, update);
+            this.listPermissions.add(p);
+            return true;
+        }
     }
 
     public boolean editPermission(Column c, boolean select, boolean update) {
@@ -71,6 +75,8 @@ class PrivLevel {
         if (p != null) {
             p.setPrivileges(update);
             return true;
+        }else{
+            this.listPermissions.add(new Permission(c, false, update));//2nd param does nothing
         }
         return false;
     }
