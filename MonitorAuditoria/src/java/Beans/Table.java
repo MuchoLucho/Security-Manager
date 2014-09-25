@@ -42,7 +42,7 @@ public class Table implements Permissible{
 
     public boolean setColumn(String name) {
         if (!containsColumn(name)) {
-            return cols.add(new Column(name));
+            return cols.add(new Column(this,name));
         }
         return false;
     }
@@ -51,8 +51,6 @@ public class Table implements Permissible{
         return name;
     }
     
-    
-
     public void setName(String name) {
         this.name = name;
     }
