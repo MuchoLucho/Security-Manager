@@ -43,7 +43,7 @@ public class Role {
 //                .filter((priv) -> priv.getSubject().equals(p))
 //                .findFirst().orElse(null);
 //    }
-//    
+    
     public boolean addAssignedLevel(PrivLevel pr) {
         return !listAssignedLevels.stream().anyMatch((p) -> p.getDesc().equals(pr.getDesc())) ? listAssignedLevels.add(pr) : false;
     }

@@ -8,6 +8,7 @@
         <link href="../css/bootstrap.css" rel="stylesheet" />
         <link href="../css/font-awesome.css" rel="stylesheet" />
         <link href="../css/custom.css" rel="stylesheet" />
+        <link href="../js/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
         <link rel="icon" type="image/png" href="../img/icon.png"/>
     </head>
     <body>
@@ -33,35 +34,19 @@
                             <img src="../img/logo.png" class="user-image img-responsive hidden-xs" alt=""/>
                         </li>
                         <li>
-                            <a href="lastEvents.jsp"><i class="fa fa-calendar fa-2x"></i>Last Events</a>
+                            <a href="lastEvents.jsp"><i class="fa fa-calendar  fa-2x"></i>Last Events</a>
                         </li>
                         <li>
                             <a href="sensibility.jsp"><i class="fa fa-warning fa-2x"></i> Information Sensibility </a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-users fa-2x"></i> Roles <span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="rolesView.jsp">Roles Viewer</a>
-                                </li>
-                                <li>
-                                    <a href="rolesMan.jsp">Roles Manager</a>
-                                </li>
-                            </ul>
+                            <a href="roles.jsp"><i class="fa fa-users fa-2x"></i> Roles</a>                            
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-user fa-2x"></i> Users<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="usersView.jsp">Users Viewer</a>
-                                </li>
-                                <li>
-                                    <a href="usersMan.jsp">Users Manager</a>
-                                </li>
-                            </ul>
+                            <a href="users.jsp"><i class="fa fa-user fa-2x"></i> Users</a>                            
                         </li> 
                         <li>
-                            <a href="log.jsp"><i class="fa fa-calendar fa-2x"></i> Manager's Log </a>
+                            <a href="log.jsp"><i class="fa fa-file-text fa-2x"></i> Manager's Log </a>
                         </li>
                         <li>
                             <a href="settings.jsp"><i class="fa fa-cogs fa-2x"></i> Settings </a>

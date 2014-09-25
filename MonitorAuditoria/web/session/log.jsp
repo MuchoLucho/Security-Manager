@@ -34,35 +34,19 @@
                             <img src="../img/logo.png" class="user-image img-responsive hidden-xs" alt=""/>
                         </li>
                         <li>
-                            <a href="lastEvents.jsp"><i class="fa fa-calendar fa-2x"></i>Last Events</a>
+                            <a href="lastEvents.jsp"><i class="fa fa-calendar  fa-2x"></i>Last Events</a>
                         </li>
                         <li>
                             <a href="sensibility.jsp"><i class="fa fa-warning fa-2x"></i> Information Sensibility </a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-users fa-2x"></i> Roles <span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="rolesView.jsp">Roles Viewer</a>
-                                </li>
-                                <li>
-                                    <a href="rolesMan.jsp">Roles Manager</a>
-                                </li>
-                            </ul>
+                            <a href="roles.jsp"><i class="fa fa-users fa-2x"></i> Roles</a>                            
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-user fa-2x"></i> Users<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="usersView.jsp">Users Viewer</a>
-                                </li>
-                                <li>
-                                    <a href="usersMan.jsp">Users Manager</a>
-                                </li>
-                            </ul>
+                            <a href="users.jsp"><i class="fa fa-user fa-2x"></i> Users</a>                            
                         </li> 
                         <li>
-                            <a class="active-menu" href="log.jsp"><i class="fa fa-calendar fa-2x"></i> Manager's Log </a>
+                            <a class="active-menu" href="log.jsp"><i class="fa fa-file-text fa-2x"></i> Manager's Log </a>
                         </li>
                         <li>
                             <a href="settings.jsp"><i class="fa fa-cogs fa-2x"></i> Settings </a>
@@ -94,86 +78,26 @@
                                         <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                             <thead>
                                                 <tr>
-                                                    <th>Date & Hour</th>
                                                     <th>Event</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr class="odd gradeX">
-                                                    <td>A date</td>
-                                                    <td>An event</td>
-                                                </tr>
-                                                <tr class="even gradeC">
-                                                    <td>A date</td>
-                                                    <td>An event</td>
-                                                </tr>                
-                                                <tr class="odd gradeX">
-                                                    <td>A date</td>
-                                                    <td>An event</td>
-                                                </tr>
-                                                <tr class="even gradeC">
-                                                    <td>A date</td>
-                                                    <td>An event</td>
-                                                </tr>  
-                                                <tr class="odd gradeX">
-                                                    <td>A date</td>
-                                                    <td>An event</td>
-                                                </tr>
-                                                <tr class="even gradeC">
-                                                    <td>A date</td>
-                                                    <td>An event</td>
-                                                </tr>  
-                                                <tr class="odd gradeX">
-                                                    <td>A date</td>
-                                                    <td>An event</td>
-                                                </tr>
-                                                <tr class="even gradeC">
-                                                    <td>A date</td>
-                                                    <td>An event</td>
-                                                </tr>  
-                                                <tr class="odd gradeX">
-                                                    <td>A date</td>
-                                                    <td>An event</td>
-                                                </tr>
-                                                <tr class="even gradeC">
-                                                    <td>A date</td>
-                                                    <td>An event</td>
-                                                </tr>  
-                                                <tr class="odd gradeX">
-                                                    <td>A date</td>
-                                                    <td>An event</td>
-                                                </tr>
-                                                <tr class="even gradeC">
-                                                    <td>A date</td>
-                                                    <td>An event</td>
-                                                </tr>  
-                                                <tr class="odd gradeX">
-                                                    <td>A date</td>
-                                                    <td>An event</td>
-                                                </tr>
-                                                <tr class="even gradeC">
-                                                    <td>A date</td>
-                                                    <td>An event</td>
-                                                </tr>  
-                                            </tbody>
+                                            <tbody id="tLogs"></tbody>
                                         </table>
                                     </div>
-
                                 </div>
                             </div>
                             <!--End Advanced Tables -->
                         </div>
-                    </div>
-                    <!-- /. ROW  -->
-
+                    </div><!-- /. ROW  -->
                 </div><!-- /. PAGE INNER -->
             </div><!-- /. PAGE WRAPPER -->
         </div><!-- /. WRAPPER -->
-        <script src="../js/jquery-1.10.2.js"></script>
-        <script src="../js/bootstrap.min.js"></script>
-        <script src="../js/jquery.metisMenu.js"></script>
-        <script src="../js/custom.js"></script>
-        <script src="../js/dataTables/jquery.dataTables.js"></script>
-        <script src="../js/dataTables/dataTables.bootstrap.js"></script>
+        <script type="text/javascript" src="../js/jquery-1.10.2.js"></script>
+        <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="../js/jquery.metisMenu.js"></script>
+        <script type="text/javascript" src="../js/custom.js"></script>
+        <script type="text/javascript" src="../js/dataTables/jquery.dataTables.js"></script>
+        <script type="text/javascript" src="../js/dataTables/dataTables.bootstrap.js"></script>
+        <script type="text/javascript" src="../js/log.js"></script>
     </body>
 </html>
