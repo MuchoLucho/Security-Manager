@@ -48,4 +48,9 @@ public class Column implements Permissible{
         str.append(name).append(";").append(nivel.toString());
         return str.toString();
     }
+
+    @Override
+    public String getDBDir() {//THIS WONT ACTUALLY WORK
+        return name;
+    }
 }

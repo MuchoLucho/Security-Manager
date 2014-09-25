@@ -13,4 +13,6 @@ package Beans;
 public interface Permissible {
     public void setPrivLevel(PrivLevel p);
     public PrivLevel getPrivLevel();
+    public String getName();
+    public String getDBDir();
 }
