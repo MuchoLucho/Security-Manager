@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('#events').dataTable();
+    reload();
 });
 
 function reload() {
@@ -10,15 +10,20 @@ function reload() {
         },
         dataType: 'json',
         success: function (response) {
-            var ar = "", nom = "";
+            var ar = "";
             for (var i = 0; i < response.length; i++) {
-                ar += "<tr>" + "<td>" + response[i].log + "</td>" + "</tr>\n";
+                ar += "<tr><td>" + response[i].User + "</td>" +
+                        "<td>" + response[i].Statement + "</td>" +
+                        "<td>" + response[i].SQL + "</td>" +
+                        "<td>" + response[i].Date + "</td>" +
+                        "<td>" + response[i].State + "</td></tr>";
             }
-            document.getElementById("tLogs").innerHTML = ar;
-            sTable = $('#tLogs').dataTable();
+            document.getElementById("tEvents").innerHTML = ar;
+            $('#events').dataTable();
         },
         error: function (response) {
             //Error Message
         }
     });
+    setTimeout(reload, 60000);
 }
