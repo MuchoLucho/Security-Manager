@@ -12,7 +12,6 @@ import java.util.ArrayList;
  * @author Javier
  */
 public class Role {
-
     private String name;
     //private ArrayList<Permission> listPerm = new ArrayList<>();
     private ArrayList<PrivLevel> listAssignedLevels = new ArrayList<>();
