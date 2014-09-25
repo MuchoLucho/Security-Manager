@@ -12,7 +12,6 @@ import java.util.ArrayList;
  * @author Javier
  */
 public class Role {
-
     private String name;
     //private ArrayList<Permission> listPerm = new ArrayList<>();
     private ArrayList<PrivLevel> listAssignedLevels = new ArrayList<>();
@@ -116,9 +115,17 @@ public class Role {
         }
         return distinctPerms;
     }
-    public String generateDBRoles(){
-        StringBuilder str = new StringBuilder();
-        this.getUnifiedPermissions().stream().forEach(x->str.append(x.toQuery()).append("\n"));//THIS WONT ACTUALLY WORK CAUSE COLUMN CANT YET GET TABLE NAME.
-        return str.toString();
+//    public String generateDBRoles(){
+//        StringBuilder str = new StringBuilder();
+//        this.getUnifiedPermissions().stream().forEach(x->str.append(x.toQuery()).append("\n"));//THIS WONT ACTUALLY WORK CAUSE COLUMN CANT YET GET TABLE NAME.
+//        return str.toString();
+//    }
+    
+    public void generateDBRoles(){
+        this.getUnifiedPermissions().stream().forEach(
+                x->{
+                    DBConnector.GrantRoles(x.toQuery(),this.name);
+                }
+        );//THIS WONT ACTUALLY WORK CAUSE COLUMN CANT YET GET TABLE NAME.
     }
 }
