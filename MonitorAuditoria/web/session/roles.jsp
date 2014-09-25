@@ -24,7 +24,7 @@
                     <a class="navbar-brand" href="lastEvents.jsp"> <i class="fa fa-umbrella"></i> NARF Suite</a> 
                 </div>
                 <div style="color: white;padding: 15px 50px 5px 50px;float: right;font-size: 16px;">
-                    <a href="Logout" class="btn btn-danger square-btn-adjust">Logout &nbsp; <i class="fa fa-sign-out"></i></a>
+                    <a href="#" class="btn btn-danger square-btn-adjust">Logout &nbsp; <i class="fa fa-sign-out"></i></a>
                 </div>
             </nav><!-- /. NAV TOP -->
             <nav class="navbar-default navbar-side" role="navigation">
@@ -37,10 +37,10 @@
                             <a href="lastEvents.jsp"><i class="fa fa-calendar  fa-2x"></i>Last Events</a>
                         </li>
                         <li>
-                            <a class="active-menu" href="sensibility.jsp"><i class="fa fa-warning fa-2x"></i> Information Sensibility </a>
+                            <a href="sensibility.jsp"><i class="fa fa-warning fa-2x"></i> Information Sensibility </a>
                         </li>
                         <li>
-                            <a href="roles.jsp"><i class="fa fa-users fa-2x"></i> Roles</a>                            
+                            <a class="active-menu" href="roles.jsp"><i class="fa fa-users fa-2x"></i> Roles</a>                            
                         </li>
                         <li>
                             <a href="users.jsp"><i class="fa fa-user fa-2x"></i> Users</a>                            
@@ -62,27 +62,27 @@
                 <div id="page-inner">
                     <div class="row">
                         <div class="col-md-12">
-                            <h2>Information Sensibility</h2>  
+                            <h2>Roles Manager</h2>  
                         </div>
                     </div><!-- /. ROW -->
-                    <hr/>
+                    <hr/>                    
                     <div class="row" id="select"><!--FIRST ONE-->
-                        <p>Select a level to modify (<i class="fa fa-cog"></i>) or delete (<i class="fa fa-times"></i>) or Create a new one (<i class="fa fa-plus"></i>)</p><br/>
-                        <button type="button" id="plus" class="btn btn-success" title="New Level"><i class="fa fa-plus">&nbsp;New Security Level</i></button>
+                        <p>Select a role to modify (<i class="fa fa-cog"></i>) or delete (<i class="fa fa-times"></i>) it or Create a new one (<i class="fa fa-plus"></i>)</p><br/>
+                        <button type="button" id="plus" class="btn btn-success" title="New Role"><i class="fa fa-plus">&nbsp;New Role</i></button>
                         <br/><br/>
-                        <div id="sens_select">
+                        <div id="roles_select">
                             <div class="panel panel-default">
-                                <div class="panel-heading">Select a Security Level to Modify</div>
+                                <div class="panel-heading">Select a Role to Modify</div>
                                 <div class="panel-body">
                                     <div class="table-responsive">
-                                        <table class="table table-striped table-bordered table-hover" id="selected">
+                                        <table class="table table-striped table-bordered table-hover" id="roles">
                                             <thead>
                                                 <tr>
-                                                    <th>Security Level</th>
+                                                    <th>Role</th>
                                                     <th>Options</th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="contenido_sens"></tbody>                                            
+                                            <tbody id="contenido_roles"></tbody>                                            
                                         </table>
                                     </div>
                                 </div>
@@ -97,11 +97,11 @@
                                             <h4 class="modal-title" id="myModalLabel"><i class="fa fa-exclamation-triangle fa-2x"></i> &nbsp; Are you sure?</h4>
                                         </div>
                                         <div class="modal-body">
-                                            Are you sure to delete the sensibility level: <span id="name2"></span>? Make sure you have no roles related to it.
+                                            Are you sure to delete the role: <span id="name2"></span>? Make sure you have no roles related to it.
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                                            <button id="deleteBtn" type="submit" name="delete" value="" class="btn btn-danger">For Sure</button>
+                                            <button id="deleteBtn" type="submit" name="delete" value="" class="btn btn-danger">Sure</button>
                                         </div>
                                     </div>
                                 </div>
@@ -109,82 +109,46 @@
                         </form><br/> 
                     </div>
                     <div class="row" id="create" style="display: none"><!--SECOND ONE-->
-                        <p>Creating a new sensibility template just adds a container for its configurations to the level's list.
-                            After the creation you must select it and modifiy (<i class="fa fa-cog"></i>) its parameters in order to use it.</p>
-                        <form action="SensibilityService" method="POST">
-                            <h4>Name / Description</h4>
-                            <input type="text" class="form-control"/>
-                            <div class="form-group form-inline" style="padding-top: 15px">   
-
-                                <button class='btn btn-primary btn-lg btn-success' type='submit' name="creation">Create</button>
-                                <button class='btn btn-primary btn-lg btn-danger' type="reset" id="cancelCreate">Cancel</button>
-                            </div>
+                        <p>Creating a new role just adds a container for its configurations.
+                            After the creation you must modifiy (<i class="fa fa-cog"></i>) 
+                            its parameters in order to use it.
+                        </p>
+                        <form action="RolesService" method="POST">
+                            <table style="margin: 5%;width: 90%">
+                                <tr>
+                                    <th>Name</th>
+                                </tr>
+                                <tr>
+                                    <td><input type="text" class="form-control"/></td>
+                                </tr>                        
+                                <tr>
+                                    <td colspan="2" class="form-group form-inline" style="padding-top: 15px ">                                                
+                                        <button class='btn btn-primary btn-lg btn-success' type='submit' name="creation">Create</button>
+                                        <button class='btn btn-primary btn-lg btn-danger' type="reset" id="cancelCreate">Cancel</button>
+                                    </td>
+                                </tr>                               
+                            </table>
                         </form>
                     </div>
-                    <div class="row" id="modify" style="display: none">
-                        <div style="margin: auto; width: 400px"><!--THIRD ONE-->
-                            <input id="data" name="data" type="radio" name="type" value="1" checked="checked"/>&nbsp; <label for="data">Data from tables &nbsp;</label>
-                            <input id="proc" name="data" type="radio" name="type" value="2"/>&nbsp; <label for="proc">Procedures and Functions &nbsp;</label>
-                        </div><br/>                        
+                    <div class="row" id="modify" style="display: none"><!--THIRD ONE-->                  
                         <div id="dtablas">
                             <div class="panel panel-default">
-                                <div class="panel-heading">Selected level: <span id="name1"></span></div>
+                                <div class="panel-heading">Selected role:<span id="name1"></span></div>
                                 <div class="panel-body">
                                     <div class="table-responsive">
-                                        <table class="table table-striped table-bordered table-hover" id="tablas">
+                                        <table class="table table-striped table-bordered table-hover" id="sens">
                                             <thead>
                                                 <tr>
-                                                    <th>Table Name</th>
-                                                    <th>Select</th>
-                                                    <th>Insert</th>
-                                                    <th>Delete</th>
-                                                    <th>Update</th>
-                                                    <th>Columns</th>
+                                                    <th>Sensibility Level</th>
+                                                    <th>Include</th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="contenido_tablas"></tbody>
+                                            <tbody id="contenido_sens"></tbody>
                                         </table>
                                     </div>
                                 </div>
                             </div>
-                            <div id="divCol" class="panel panel-default" style="display: none">
-                                <div class="panel-heading">Column selected: <span id="colSel"></span></div>
-                                <div class="panel-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-striped table-bordered table-hover" id="columnas">
-                                            <thead>
-                                                <tr>
-                                                    <th>Table Name</th>
-                                                    <th>Column Name</th>                                                    
-                                                    <th>Select</th>
-                                                    <th>Update</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="contenido_columnas"></tbody>                                            
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="drsrc" style="display: none">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">Procedures and Functions</div>
-                                <div class="panel-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-striped table-bordered table-hover" id="rsrc">
-                                            <thead>
-                                                <tr>
-                                                    <th>Resource</th>
-                                                    <th>Type</th>                                                    
-                                                    <th>Enabled</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="contenido_rsrc"></tbody>                                            
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        </div>                        
                         <div class='form-group'>
                             <button class='btn btn-primary btn-lg btn-success' type='button' name="changes" id="changes">Apply Changes</button>
                             <button class='btn btn-primary btn-lg btn-danger' type="button" id="cancelMod">Cancel</button>
@@ -199,6 +163,6 @@
         <script src="../js/dataTables/jquery.dataTables.js"></script>
         <script src="../js/dataTables/dataTables.bootstrap.js"></script>
         <script src="../js/custom.js"></script>
-        <script src="../js/sensibility.js"></script>
+        <script src="../js/roles.js"></script>
     </body>
 </html>

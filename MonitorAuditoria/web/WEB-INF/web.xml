@@ -4,9 +4,57 @@
         <servlet-name>Login</servlet-name>
         <servlet-class>Services.Login</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SensibilityService</servlet-name>
+        <servlet-class>Services.SensibilityService</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RolesService</servlet-name>
+        <servlet-class>Services.RolesService</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Logout</servlet-name>
+        <servlet-class>Services.Logout</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UsersService</servlet-name>
+        <servlet-class>Services.UsersService</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Log</servlet-name>
+        <servlet-class>Services.Log</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LastEvents</servlet-name>
+        <servlet-class>Services.LastEvents</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SensibilityService</servlet-name>
+        <url-pattern>/session/SensibilityService</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RolesService</servlet-name>
+        <url-pattern>/session/RolesService</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Logout</servlet-name>
+        <url-pattern>/session/Logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UsersService</servlet-name>
+        <url-pattern>/session/UsersService</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Log</servlet-name>
+        <url-pattern>/session/Log</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LastEvents</servlet-name>
+        <url-pattern>/session/LastEvents</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -1,25 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Beans;
 
 import java.util.ArrayList;
 
-/**
- *
- * @author Javier
- */
+
 public class InfoSensibility {
 
     ArrayList<Tablespace> tbsList = new ArrayList<>();
 
     public InfoSensibility() {
         PrivLevel.createPrivLevel(-1, "Indefinido");
-    }
-
-    
+    }    
     
     public Tablespace getTableSpace(String name) {
         return tbsList.stream()
