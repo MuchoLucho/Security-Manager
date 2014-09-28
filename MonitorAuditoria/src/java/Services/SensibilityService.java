@@ -32,7 +32,8 @@ public class SensibilityService extends HttpServlet {
                         break;
                     /*Call for sensibilities*/
                     case "sens":
-                        out.print("[{\"sName\": \"admin\"}, {\"sName\": \"peasant\"}]");
+                        out.print("[{\"sName\":\"algo\"}]");
+                        //out.print("[{\"sName\": \"admin\"}, {\"sName\": \"peasant\"}]");
                         break;
                 }
             } else if (request.getParameter("new") != null) { /*New Level*/
