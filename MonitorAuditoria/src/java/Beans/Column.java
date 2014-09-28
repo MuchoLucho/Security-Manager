@@ -5,7 +5,7 @@
  */
 package Beans;
 
-/**
+/*
  *
  * @author Javier
  */
@@ -62,6 +62,7 @@ public class Column implements Permissible {
                 .append(name).toString();
     }
     
+    @Override
     public String toString() {
         StringBuilder json = new StringBuilder();
         

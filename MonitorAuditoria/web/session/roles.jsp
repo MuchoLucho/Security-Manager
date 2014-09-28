@@ -88,7 +88,7 @@
                                 </div>
                             </div>
                         </div>
-                        <form action="SensibilityService" method="POST">
+                        <form action="RolesService" method="POST">
                             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -119,11 +119,11 @@
                                     <th>Name</th>
                                 </tr>
                                 <tr>
-                                    <td><input type="text" class="form-control"/></td>
+                                    <td><input type="text" class="form-control" name="name" autocomplete="off"/></td>
                                 </tr>                        
                                 <tr>
                                     <td colspan="2" class="form-group form-inline" style="padding-top: 15px ">                                                
-                                        <button class='btn btn-primary btn-lg btn-success' type='submit' name="creation">Create</button>
+                                        <button class='btn btn-primary btn-lg btn-success' type='submit' name="new">Create</button>
                                         <button class='btn btn-primary btn-lg btn-danger' type="reset" id="cancelCreate">Cancel</button>
                                     </td>
                                 </tr>                               

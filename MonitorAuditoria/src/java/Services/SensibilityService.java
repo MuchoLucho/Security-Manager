@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class SensibilityService extends HttpServlet {
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PermissionManagement perman = Model.permMan;
@@ -19,38 +20,46 @@ public class SensibilityService extends HttpServlet {
                 switch (str) {
                     /*Call for Tables*/
                     case "tables":
+                        //request.getParameter("element")
                         out.print("[{\"tName\": \"t1\", \"tablespace\":\"swag\", \"insert\": \"false\", \"select\": \"true\", \"delete\": \"true\", \"update\": \"true\"}, {\"tName\": \"t2\", \"tablespace\":\"swag\", \"insert\": \"false\", \"select\": \"true\", \"delete\": \"false\", \"update\": \"true\"}]");
                         break;
                     /*Call for columns*/
                     case "columns":
+                        //request.getParameter("element")
                         out.print("[{\"cName\": \"t1C\", \"tName\": \"t1\", \"select\": \"true\", \"delete\": \"true\", \"update\": \"true\"}, {\"cName\": \"t2C\", \"tName\": \"t2\", \"insert\": \"false\", \"select\": \"true\", \"delete\": \"false\", \"update\": \"true\"}]");
                         break;
                     /*Call for resources*/
                     case "rsrc":
+                        //request.getParameter("element")
                         out.print("[{\"rName\": \"p1\", \"type\": \"procedure\", \"selected\": \"false\"}, {\"rName\": \"p2\", \"type\": \"function\", \"selected\": \"true\"}]");
                         break;
+                    /*Call for sensibilities*/
                     case "sens":
                         //out.print("[{\"sName\": \"admin\"}, {\"sName\": \"peasant\"}]");
                         out.print(perman.toStringAllPrivLevels());
                         break;
                 }
             } else if (request.getParameter("new") != null) { /*New Level*/
-                /*getParameter("new")-->Número de nivel*/
                 /*getParameter("name")-->Nombre de nuevo nivel*/
+
             } else /*Delete Level*/ if (request.getParameter("delete") != null) {
-                //Reemplazar out.print por método que elimine una sensibilidad
-                out.print(request.getParameter("delete"));
+                //(request.getParameter("delete")); Devuelve sensibilidad a eliminar
             } else {
                 String str = request.getParameter("set");
                 switch (str) {
                     case "tables":
-                        out.print(request.getParameter("element"));
+                        //(request.getParameter("element")); //JSON
+                        //(request.getParameter("sens")); // Selected Level
                         break;
                     case "columns":
-                        out.print(request.getParameter("element"));
+                        //(request.getParameter("element"));
+                        //(request.getParameter("sens")); // Selected Level
                         break;
                     case "rsrc":
-                        out.print(request.getParameter("element"));
+                        //(request.getParameter("element"));
+                        //(request.getParameter("sens")); // Selected Level
+                        break;
+                    default:
                         break;
                 }
             }
@@ -58,6 +67,7 @@ public class SensibilityService extends HttpServlet {
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

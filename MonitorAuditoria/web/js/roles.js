@@ -4,9 +4,6 @@
  http://creativecommons.org/licenses/by/3.0/
  =============================================================*/
 
-//var sens = [{"name": "luis", "selected": true}, {"name": "jota", "selected": false}];
-//var roles = [{"name": "admin"}, {"name": "peasant"}];
-
 /*Tables*/
 
 var sTable;
@@ -15,6 +12,8 @@ var rTable;
 /*Specific Variables*/
 
 var selectedRole = "";
+var sens;
+var roles;
 
 /*Tables Fillers*/
 
@@ -45,33 +44,6 @@ function genSens(i) {
     });
 }
 
-/*Objects to JSON*/
-
-function sensToJSON() {
-    var str = "[";
-    var ar = [];
-    sens.forEach(function (x) {
-        ar = sTable.$("input[name=" + x.tName + "]");
-        str += '{"name":"' + x.tName +
-                '", "selected":"' + ar[0].checked +'"},';
-    });
-    str = str.slice(0, str.length - 1) + "]";
-    $.ajax({
-        type: 'post',
-        dataType: 'json',
-        url: "RolesService",
-        data: {set: "sens", element: str, sens: selectedRole}/*,
-         success: function (response) {
-         //Message from server
-         },
-         error: function (response) {
-         //If u can not connect
-         }*/
-    });
-}
-
-/*Some Listeners*/
-
 $(document).ready(function () {
     $.ajax({
         url: 'RolesService',
@@ -101,6 +73,33 @@ $(document).ready(function () {
     });
 });
 
+/*Objects to JSON*/
+
+function sensToJSON() {
+    var str = "[";
+    var ar = [];
+    sens.forEach(function (x) {
+        ar = sTable.$("input[name=" + x.tName + "]");
+        str += '{"name":"' + x.tName +
+                '", "selected":"' + ar[0].checked + '"},';
+    });
+    str = str.slice(0, str.length - 1) + "]";
+    $.ajax({
+        type: 'post',
+        dataType: 'json',
+        url: "RolesService",
+        data: {set: selectedRole, element: str},
+        success: function (response) {
+            console.log(response);
+        }/*,
+         error: function (response) {
+         //If u can not connect
+         }*/
+    });
+}
+
+/*Some Listeners*/
+
 function cog(i) {
     selectedRole = i;
     document.getElementById("name1").innerHTML = i;
@@ -110,5 +109,5 @@ function cog(i) {
 }
 
 $('#changes').click(function () {
-//Al aplicar los cambios
+    sensToJSON();
 });

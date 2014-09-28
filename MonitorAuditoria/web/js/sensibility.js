@@ -108,6 +108,36 @@ function genCols(i) {
         }
     });
 }
+
+$(document).ready(function () {
+    $.ajax({
+        url: 'SensibilityService',
+        data: {
+            call: "sens"
+        },
+        dataType: 'json',
+        success: function (response) {
+            var ar = "", nom = "";
+            for (var i = 0; i < response.length; i++) {
+                nom = response[i].sName;
+                ar += "<tr>" +
+                        "<td>" + nom + "</td>" +
+                        "<td>" +
+                        "<button type='button' class='btn btn-primary' onclick='cog(\"" + nom + "\")'>" +
+                        "<i class='fa fa-cog'></i>&nbsp;Modify Level</button>&nbsp;" +
+                        "<button type='button' onclick='borra(\"" + nom + "\")' class='btn btn-danger' data-toggle='modal' data-target='#myModal'>" +
+                        "<i class='fa fa-times'></i>&nbsp;Delete Level</button></td>" +
+                        "</tr>";
+            }
+            document.getElementById("contenido_sens").innerHTML = ar;
+            sTable = $('#selected').dataTable();
+        },
+        error: function (response) {
+            //Error Message
+        }
+    });
+});
+
 /*Objects to JSON*/
 
 function tableToJSON() {
@@ -126,10 +156,10 @@ function tableToJSON() {
         type: 'post',
         dataType: 'json',
         url: "SensibilityService",
-        data: {set: "rsrc", element: str, sens: selectedLevel}/*,
-         success: function (response) {
-         //Message from server
-         },
+        data: {set: "rsrc", element: str, sens: selectedLevel},
+        success: function (response) {
+            console.log(response);
+        }/*,
          error: function (response) {
          //If u can not connect
          }*/
@@ -213,35 +243,6 @@ $('input[name=data]').on('change', function () {
         $('#drsrc').attr('style', 'display: none');
     }
     count++;
-});
-
-$(document).ready(function () {
-    $.ajax({
-        url: 'SensibilityService',
-        data: {
-            call: "sens"
-        },
-        dataType: 'json',
-        success: function (response) {
-            var ar = "", nom = "";
-            for (var i = 0; i < response.length; i++) {
-                nom = response[i].sName;
-                ar += "<tr>" +
-                        "<td>" + nom + "</td>" +
-                        "<td>" +
-                        "<button type='button' class='btn btn-primary' onclick='cog(\"" + nom + "\")'>" +
-                        "<i class='fa fa-cog'></i>&nbsp;Modify Level</button>&nbsp;" +
-                        "<button type='button' onclick='borra(\"" + nom + "\")' class='btn btn-danger' data-toggle='modal' data-target='#myModal'>" +
-                        "<i class='fa fa-times'></i>&nbsp;Delete Level</button></td>" +
-                        "</tr>";
-            }
-            document.getElementById("contenido_sens").innerHTML = ar;
-            sTable = $('#selected').dataTable();
-        },
-        error: function (response) {
-            //Error Message
-        }
-    });
 });
 
 $('#changes').click(function () {

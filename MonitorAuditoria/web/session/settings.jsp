@@ -83,6 +83,22 @@
                         </div>
                     </div><!-- /. ROW -->
                     <hr/>
+                   <!-- <div class="input-group">
+                        <button class="btn btn-success btn-lg">Activate Audit</button>                        
+                    </div>      
+                    <br/> <br/>
+                    <div class="input-group">
+                        <select>
+                            <option>By User</option>
+                            <option>By Session</option>
+                            <option>By Access</option>
+                            <option>All</option>
+                        </select>
+                        <input type="text" placeholder="username"/>
+                    </div>-->
+                   <div class="input-group">
+                        <button class="btn btn-danger btn-lg">Disable Audit</button>                        
+                    </div>  
                 </div><!-- /. PAGE INNER -->
             </div><!-- /. PAGE WRAPPER -->
         </div><!-- /. WRAPPER -->

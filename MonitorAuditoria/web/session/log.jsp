@@ -75,7 +75,7 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="table-responsive">
-                                        <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                        <table class="table table-striped table-bordered table-hover" id="dataTable">
                                             <thead>
                                                 <tr>
                                                     <th>Event</th>

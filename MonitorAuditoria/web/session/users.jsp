@@ -88,7 +88,7 @@
                                 </div>
                             </div>
                         </div>
-                        <form action="SensibilityService" method="POST">
+                        <form action="UsersService" method="POST">
                             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -113,17 +113,19 @@
                             After the creation you must modifiy (<i class="fa fa-cog"></i>) 
                             its parameters in order to use it.
                         </p>
-                        <form action="RolesService" method="POST">
+                        <form action="UsersService" method="POST">
                             <table style="margin: 5%;width: 90%">
                                 <tr>
                                     <th>Name</th>
+                                    <th>Password</th>
                                 </tr>
                                 <tr>
-                                    <td><input type="text" class="form-control"/></td>
+                                    <td><input type="text" class="form-control" name="name" autocomplete="off"/></td>
+                                    <td><input type="password" class="form-control" name="pass" autocomplete="off"/></td>
                                 </tr>                        
                                 <tr>
                                     <td colspan="2" class="form-group form-inline" style="padding-top: 15px ">                                                
-                                        <button class='btn btn-primary btn-lg btn-success' type='submit' name="creation">Create</button>
+                                        <button class='btn btn-primary btn-lg btn-success' type='submit' name="new">Create</button>
                                         <button class='btn btn-primary btn-lg btn-danger' type="reset" id="cancelCreate">Cancel</button>
                                     </td>
                                 </tr>                               
@@ -153,8 +155,8 @@
                         <table>
                             <tr><th>New Password</th><th>Repeat Password</th></tr>
                             <tr>
-                                <td><input type="password" class="form-control"/></td>
-                                <td><input type="password" class="form-control"/></td>
+                                <td><input type="password" class="form-control" autocomplete="off"/></td>
+                                <td><input type="password" class="form-control" autocomplete="off"/></td>
                             </tr>
                         </table><br/>
                         <div class='form-group'>

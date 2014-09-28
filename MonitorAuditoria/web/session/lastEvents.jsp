@@ -64,9 +64,9 @@
                         <div class="col-md-12">
                             <h2>Last Events</h2>  
                         </div>
-                    </div><!-- /. ROW --
+                    </div><!-- /. ROW -->
                     <hr/>
-                    <p>If you do not see any row make sure Audit Mode is On in the <strong>Settings</strong> (<i class="fa fa-cogs"></i>) Tab.
+                    <p>If you see "No data" in the rows make sure Audit Mode is On in the <strong>Settings</strong> (<i class="fa fa-cogs"></i>) Tab.
                         If it is on and you do not see any change could be there is not activity in the database</p>
                     <div class="row">
                         <div class="col-md-12">
@@ -91,18 +91,18 @@
                                         </table>
                                     </div>
                                 </div>
-                            </div>
-                            <!--End Advanced Tables -->
+                            </div><!--End Advanced Tables -->
                         </div>
-                    </div><!-- /. PAGE INNER -->
-                </div><!-- /. PAGE WRAPPER -->
-            </div><!-- /. WRAPPER -->
-            <script src="../js/jquery-1.10.2.js"></script>
-            <script src="../js/bootstrap.min.js"></script>
-            <script src="../js/jquery.metisMenu.js"></script>
-            <script src="../js/dataTables/jquery.dataTables.js"></script>
-            <script src="../js/dataTables/dataTables.bootstrap.js"></script>
-            <script src="../js/custom.js"></script>
-            <script src="../js/lastEvents.js"></script>
+                    </div>
+                </div><!-- /. PAGE INNER -->
+            </div><!-- /. PAGE WRAPPER -->
+        </div><!-- /. WRAPPER -->
+        <script src="../js/jquery-1.10.2.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
+        <script src="../js/jquery.metisMenu.js"></script>
+        <script src="../js/dataTables/jquery.dataTables.js"></script>
+        <script src="../js/dataTables/dataTables.bootstrap.js"></script>
+        <script src="../js/custom.js"></script>
+        <script src="../js/lastEvents.js"></script>
     </body>
 </html>
