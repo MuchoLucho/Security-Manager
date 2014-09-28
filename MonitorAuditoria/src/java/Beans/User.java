@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class User {
     private String name;
-    private PrivLevel userLevel;
+    private PrivLevel userLevel;//DEPRECATED.
     private boolean auditing;
     private ArrayList<Role> listRoles = new ArrayList<>();
     
@@ -69,6 +69,22 @@ public class User {
     }
     
     
+    public String toString() {
+        StringBuilder json = new StringBuilder();
+        json.append("{\"name\":\"").append(this.name).append("\",");
+        listRoles.stream().forEach((p) -> {
+            json.append(p.toStringSummary());
+        });
+        json.append("},");
+
+        return json.toString();
+    }
+    
+   public String toStringSummary() {
+        StringBuilder json = new StringBuilder();
+        json.append("{\"name\":\"").append(this.name).append("\"},");
+        return json.toString();
+    }
     
     
 }

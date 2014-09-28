@@ -16,6 +16,10 @@ public class Tablespace {
     private String name;
     ArrayList<Table> tabs;
 
+    public ArrayList<Table> getTabs() {
+        return tabs;
+    }
+
     public Tablespace(String name) {
         this.name = name;
     }

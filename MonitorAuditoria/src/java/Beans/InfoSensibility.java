@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class InfoSensibility {
 
-    ArrayList<Tablespace> tbsList = new ArrayList<>();
+    public ArrayList<Tablespace> tbsList = new ArrayList<>();
 
     public InfoSensibility() {
        // PrivLevel.createPrivLevel(-1, "Indefinido");

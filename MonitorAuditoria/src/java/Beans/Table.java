@@ -7,6 +7,10 @@ public class Table implements Permissible{
     private String name;
     ArrayList<Column> cols;
 
+    public ArrayList<Column> getCols() {
+        return cols;
+    }
+
     public Table(String name) {
         this.name = name;
     }
@@ -56,14 +60,14 @@ public class Table implements Permissible{
     }
 
     @Override
-    public String toString() {//Name;Sensitivity\n
+    public String toString() {
         StringBuilder str = new StringBuilder();
         str.append(name).append(";");
         //cols.stream().forEach((c) -> str.append(c.toString()).append("\n"));
         return str.toString();
     }
     
-    public String toStringCols() {//Name;Sensitivity\nCol\nCol\nCol(...)
+    public String toStringCols() {
         StringBuilder str = new StringBuilder();
         str.append(name).append(";").append("\n");
         cols.stream().forEach((c) -> str.append(c.toString()).append("\n"));

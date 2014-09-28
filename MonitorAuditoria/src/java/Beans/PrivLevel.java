@@ -53,8 +53,11 @@ class PrivLevel {
         if (p != null) {
             p.setPrivileges(select, insert, delete, update);
             return true;
+        } else {
+            p = new Permission(t, select, insert, delete, update);
+            this.listPermissions.add(p);
+            return true;
         }
-        return false;
     }
 
     public boolean editPermission(Column c, boolean select, boolean update) {
@@ -71,6 +74,8 @@ class PrivLevel {
         if (p != null) {
             p.setPrivileges(update);
             return true;
+        } else {
+            this.listPermissions.add(new Permission(c, false, update));//2nd param does nothing
         }
         return false;
     }
@@ -96,25 +101,27 @@ class PrivLevel {
 //        });
 //        return str.toString();
 //    }
-
-    public String toString() {
-
+    public String toString(boolean s) {
         StringBuilder json = new StringBuilder();
-        json.append("\"Desc\":\"").append(desc).append("\",");
-        listPermissions.stream().forEach((p) -> {
-            json.append(p.toString());
-        });
+        json.append("{\"sName\":\"").append(desc).append("\",");
+        if (s) {
+            listPermissions.stream().filter(x -> x.getSubject() instanceof Table).forEach((p) -> {
+                json.append(p.toString());
+            });
+        } else {
+            listPermissions.stream().filter(x -> x.getSubject() instanceof Column).forEach((p) -> {
+                json.append(p.toString());
+            });
+        }
+        json.append("},");
 
         return json.toString();
+    }
 
-        /*
-         StringBuilder str = new StringBuilder();
-         str.append(desc).append(";");
-         listPermissions.stream().forEach((p) -> {
-         str.append(p.toString()).append("\n");
-         });
-         return str.toString();
-         */
+    public String toStringSummary() {
+        StringBuilder json = new StringBuilder();
+        json.append("{\"sName\":\"").append(desc).append("\"},");
+        return json.toString();
     }
 
     ///////////////STATIC METHODS.

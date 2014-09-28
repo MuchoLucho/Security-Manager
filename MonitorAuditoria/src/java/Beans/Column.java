@@ -64,8 +64,10 @@ public class Column implements Permissible {
     
     @Override
     public String toString() {
-        StringBuilder json = new StringBuilder();        
-        json.append("[{\"Name\":\"").append(name).append("}]");        
+        StringBuilder json = new StringBuilder();
+        
+        json.append("[{\"tName\":\"").append(name).append("}]");
+        
         return json.toString();
         
         /*StringBuilder str = new StringBuilder();
