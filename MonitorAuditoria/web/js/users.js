@@ -4,9 +4,6 @@
  http://creativecommons.org/licenses/by/3.0/
  =============================================================*/
 
-//var roles = [{"name": "luis", "selected": true}, {"name": "jota", "selected": false}];
-//var users = [{"name": "admin"}, {"name": "peasant"}];
-
 /*Tables*/
 
 var sTable;
@@ -15,12 +12,14 @@ var rTable;
 /*Specific Variables*/
 
 var selecteduser = "";
+var roles;
+var users;
 
 /*Tables Fillers*/
 
 function genroles(i) {
     $.ajax({
-        url: 'RolesService',
+        url: 'UsersService',
         data: {
             call: "roles",
             element: i
@@ -45,36 +44,9 @@ function genroles(i) {
     });
 }
 
-/*Objects to JSON*/
-
-function rolesToJSON() {
-    var str = "[";
-    var ar = [];
-    roles.forEach(function (x) {
-        ar = sTable.$("input[name=" + x.tName + "]");
-        str += '{"name":"' + x.tName +
-                '", "selected":"' + ar[0].checked +'"},';
-    });
-    str = str.slice(0, str.length - 1) + "]";
-    $.ajax({
-        type: 'post',
-        dataType: 'json',
-        url: "rolesibilityService",
-        data: {set: "roles", element: str, roles: selecteduser}/*,
-         success: function (response) {
-         //Message from server
-         },
-         error: function (response) {
-         //If u can not connect
-         }*/
-    });
-}
-
-/*Some Listeners*/
-
 $(document).ready(function () {
     $.ajax({
-        url: 'RolesService',
+        url: 'UsersService',
         data: {
             call: "users"
         },
@@ -101,6 +73,33 @@ $(document).ready(function () {
     });
 });
 
+/*Objects to JSON*/
+
+function rolesToJSON() {
+    var str = "[";
+    var ar = [];
+    roles.forEach(function (x) {
+        ar = sTable.$("input[name=" + x.tName + "]");
+        str += '{"name":"' + x.tName +
+                '", "selected":"' + ar[0].checked + '"},';
+    });
+    str = str.slice(0, str.length - 1) + "]";
+    $.ajax({
+        type: 'post',
+        dataType: 'json',
+        url: "rolesibilityService",
+        data: {set: selecteduser, element: str},
+        success: function (response) {
+            console.log(response);
+        }/*,
+         error: function (response) {
+         //If u can not connect
+         }*/
+    });
+}
+
+/*Some Listeners*/
+
 function cog(i) {
     selecteduser = i;
     document.getElementById("name1").innerHTML = i;
@@ -110,5 +109,5 @@ function cog(i) {
 }
 
 $('#changes').click(function () {
-//Al aplicar los cambios
+    rolesToJSON();
 });

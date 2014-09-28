@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Beans;
 
 import java.io.FileWriter;
@@ -10,18 +5,9 @@ import java.io.PrintWriter;
 import java.sql.*;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-/**
- *
- * @author Administrador
- */
 public class DBConnector {
 
-    /**
-     * @param args the command line arguments
-     */
     private static Connection con = null;
     public static PreparedStatement pst;
     public static ResultSet rs;
@@ -63,8 +49,7 @@ public class DBConnector {
         int s = roles.length();
         char letra[] = roles.toCharArray();
         String rol = new String();
-
-        for (int i = 0; i < s; i++) {   
+        for (int i = 0; i < s; i++) {
             if (letra[i] != ';') {
                 rol += letra[i];
             } else {
@@ -75,12 +60,10 @@ public class DBConnector {
                     rs = pst.executeQuery();
 
                     System.out.println(rol + " concedido a " + master);
-
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                     System.out.println("Grant fallido");
                 }
-
                 rol = new String();//="";
             }
         }
@@ -90,7 +73,6 @@ public class DBConnector {
         try {
             Class.forName("oracle.jdbc.OracleDriver");
             con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "sys as sysdba", "root");
-
         } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
             return false;
@@ -116,9 +98,9 @@ public class DBConnector {
         }
     }
 
-    public static void getTablespaces(ArrayList<Tablespace> lista){
+    public static void getTablespaces(ArrayList<Tablespace> lista) {
         sql = "select tablespace_name \"TS\" from dba_tablespaces where tablespace_name not in ('SYSTEM', 'SYSAUX', 'UNDOTBS1')";
-        
+
         try {
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
@@ -128,13 +110,13 @@ public class DBConnector {
                 System.out.println(TS);
                 lista.add(new Tablespace(TS));
             }
-        } catch (SQLException ex){
+        } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Error");
         }
     }
 
-    public static void tablas(ArrayList<Tablespace> tablespaces,ArrayList<Table> tables) {
+    public static void tablas(ArrayList<Tablespace> tablespaces, ArrayList<Table> tables) {
         sql = "select table_name \"Tab\" ,tablespace_name \"TS\" from dba_tables where OWNER not in ('ANONYMOUS', 'APEX_030200', 'APEX_PUBLIC_USER', 'APPQOSSYS', 'BI', 'CTXSYS', 'DBSNMP', 'DIP', 'EXFSYS', 'FLOWS_FILES', 'HR', 'IX', 'MDDATA', 'MDSYS', 'MGMT_VIEW', 'OE', 'OLAPSYS', 'ORACLE_OCM', 'ORDDATA', 'ORDPLUGINS', 'ORDSYS', 'OUTLN', 'OWBSYS', 'OWBSYS_AUDIT', 'PM', 'SCOTT', 'SH', 'SI_INFORMTN_SCHEMA', 'SPATIAL_CSW_ADMIN_USR', 'SPATIAL_WFS_ADMIN_USR', 'SYS', 'SYSMAN', 'SYSTEM', 'WMSYS', 'XDB', 'XS$NULL', 'APEX_040000')";
 
         try {
@@ -143,13 +125,13 @@ public class DBConnector {
             Tablespace t = null;
             while (rs.next()) {
                 String tabname = rs.getString("Tab");
-                String tsname=  rs.getString("TS");
-                
+                String tsname = rs.getString("TS");
+
                 tablespaces.stream()
-                        .filter(x->x.getName().equals(tsname))
+                        .filter(x -> x.getName().equals(tsname))
                         .findAny().get()
                         .setTable(tabname);
-                
+
                 System.out.println(tabname);
                 System.out.println(tsname);
             }
@@ -203,7 +185,7 @@ public class DBConnector {
         try {
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
-            
+
             System.out.println("User " + Usr + " Creado");
 
         } catch (SQLException ex) {
@@ -274,53 +256,36 @@ public class DBConnector {
         }
     }
 
-    public static void ResumenAudit() {
+    public static String ResumenAudit() throws SQLException {
         sql = "SELECT USERNAME \"USR\", ACTION_NAME \"CONS\",SQL_TEXT \"SQL\", EXTENDED_TIMESTAMP \"TIME\", RETURNCODE \"EXITO\" FROM DBA_AUDIT_TRAIL";
-        String json = "[";
-
-        try {
-            pst = con.prepareStatement(sql);
-            rs = pst.executeQuery();
-
-            while (rs.next()) {
-                String Exito, sql, fecha;
-                String Usua = rs.getString("USR");
-                String Querie = rs.getString("CONS");
-                String SQL = rs.getString("SQL");
-                String Tiempo = rs.getString("TIME");
-                String Exit = rs.getString("EXITO");
-
-                if (Exit.equals("0")) {
-                    Exito = "Success";
-                } else {
-                    Exito = "Dennied";
-                }
-
-                if (SQL == null/*.isEmpty()*/) {
-                    sql = "---";
-                } else {
-                    sql = SQL;
-                }
-
-                fecha = Tiempo.substring(0, 19);
-
-                String JSon = "{\"User\":\"" + Usua + "\"," + "\"Statement\":\"" + Querie + "\"," + "\"SQL\":\"" + sql + "\"," + "\"Date\":\"" + fecha + "\"," + "\"State\":\"" + Exito + "\"},";
-                json = json + JSon;
-
-                /*
-                 System.out.println(Usua);
-                 System.out.println(Querie);
-                 System.out.println(SQL);
-                 System.out.println(Tiempo);
-                 System.out.println(Exit);*/
+        StringBuilder json = new StringBuilder("[");
+        pst = con.prepareStatement(sql);
+        rs = pst.executeQuery();
+        while (rs.next()) {
+            String Exito, sql, fecha;
+            String Usua = rs.getString("USR");
+            String Querie = rs.getString("CONS");
+            String SQL = rs.getString("SQL");
+            String Tiempo = rs.getString("TIME");
+            String Exit = rs.getString("EXITO");
+            if (Exit.equals("0")) {
+                Exito = "Success";
+            } else {
+                Exito = "Dennied";
             }
-            json = json.substring(0, json.length() - 1);
-            json = json + "]";
-            System.out.println(json);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            System.out.println("Error");
+            if (SQL == null/*.isEmpty()*/) {
+                sql = "---";
+            } else {
+                sql = SQL;
+            }
+            fecha = Tiempo.substring(0, 19);
+            json.append("{\"User\":\"").append(Usua).append("\"," + "\"Statement\":\"")
+                    .append(Querie).append("\"," + "\"SQL\":\"").append(sql)
+                    .append("\"," + "\"Date\":\"").append(fecha).append("\"," + "\"State\":\"")
+                    .append(Exito).append("\"},");
         }
+        json.replace(json.length() - 1, json.length(), "]");
+        return json.toString();
     }
 
     public static void accionesAudit() {
@@ -457,5 +422,4 @@ public class DBConnector {
 //            System.out.println("No Exito");
 //        }
 //    }
-
 }

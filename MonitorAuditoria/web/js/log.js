@@ -6,12 +6,12 @@ $(document).ready(function () {
         },
         dataType: 'json',
         success: function (response) {
-            var ar = "", nom = "";
+            var ar = "";
             for (var i = 0; i < response.length; i++) {
                 ar += "<tr>" + "<td>" + response[i].log + "</td>" + "</tr>\n";
             }
             document.getElementById("tLogs").innerHTML = ar;
-            sTable = $('#tLogs').dataTable();
+            sTable = $('#dataTable').dataTable();
         },
         error: function (response) {
             //Error Message

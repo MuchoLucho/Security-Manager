@@ -113,10 +113,9 @@
                             After the creation you must select it and modifiy (<i class="fa fa-cog"></i>) its parameters in order to use it.</p>
                         <form action="SensibilityService" method="POST">
                             <h4>Name / Description</h4>
-                            <input type="text" class="form-control"/>
-                            <div class="form-group form-inline" style="padding-top: 15px">   
-
-                                <button class='btn btn-primary btn-lg btn-success' type='submit' name="creation">Create</button>
+                            <input type="text" class="form-control" name="name" autocomplete="off"/>
+                            <div class="form-group form-inline" style="padding-top: 15px">  
+                                <button class='btn btn-primary btn-lg btn-success' type='submit' name="new">Create</button>
                                 <button class='btn btn-primary btn-lg btn-danger' type="reset" id="cancelCreate">Cancel</button>
                             </div>
                         </form>
