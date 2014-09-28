@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  * @author Administrador
  */
 public class DBConnector {
-
+   
     /**
      * @param args the command line arguments
      */
@@ -28,7 +28,7 @@ public class DBConnector {
     public static String sql;
     public static FileWriter fichero = null;
     public static PrintWriter pw = null;
-
+    
     public static void escribir(String SID) {
         try {
             fichero = new FileWriter("C:\\prueba.bat", true);
@@ -98,7 +98,7 @@ public class DBConnector {
         return true;
     }
 
-    public static void getRoles() {
+    public static void getRoles(ArrayList<Role> lista) {
 
         sql = "select granted_role \"ROL\" from dba_role_privs where grantee not in ('OUTLN', 'DATAPUMP_IMP_FULL_DATABASE', 'SELECT_CATALOG_ROLE', 'HS_ADMIN_ROLE', 'EXP_FULL_DATABASE', 'DBSNMP', 'IMP_FULL_DATABASE', 'LOGSTDBY_ADMINISTRATOR', 'OEM_MONITOR', 'EXECUTE_CATALOG_ROLE', 'DATAPUMP_EXP_FULL_DATABASE')";
 
@@ -108,7 +108,8 @@ public class DBConnector {
 
             while (rs.next()) {
                 String rol = rs.getString("ROL");
-                System.out.println(rol);
+                //System.out.println(rol);
+                lista.add(new Role(rol));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -125,7 +126,7 @@ public class DBConnector {
 
             while (rs.next()) {
                 String TS = rs.getString("TS");
-                System.out.println(TS);
+                //System.out.println(TS);
                 lista.add(new Tablespace(TS));
             }
         } catch (SQLException ex){
@@ -250,7 +251,7 @@ public class DBConnector {
         }
     }
 
-    public static void Usuarios() {
+    public static void Usuarios(ArrayList<User> lista) {
         sql = "SELECT username \"USRN\", account_status \"EST\",created \"FEC\", EXPIRY_DATE \"LIM\" FROM dba_users WHERE username not in ('ANONYMOUS', 'APEX_030200', 'APEX_PUBLIC_USER', 'APPQOSSYS', 'BI', 'CTXSYS', 'DBSNMP', 'DIP', 'EXFSYS', 'FLOWS_FILES', 'HR', 'IX', 'MDDATA', 'MDSYS', 'MGMT_VIEW', 'OE', 'OLAPSYS', 'ORACLE_OCM', 'ORDDATA', 'ORDPLUGINS', 'ORDSYS', 'OUTLN', 'OWBSYS', 'OWBSYS_AUDIT', 'PM', 'SCOTT', 'SH', 'SI_INFORMTN_SCHEMA', 'SPATIAL_CSW_ADMIN_USR', 'SPATIAL_WFS_ADMIN_USR', 'SYS', 'SYSMAN', 'SYSTEM', 'WMSYS', 'XDB', 'XS$NULL', 'APEX_040000')";
 
         try {
@@ -262,11 +263,12 @@ public class DBConnector {
                 String Estado = rs.getString("EST");
                 String Creado = rs.getString("FEC");
                 String Expira = rs.getString("LIM");
+                lista.add(new User(Usua));
 
-                System.out.println(Usua);
-                System.out.println(Estado);
-                System.out.println(Creado);
-                System.out.println(Expira);
+//                System.out.println(Usua);
+//                System.out.println(Estado);
+//                System.out.println(Creado);
+//                System.out.println(Expira);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -457,5 +459,6 @@ public class DBConnector {
 //            System.out.println("No Exito");
 //        }
 //    }
+
 
 }

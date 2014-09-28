@@ -115,6 +115,7 @@ public class PermissionManagement {
     public boolean editPermission(String levelName, String tableSpaceName, String tableName, String colName, boolean select, boolean update) {//For a column
         Column c = this.infoSens.getColumn(tableSpaceName, tableName, colName);
         PrivLevel p = this.getPrivLevel(levelName);
+
         return (c != null && p != null) ? p.editPermission(c, select, update) : false;
     }
 
@@ -147,6 +148,10 @@ public class PermissionManagement {
     //Not implemented yet.  
     private void getFromDatabase() {
         System.out.println("YOU CANT GET USERS OR ROLE FROM DATABASE YET.");
+        DBConnector con = new DBConnector();
+        //LEER DE ARCHIVO.
+        DBConnector.Usuarios(listUsers);
+        DBConnector.getRoles(listRoles);
     }
     ////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////
@@ -237,7 +242,7 @@ public class PermissionManagement {
         StringBuilder str = new StringBuilder("\"[");
 
         listPrivL.stream().forEach((p) -> {
-            str.append(p.toStringSummary());
+            str.append(p.toStringSummary());//names only
         });
         str.replace(str.length() - 1, str.length(), "]\"");
         return str.toString();

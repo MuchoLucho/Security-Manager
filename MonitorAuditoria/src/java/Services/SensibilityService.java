@@ -1,5 +1,7 @@
 package Services;
 
+import Beans.Model;
+import Beans.PermissionManagement;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 public class SensibilityService extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        PermissionManagement perman = Model.permMan;
         try (PrintWriter out = response.getWriter()) {
             if (request.getParameter("call") != null) {
                 String str = request.getParameter("call");
@@ -27,7 +30,8 @@ public class SensibilityService extends HttpServlet {
                         out.print("[{\"rName\": \"p1\", \"type\": \"procedure\", \"selected\": \"false\"}, {\"rName\": \"p2\", \"type\": \"function\", \"selected\": \"true\"}]");
                         break;
                     case "sens":
-                        out.print("[{\"sName\": \"admin\"}, {\"sName\": \"peasant\"}]");
+                        //out.print("[{\"sName\": \"admin\"}, {\"sName\": \"peasant\"}]");
+                        out.print(perman.toStringAllPrivLevels());
                         break;
                 }
             } else if (request.getParameter("new") != null) { /*New Level*/
