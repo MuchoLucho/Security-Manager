@@ -44,7 +44,7 @@ public class BitacoraLuis {
     public static void addEncryptedEvent(String event) {
         log.append(new SimpleDateFormat("yyyyMMdd").format(new Date())).append(event).append(";");
     }
-
+    
     private static void logAction(String accion, String padre) {
         String codif = null;
         if (padre.equals("rol")) {
