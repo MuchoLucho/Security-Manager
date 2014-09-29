@@ -17,6 +17,7 @@ public class UsersService extends HttpServlet {
                 switch (str) {
                     /*Call for Sens*/
                     case "users":
+                        
                         out.print("[{\"name\": \"luis\", \"selected\": true}, {\"name\": \"jota\", \"selected\": false}]");
                         //out. todos los roles
                         break;

@@ -1,17 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package Beans;
 
 import java.util.ArrayList;
 
-/**
- *
- * @author Javier
- */
 public class User {
     private String name;
     private PrivLevel userLevel;//DEPRECATED.
@@ -20,9 +11,7 @@ public class User {
     
     public User(String name) {
         this.name = name;
-    }
-    
-    
+    }  
     
     public String getName() {
         return name;
@@ -60,10 +49,6 @@ public class User {
         this.auditing = auditing;
     }
     
-//    public static boolean createOReplaceUser() {
-//        return false;//THIS IS SUPPOSED TO CREATE A ROLE IN THE DATABASE.
-//    }
-
     public static User createFromDatabase() {
         return null;//Should somehow get a role already created and represent it as a logical object.
     }
@@ -84,7 +69,9 @@ public class User {
         StringBuilder json = new StringBuilder();
         json.append("{\"name\":\"").append(this.name).append("\"},");
         return json.toString();
-    }
-    
-    
+    }      
 }
+
+//    public static boolean createOReplaceUser() {
+//        return false;//THIS IS SUPPOSED TO CREATE A ROLE IN THE DATABASE.
+//    }

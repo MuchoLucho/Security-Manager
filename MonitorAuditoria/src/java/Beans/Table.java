@@ -40,6 +40,7 @@ public class Table implements Permissible {
         return false;
     }
 
+    @Override
     public String getName() {
         return name;
     }

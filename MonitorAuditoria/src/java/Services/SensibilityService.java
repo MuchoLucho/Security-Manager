@@ -1,8 +1,8 @@
 package Services;
 
+import Beans.Logs;
 import Beans.Model;
 import Beans.PermissionManagement;
-import Beans.ReadJSON;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -42,12 +42,13 @@ public class SensibilityService extends HttpServlet {
                         break;
                 }
             } else if (request.getParameter("new") != null) { /*New Level*/
-
                 String name = request.getParameter("name");//-->Nombre de nuevo nivel
                 perman.createPrivLevel(name);
+                Logs.logCreation("sensibilidad");
                 response.sendRedirect("sensibility.jsp");
             } else if (request.getParameter("delete") != null) {
                 //(request.getParameter("delete")); Devuelve sensibilidad a eliminar
+                Logs.logDelete("sensibilidad");
                 System.err.println("NOT YET SORRY");
             } else {
                 /*String jeisonk = request.getParameter("element");//JSON
@@ -57,11 +58,11 @@ public class SensibilityService extends HttpServlet {
                 request.getParameter("columns");
                 request.getParameter("rsrc");
                 request.getParameter("sens"); //Level selected
+                Logs.logEdit("sensibilidad");
             }
             
         }
-        
-        
+         
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

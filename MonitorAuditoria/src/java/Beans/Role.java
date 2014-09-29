@@ -1,21 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Beans;
 
 import java.util.ArrayList;
 
-/**
- *
- * @author Javier
- */
 public class Role {
 
     private String name;
     //private ArrayList<Permission> listPerm = new ArrayList<>();
-    private ArrayList<PrivLevel> listAssignedLevels = new ArrayList<>();
+    private final ArrayList<PrivLevel> listAssignedLevels = new ArrayList<>();
 
     public Role(String name) {
         this.name = name;
@@ -43,24 +34,6 @@ public class Role {
         return listAssignedLevels.remove(this.getAssignedLevel(name));
     }
 
-//Exported to PrivLevel which owns permissions now.
-//    public boolean editPermission(Table t, boolean select, boolean insert, boolean delete, boolean update) {
-//        Permission p = this.getPerm(t);
-//        if (p != null) {
-//            p.setPrivileges(select, insert, delete, update);
-//            return true;
-//        }
-//        return false;
-//    }
-//
-//    public boolean editPermission(Column c, boolean select, boolean update) {
-//        Permission p = this.getPerm(c);
-//        if (p != null) {
-//            p.setPrivileges(select, update);
-//            return true;
-//        }
-//        return false;
-//    }
     public static boolean createOReplaceRole() {
         return false;//THIS IS SUPPOSED TO CREATE A ROLE IN THE DATABASE.
     }
@@ -101,11 +74,6 @@ public class Role {
         }
         return distinctPerms;
     }
-//    public String generateDBRoles(){
-//        StringBuilder str = new StringBuilder();
-//        this.getUnifiedPermissions().stream().forEach(x->str.append(x.toQuery()).append("\n"));//THIS WONT ACTUALLY WORK CAUSE COLUMN CANT YET GET TABLE NAME.
-//        return str.toString();
-//    }
 
     public void generateDBRoles() {
         this.getUnifiedPermissions().stream().forEach(
@@ -115,6 +83,7 @@ public class Role {
         );
     }
 
+    @Override
     public String toString() {
         StringBuilder json = new StringBuilder();
         json.append("{\"name\":\"").append(this.name).append("\",");
@@ -122,7 +91,6 @@ public class Role {
             json.append(p.toStringSummary());
         });
         json.append("},");
-
         return json.toString();
     }
 
@@ -131,6 +99,17 @@ public class Role {
         json.append("{\"name\":\"").append(this.name).append("\"},");
         return json.toString();
     }
+
+    public boolean hasPriv(String desc) {
+        return this.listAssignedLevels.stream().anyMatch(x -> x.getDesc().equals(desc));
+    }
+}
+//    public String generateDBRoles(){
+//        StringBuilder str = new StringBuilder();
+//        this.getUnifiedPermissions().stream().forEach(x->str.append(x.toQuery()).append("\n"));//THIS WONT ACTUALLY WORK CAUSE COLUMN CANT YET GET TABLE NAME.
+//        return str.toString();
+//    }
+
 //
 //    public String toStringRoleSens() {
 //        StringBuilder json = new StringBuilder("");
@@ -139,15 +118,24 @@ public class Role {
 //        });
 //         json.toString();
 //    }
-
-    public boolean hasPriv(String desc) {
-        return this.listAssignedLevels.stream().anyMatch(x->x.getDesc().equals(desc));
-    }
-
-
-
-}
-
+//Exported to PrivLevel which owns permissions now.
+//    public boolean editPermission(Table t, boolean select, boolean insert, boolean delete, boolean update) {
+//        Permission p = this.getPerm(t);
+//        if (p != null) {
+//            p.setPrivileges(select, insert, delete, update);
+//            return true;
+//        }
+//        return false;
+//    }
+//
+//    public boolean editPermission(Column c, boolean select, boolean update) {
+//        Permission p = this.getPerm(c);
+//        if (p != null) {
+//            p.setPrivileges(select, update);
+//            return true;
+//        }
+//        return false;
+//    }
 //    public int getMaxLvl() {
 //        return listPerm.stream()
 //                .mapToInt((x) -> x.getSubject().getPrivLevel().getLevelNo())
