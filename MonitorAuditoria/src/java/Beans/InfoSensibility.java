@@ -18,7 +18,8 @@ public class InfoSensibility {
     }
 
     public Table getTable(String tablespace, String table) {
-        return this.getTableSpace(tablespace).getTable(table);
+        Tablespace aux = this.getTableSpace(tablespace);
+        return aux!=null ? aux.getTable(table):null;
     }
 
     public Column getColumn(String tablespace, String table, String col) {
