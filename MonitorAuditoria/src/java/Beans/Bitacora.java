@@ -1,18 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-package p2.pr;
+package Beans;
 
 import java.util.ArrayList;
 import java.util.Date;
-
-/**
- *
- * @author Administrador
- */
 
 /*
     Codificacion de los Eventos
@@ -31,11 +20,9 @@ import java.util.Date;
         Activar auditoria: A01
         Desactivar auditoria: A02
         Consultar auditoria: A03
-
-
 */
 public class Bitacora {
-    private static ArrayList<String> l1 = new ArrayList();
+    private static final ArrayList<String> l1 = new ArrayList();
     
     public static void crearUsuario(){
         insertar("crear","usuario");
@@ -49,11 +36,11 @@ public class Bitacora {
     public static void crearAuditoria(){
         insertar("crear","auditoria");
     }
+
 //    public static void crearUsuario(){
 //        insertar("crear","usuario");
 //    }
-    
-    
+        
     private static void insertar(String accion, String padre)
     {
         String codif=null;

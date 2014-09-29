@@ -96,7 +96,6 @@ function genCols(i) {
                 ar += "<tr>" +
                         "<td>" + col[i].tName + "</td>" +
                         "<td>" + col[i].cName + "</td>" +
-                        "<td><input type='checkbox' name='" + nom + "'" + (eval(col[i].select) ? " checked='checked'" : "") + "/></td>" +
                         "<td><input type='checkbox' name='" + nom + "'" + (eval(col[i].update) ? " checked='checked'" : "") + "/></td>" +
                         "</tr>";
             }
@@ -156,7 +155,7 @@ function tableToJSON() {
         type: 'post',
         dataType: 'json',
         url: "SensibilityService",
-        data: {set: "rsrc", element: str, sens: selectedLevel},
+        data: {set: "tables", element: str, sens: selectedLevel},
         success: function (response) {
             console.log(response);
         }/*,
@@ -173,15 +172,14 @@ function columnsToJSON() {
         ar = cTable.$("input[name=" + x.tName + "_" + x.cName + "]");
         str += '{"tName":"' + x.tName +
                 '", "cName":"' + x.cName +
-                '", "select":"' + ar[0].checked +
-                '", "update":"' + ar[1].checked + '"},';
+                '", "update":"' + ar[0].checked + '"},';
     });
     str = str.slice(0, str.length - 1) + "]";
     $.ajax({
         type: 'post',
         dataType: 'json',
         url: "SensibilityService",
-        data: {set: "rsrc", element: str, sens: selectedLevel},
+        data: {set: "columns", element: str, sens: selectedLevel},
         success: function (response) {
             console.log(response);
         }/*,

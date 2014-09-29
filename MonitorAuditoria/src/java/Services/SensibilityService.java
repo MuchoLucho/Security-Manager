@@ -56,11 +56,11 @@ public class SensibilityService extends HttpServlet {
                         //(request.getParameter("sens")); // Selected Level
                         break;
                     case "columns":
-                        //(request.getParameter("element"));
+                        //(request.getParameter("element"));//JSON
                         //(request.getParameter("sens")); // Selected Level
                         break;
                     case "rsrc":
-                        //(request.getParameter("element"));
+                        //(request.getParameter("element"));//JSON
                         //(request.getParameter("sens")); // Selected Level
                         break;
                     default:
