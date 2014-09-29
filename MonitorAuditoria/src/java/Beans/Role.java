@@ -29,21 +29,6 @@ public class Role {
         this.name = name;
     }
 
-//    public int getMaxLvl() {
-//        return listPerm.stream()
-//                .mapToInt((x) -> x.getSubject().getPrivLevel().getLevelNo())
-//                .max().getAsInt();
-//    }
-// EXPORTED TO PRIVLEVEL
-//    public boolean addPermission(Permission perm) {
-//        return !listPerm.stream().anyMatch((p) -> p.getSubject().equals(perm.getSubject())) ? listPerm.add(perm) : false;
-//    }
-//
-//    public Permission getPerm(Permissible p) {
-//        return listPerm.stream()
-//                .filter((priv) -> priv.getSubject().equals(p))
-//                .findFirst().orElse(null);
-//    }
     public boolean addAssignedLevel(PrivLevel pr) {
         return !listAssignedLevels.stream().anyMatch((p) -> p.getDesc().equals(pr.getDesc())) ? listAssignedLevels.add(pr) : false;
     }
@@ -146,5 +131,35 @@ public class Role {
         json.append("{\"name\":\"").append(this.name).append("\"},");
         return json.toString();
     }
+//
+//    public String toStringRoleSens() {
+//        StringBuilder json = new StringBuilder("");
+//         listAssignedLevels.stream().forEach((p) -> {
+//            if()
+//        });
+//         json.toString();
+//    }
+
+    public boolean hasPriv(String desc) {
+        return this.listAssignedLevels.stream().anyMatch(x->x.getDesc().equals(desc));
+    }
+
+
 
 }
+
+//    public int getMaxLvl() {
+//        return listPerm.stream()
+//                .mapToInt((x) -> x.getSubject().getPrivLevel().getLevelNo())
+//                .max().getAsInt();
+//    }
+// EXPORTED TO PRIVLEVEL
+//    public boolean addPermission(Permission perm) {
+//        return !listPerm.stream().anyMatch((p) -> p.getSubject().equals(perm.getSubject())) ? listPerm.add(perm) : false;
+//    }
+//
+//    public Permission getPerm(Permissible p) {
+//        return listPerm.stream()
+//                .filter((priv) -> priv.getSubject().equals(p))
+//                .findFirst().orElse(null);
+//    }

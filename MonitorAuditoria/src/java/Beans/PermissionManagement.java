@@ -6,6 +6,7 @@
 package Beans;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -71,7 +72,26 @@ public class PermissionManagement {
     public boolean insertRole(String name) {
         if (!listRoles.stream().anyMatch(((x) -> x.getName().equals(name)))) {
             BitacoraLuis.logCreation("role");
-            return listRoles.add(new Role(name));
+            Role rol = new Role(name);
+            listRoles.add(rol);
+            this.createThrashRole(name);
+            return listRoles.add(rol);
+        }
+        return false;
+    }
+
+    public void createThrashRole(String role) {
+        listPrivL.stream().forEach(x -> {
+            this.givePrivsToRole(role, x.getDesc());
+        });
+
+    }
+
+    public boolean givePrivsToRole(String role, String prilvl) {
+        Role r = this.getRole(role);
+        PrivLevel p = this.getPrivLevel(prilvl);
+        if (r != null && p != null) {
+            return r.addAssignedLevel(p);
         }
         return false;
     }
@@ -105,7 +125,6 @@ public class PermissionManagement {
     }
 
     //Manage Column Permissions
-
     public boolean addPermission(String levelName, String tableSpaceName, String tableName, String colName, boolean select, boolean update) {//For a column
         Column c = this.infoSens.getColumn(tableSpaceName, tableName, colName);
         PrivLevel p = this.getPrivLevel(levelName);
@@ -119,31 +138,6 @@ public class PermissionManagement {
         return (c != null && p != null) ? p.editPermission(c, select, update) : false;
     }
 
-//    //Manage Table Permissions 
-//    public boolean addPermission(String roleName, String tableSpaceName, String tableName, boolean select, boolean insert, boolean delete, boolean update) {//For a table
-//        Table t = this.infoSens.getTable(tableSpaceName, tableName);
-//        Role r = this.getRole(roleName);
-//        return (t != null && r != null) ? r.addPermission(new Permission(t, select, insert, delete, update)) : false;
-//    }
-//
-//    public boolean editPermission(String roleName, String tableSpaceName, String tableName, boolean select, boolean insert, boolean delete, boolean update) {//For a table
-//        Table t = this.infoSens.getTable(tableSpaceName, tableName);
-//        Role r = this.getRole(roleName);
-//        return (t != null && r != null) ? this.getRole(roleName).editPermission(t, select, insert, delete, update) : false;
-//    }
-//
-//    //Manage Column Permissions
-//    public boolean addPermission(String roleName, String tableSpaceName, String tableName, String colName, boolean select, boolean update) {//For a table
-//        Column c = this.infoSens.getColumn(tableSpaceName, tableName, colName);
-//        Role r = this.getRole(roleName);
-//        return (c != null && r != null) ? this.getRole(roleName).addPermission(new Permission(c, select, update)) : false;
-//    }
-//
-//    public boolean editPermission(String roleName, String tableSpaceName, String tableName, String colName, boolean select, boolean update) {//For a table
-//        Column c = this.infoSens.getColumn(tableSpaceName, tableName, colName);
-//        Role r = this.getRole(roleName);
-//        return (c != null && r != null) ? this.getRole(roleName).editPermission(c, select, update) : false;
-//    }
     //Manage Function/Procedure Permissions
     //Not implemented yet.  
     private void getFromDatabase() {
@@ -161,7 +155,7 @@ public class PermissionManagement {
 //            return listPermissions.containsKey(n) ? listPermissions.get(n) : null;
 //    }
 
-    private void createTrash(String privlvl) {
+    private void createTrashPriv(String privlvl) {
         ArrayList<Tablespace> lista = infoSens.tbsList;
         for (Tablespace tbs : lista) {
             for (Table tab : tbs.getTabs()) {
@@ -192,25 +186,13 @@ public class PermissionManagement {
 
     public PrivLevel createPrivLevel(String d) {
         PrivLevel privlvl = !existsPrivilege(d) ? (new PrivLevel(d)) : null;
-        
         if (privlvl != null) {
             this.listPrivL.add(privlvl);
-            this.createTrash(privlvl.getDesc());
+            this.createTrashPriv(privlvl.getDesc());
         }
         return privlvl;
     }
 
-//    public PrivLevel createPrivLevelFunctional(int n, String d) {//A little test.
-//        if (!listPermissions.containsKey(n) && listPermissions.size() >= n - 1) {
-//            if (n > 0 && n <= listPermissions.size()) {
-//                for (int i = n; i < listPermissions.size() + 1; i++) {
-//                    listPermissions.replace(i + 1, listPermissions.get(i)).setLevelNo(i + 1);
-//                }
-//            }
-//            return listPermissions.put(n, new PrivLevel(n, d));
-//        }
-//        return null;
-//    }
     public boolean editPrivLevel(String oldDesc, String newDesc) {
         PrivLevel lev = listPrivL.stream()
                 .filter((lvl) -> lvl.getDesc().equals(oldDesc))
@@ -240,12 +222,11 @@ public class PermissionManagement {
 
     public String toStringAllPrivLevels() {
         StringBuilder str = new StringBuilder("[");
-        if(!listPrivL.isEmpty()){
+        if (!listPrivL.isEmpty()) {
             listPrivL.stream().forEach((p) -> {
                 str.append(p.toStringSummary());//names only
-             });
-        }
-        else{
+            });
+        } else {
             str.append("[{\"sName\":\"No Data\"}]");
         }
         str.replace(str.length() - 1, str.length(), "]");
@@ -268,21 +249,46 @@ public class PermissionManagement {
         return str.toString();
     }
 
-    public String toStringRolesSpecific(String roles) {
-        StringBuilder str = new StringBuilder("\"[");
-        Role p = this.listRoles.stream().filter(x -> x.getName().equals(roles)).findFirst().get();
-        str.append(p.toString())
-                .replace(str.length() - 1, str.length(), "]\"");
-        return str.toString();
+//Replaced 
+//    public String toStringRolesSpecific(String roles) {
+//        StringBuilder str = new StringBuilder("\"[");
+//        Role p = this.listRoles.stream().filter(x -> x.getName().equals(roles)).findFirst().get();
+//        str.append(p.toStringRoleSens())
+//                .replace(str.length() - 1, str.length(), "]\"");
+//        return str.toString();
+//    }
+
+    public HashMap<String, Boolean> generateHashMap(String role) {
+        Role p = this.listRoles.stream().filter(x -> x.getName().equals(role)).findFirst().get();
+        HashMap<String, Boolean> hasPrivilege = new HashMap<>();
+        if (p != null) {
+            listPrivL.stream().forEach(priv -> {
+                hasPrivilege.put(priv.getDesc(), p.hasPriv(priv.getDesc()));
+            });
+        }
+        return hasPrivilege;
     }
+    
+    public String toJSONRolesPrivs(String role){
+        StringBuilder json = new StringBuilder("[");
+        HashMap<String, Boolean> privileges = this.generateHashMap(role);
+        for(String s:privileges.keySet()){
+            json.append("{\"name\":\"").append(s).append("\", ").append("\"selected\":\"")
+                    .append(privileges.get(s) ? "\"true\"":"\"false\"},");
+            privileges.get(s);
+        }
+        json.replace(json.length() - 1, json.length(), "]");
+        return json.toString();
+    }
+    
 
     public String toStringRolesGeneral() {
-        StringBuilder str = new StringBuilder("\"[");
+        StringBuilder str = new StringBuilder("[");
 
         listRoles.stream().forEach((p) -> {
             str.append(p.toStringSummary());
         });
-        str.replace(str.length() - 1, str.length(), "]\"");
+        str.replace(str.length() - 1, str.length(), "]");
         return str.toString();
     }
 
@@ -305,4 +311,53 @@ public class PermissionManagement {
         return str.toString();
     }
 
+    public boolean removeRole(String role) {
+        //LLAMAR AL DROP DE LA BASE DE DATOS
+        //REMOVER ROL DE LOS USUARIOS QUE LO TIENEN
+        return this.listRoles.removeIf(x->x.getName().equals(role));//Looks for the role and removes it from the list.
+    }
+
+    public void removePrivFromRole(String rol, String level) {
+       Role r = this.getRole(rol);
+       PrivLevel pr = this.getPrivLevel(level);
+       r.removeLevel(level);
+    }
+
 }
+
+//    public PrivLevel createPrivLevelFunctional(int n, String d) {//A little test.
+//        if (!listPermissions.containsKey(n) && listPermissions.size() >= n - 1) {
+//            if (n > 0 && n <= listPermissions.size()) {
+//                for (int i = n; i < listPermissions.size() + 1; i++) {
+//                    listPermissions.replace(i + 1, listPermissions.get(i)).setLevelNo(i + 1);
+//                }
+//            }
+//            return listPermissions.put(n, new PrivLevel(n, d));
+//        }
+//        return null;
+//    }
+//    //Manage Table Permissions 
+//    public boolean addPermission(String roleName, String tableSpaceName, String tableName, boolean select, boolean insert, boolean delete, boolean update) {//For a table
+//        Table t = this.infoSens.getTable(tableSpaceName, tableName);
+//        Role r = this.getRole(roleName);
+//        return (t != null && r != null) ? r.addPermission(new Permission(t, select, insert, delete, update)) : false;
+//    }
+//
+//    public boolean editPermission(String roleName, String tableSpaceName, String tableName, boolean select, boolean insert, boolean delete, boolean update) {//For a table
+//        Table t = this.infoSens.getTable(tableSpaceName, tableName);
+//        Role r = this.getRole(roleName);
+//        return (t != null && r != null) ? this.getRole(roleName).editPermission(t, select, insert, delete, update) : false;
+//    }
+//
+//    //Manage Column Permissions
+//    public boolean addPermission(String roleName, String tableSpaceName, String tableName, String colName, boolean select, boolean update) {//For a table
+//        Column c = this.infoSens.getColumn(tableSpaceName, tableName, colName);
+//        Role r = this.getRole(roleName);
+//        return (c != null && r != null) ? this.getRole(roleName).addPermission(new Permission(c, select, update)) : false;
+//    }
+//
+//    public boolean editPermission(String roleName, String tableSpaceName, String tableName, String colName, boolean select, boolean update) {//For a table
+//        Column c = this.infoSens.getColumn(tableSpaceName, tableName, colName);
+//        Role r = this.getRole(roleName);
+//        return (c != null && r != null) ? this.getRole(roleName).editPermission(c, select, update) : false;
+//    }

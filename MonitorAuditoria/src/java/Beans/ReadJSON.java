@@ -4,11 +4,11 @@ import com.google.gson.Gson;
 
 public class ReadJSON {
 
-    public static void setTables(String json,PermissionManagement perMan,String levelName) {
+    public static void setTables(String json, PermissionManagement perMan, String levelName) {
         JSONTable[] t = new Gson().fromJson(json, JSONTable[].class);
-        
+
         for (JSONTable tt : t) {
-                perMan.editPermission(levelName,tt.tablespace,tt.tName,tt.select, tt.insert,tt.delete,tt.update);
+            perMan.editPermission(levelName, tt.tablespace, tt.tName, tt.select, tt.insert, tt.delete, tt.update);
         }
     }
 
@@ -31,17 +31,30 @@ public class ReadJSON {
         }
     }
 
-    public static void setSens(String json, String rol) {
+    public static void setSens(PermissionManagement perman, String rol, String json) {//updates the damn privileges.
         JSONSens[] s = new Gson().fromJson(json, JSONSens[].class);
-        for (JSONSens ss : s) {
-            //ss.name;
-            //ss.selected;
+        Role r = perman.getRole(rol);
+        if (r != null) {
+            for (JSONSens ss : s) {
+                if(r.hasPriv(ss.name)&&!ss.selected){
+                    perman.removePrivFromRole(rol,ss.name);
+                }
+                else{
+                    if(!r.hasPriv(ss.name)&&ss.selected){
+                        perman.givePrivsToRole(rol, ss.name);
+                    }
+                }
+                //ss.name;
+                //ss.selected;
+            }
         }
+
     }
 
-    public static void setRoles(String json, String user) {
+    public static void setRoles(PermissionManagement perman, String user, String json) {
         JSONRole[] r = new Gson().fromJson(json, JSONRole[].class);
         for (JSONRole rr : r) {
+
             //rr.name;
             //rr.selected;
         }
@@ -50,6 +63,7 @@ public class ReadJSON {
 
 /*Dummy Classes for extracting info from JSON as Java Objects*/
 class JSONTable {
+
     public String tName;
     public String tablespace;
     public boolean insert;
