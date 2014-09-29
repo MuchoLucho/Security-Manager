@@ -265,7 +265,6 @@ public class PermissionManagement {
         PrivLevel p = this.listPrivL.stream().filter(x -> x.getDesc().equals(privLevel)).findFirst().get();
         str.append(p.toString(false))
                 .replace(str.length() - 1, str.length(), "]");
-
         return str.toString();
     }
 

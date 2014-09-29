@@ -64,8 +64,8 @@ public class Permission implements Comparable<Permission>{
     public void setPrivileges(boolean select, boolean insert, boolean delete, boolean update) {//For a table
         privileges[0] = select;
         privileges[1] = insert;
-        privileges[2] = update;
-        privileges[3] = delete;
+        privileges[2] = delete;
+        privileges[3] = update;
     }
 
     public void setPrivileges(boolean update) {//For a Column

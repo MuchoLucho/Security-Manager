@@ -57,9 +57,10 @@ public class SensibilityService extends HttpServlet {
                     case "tables":
                         String jeisonk = request.getParameter("element");//JSON
                         String senlev = request.getParameter("sens");//Selected level
-                        ReadJSON.setTables(jeisonk, perman, senlev);
+                        ReadJSON.setTables(jeisonk, perman, senlev);          
                         break;
                     case "columns":
+                        System.out.println("CANT YET SEND COLUMNS");
                         //(request.getParameter("element"));//JSON
                         //(request.getParameter("sens")); // Selected Level
                         break;
@@ -70,6 +71,7 @@ public class SensibilityService extends HttpServlet {
                     default:
                         break;
                 }
+                response.sendRedirect("sensibility.jsp");
             }
         }
     }
