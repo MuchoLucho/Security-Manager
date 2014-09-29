@@ -22,3 +22,4 @@ hs_err_pid*
 /MonitorAuditoria/conf/
 /MonitorAuditoria/lib/
 /MonitorAuditoria/web/session/WEB-INF/
+/MonitorAuditoria/dist/

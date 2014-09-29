@@ -14,7 +14,7 @@ public class DBConnector {
     public static String sql;
     public static FileWriter fichero = null;
     public static PrintWriter pw = null;
-    
+
     public static void escribir(String SID) {
         try {
             fichero = new FileWriter("C:\\prueba.bat", true);
@@ -72,7 +72,7 @@ public class DBConnector {
     public static boolean conectDB() {
         try {
             Class.forName("oracle.jdbc.OracleDriver");
-            con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "sys as sysdba", "root");
+            con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "sys as sysdba", "root");
         } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
             return false;
@@ -80,7 +80,7 @@ public class DBConnector {
         return true;
     }
 
-    public static void getRoles(ArrayList<Role> lista) {
+    public static void getAllRoles(ArrayList<Role> lista) {
 
         sql = "select granted_role \"ROL\" from dba_role_privs where grantee not in ('OUTLN', 'DATAPUMP_IMP_FULL_DATABASE', 'SELECT_CATALOG_ROLE', 'HS_ADMIN_ROLE', 'EXP_FULL_DATABASE', 'DBSNMP', 'IMP_FULL_DATABASE', 'LOGSTDBY_ADMINISTRATOR', 'OEM_MONITOR', 'EXECUTE_CATALOG_ROLE', 'DATAPUMP_EXP_FULL_DATABASE')";
 
@@ -117,22 +117,23 @@ public class DBConnector {
         }
     }
 
-    public static void tablas(ArrayList<Tablespace> tablespaces, ArrayList<Table> tables) {
-        sql = "select table_name \"Tab\" ,tablespace_name \"TS\" from dba_tables where OWNER not in ('ANONYMOUS', 'APEX_030200', 'APEX_PUBLIC_USER', 'APPQOSSYS', 'BI', 'CTXSYS', 'DBSNMP', 'DIP', 'EXFSYS', 'FLOWS_FILES', 'HR', 'IX', 'MDDATA', 'MDSYS', 'MGMT_VIEW', 'OE', 'OLAPSYS', 'ORACLE_OCM', 'ORDDATA', 'ORDPLUGINS', 'ORDSYS', 'OUTLN', 'OWBSYS', 'OWBSYS_AUDIT', 'PM', 'SCOTT', 'SH', 'SI_INFORMTN_SCHEMA', 'SPATIAL_CSW_ADMIN_USR', 'SPATIAL_WFS_ADMIN_USR', 'SYS', 'SYSMAN', 'SYSTEM', 'WMSYS', 'XDB', 'XS$NULL', 'APEX_040000')";
-
+    public static void getTables(ArrayList<Tablespace> tablespaces) {
+        sql = "select distinct table_name Tab ,tablespace_name TS from dba_tables where owner not in ('ANONYMOUS', 'APEX_030200', 'APEX_040200', 'APEX_PUBLIC_USER', 'APPQOSSYS', 'BI', 'CTXSYS', 'DBSNMP', 'DIP', 'EXFSYS', 'FLOWS_FILES', 'HR', 'IX', 'MDDATA', 'MDSYS', 'MGMT_VIEW', 'OE', 'OLAPSYS', 'ORACLE_OCM', 'ORDDATA', 'ORDPLUGINS', 'ORDSYS', 'OUTLN', 'OWBSYS', 'OWBSYS_AUDIT', 'PM', 'SCOTT', 'SH', 'SI_INFORMTN_SCHEMA', 'SPATIAL_CSW_ADMIN_USR', 'SPATIAL_WFS_ADMIN_USR', 'SYS', 'SYSMAN', 'SYSTEM', 'WMSYS', 'XDB', 'XS$NULL', 'APEX_040000','GSMADMIN_INTERNAL','LBACSYS','DVSYS','LBACSYS','OJVMSYS','AUDSYS')";
         try {
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
-            Tablespace t = null;
+            //Tablespace t = null;
             while (rs.next()) {
                 String tabname = rs.getString("Tab");
                 String tsname = rs.getString("TS");
 
-                tablespaces.stream()
+                Tablespace aux = tablespaces.stream()
                         .filter(x -> x.getName().equals(tsname))
-                        .findAny().get()
-                        .setTable(tabname);
-
+                        .findAny().get();
+                if(aux!=null)
+                    aux.setTable(tabname);
+                else
+                    System.err.println("THE TABLESPACE WITH THE NAME"+tsname+"DOESNT EXIST!!!!!");
                 System.out.println(tabname);
                 System.out.println(tsname);
             }
@@ -142,19 +143,26 @@ public class DBConnector {
         }
     }
 
-    public static void columnas(Table table) {
+    public static void getColumns(ArrayList<Tablespace> tablespaces) {
         //BUSCAR ALTERNATIVA A DESCRIBE
-        String upperCaseTable = table.getName().toUpperCase();
-        sql = "select DISTINCT column_name \"Col\" from all_tab_columns where table_name = '" + upperCaseTable + "'";
-
+        //String upperCaseTable = table.getName().toUpperCase();
+        sql = "select DISTINCT column_name Col, table_name Tab from all_tab_columns where owner not in ('ANONYMOUS', 'APEX_030200', 'APEX_040200', 'APEX_PUBLIC_USER', 'APPQOSSYS', 'BI', 'CTXSYS', 'DBSNMP', 'DIP', 'EXFSYS', 'FLOWS_FILES', 'HR', 'IX', 'MDDATA', 'MDSYS', 'MGMT_VIEW', 'OE', 'OLAPSYS', 'ORACLE_OCM', 'ORDDATA', 'ORDPLUGINS', 'ORDSYS', 'OUTLN', 'OWBSYS', 'OWBSYS_AUDIT', 'PM', 'SCOTT', 'SH', 'SI_INFORMTN_SCHEMA', 'SPATIAL_CSW_ADMIN_USR', 'SPATIAL_WFS_ADMIN_USR', 'SYS', 'SYSMAN', 'SYSTEM', 'WMSYS', 'XDB', 'XS$NULL', 'APEX_040000','GSMADMIN_INTERNAL','LBACSYS','DVSYS','LBACSYS','OJVMSYS','AUDSYS')";
         try {
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
-
+            String auxCol;
+            String tabName;
+            Tablespace auxTbs;
             while (rs.next()) {
-                String auxCol = rs.getString("Col");
-                table.setColumn(auxCol);
-                System.out.println(auxCol);
+                auxCol = rs.getString("Col");
+                tabName = rs.getString("Tab");
+                for (Tablespace tbs : tablespaces){
+                    Table auxTab = tbs.getTable(tabName);
+                    if (auxTab != null) {
+                        auxTab.setColumn(auxCol);
+                        break;
+                    }
+                }
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -162,7 +170,13 @@ public class DBConnector {
         }
     }
 
-    public static void CreateRole(String rol) {
+    public static void getDatabaseElements(ArrayList<Tablespace> tablespaces) {
+        getTablespaces(tablespaces);
+        getTables(tablespaces);
+        getColumns(tablespaces);
+    }
+
+    public static void createRole(String rol) {
         String Rol = rol.toUpperCase();
         sql = "CREATE ROLE " + Rol;
 
@@ -178,7 +192,7 @@ public class DBConnector {
         }
     }
 
-    public static void CreateUser(String usr, String pas) {
+    public static void createUser(String usr, String pas) {
         String Usr = usr.toUpperCase();
         String Pass = pas.toUpperCase();
         sql = "CREATE USER " + Usr + " IDENTIFIED BY " + Pass;
@@ -195,7 +209,7 @@ public class DBConnector {
         }
     }
 
-    public static void OtorgaRol(String rol, String usr) {
+    public static void otorgaRol(String rol, String usr) {
         String Rol = rol.toUpperCase();
         String Usr = usr.toUpperCase();
         sql = "GRANT " + Rol + " TO " + Usr;
@@ -212,7 +226,7 @@ public class DBConnector {
         }
     }
 
-    public static void RolesUser(String usr) {//NOT CURRENTLY IN USE.
+    public static void getRolesUser(String usr) {//NOT CURRENTLY IN USE.
         String Usr = usr.toUpperCase();
         sql = "SELECT grantee \"USR\", granted_role \"ROL\" from dba_role_privs where grantee = '" + Usr + "' order by grantee";
 
@@ -424,5 +438,4 @@ public class DBConnector {
 //            System.out.println("No Exito");
 //        }
 //    }
-
 }

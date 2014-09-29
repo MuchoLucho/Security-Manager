@@ -20,13 +20,17 @@ public class SensibilityService extends HttpServlet {
                 switch (str) {
                     /*Call for Tables*/
                     case "tables":
-                        //request.getParameter("element")
-                        out.print("[{\"tName\": \"t1\", \"tablespace\":\"swag\", \"insert\": \"false\", \"select\": \"true\", \"delete\": \"true\", \"update\": \"true\"}, {\"tName\": \"t2\", \"tablespace\":\"swag\", \"insert\": \"false\", \"select\": \"true\", \"delete\": \"false\", \"update\": \"true\"}]");
+                        String tbsName = request.getParameter("element");
+                        //out.print("[{\"tName\": \"t1\", \"tablespace\":\"swag\", \"insert\": \"false\", \"select\": \"true\", \"delete\": \"true\", \"update\": \"true\"}, {\"tName\": \"t2\", \"tablespace\":\"swag\", \"insert\": \"false\", \"select\": \"true\", \"delete\": \"false\", \"update\": \"true\"}]");
+                        String debugeandoA = perman.toStringPrivLevelTables(tbsName);
+                        out.print(debugeandoA);
                         break;
                     /*Call for columns*/
                     case "columns":
-                        //request.getParameter("element")
-                        out.print("[{\"cName\": \"t1C\", \"tName\": \"t1\", \"select\": \"true\", \"delete\": \"true\", \"update\": \"true\"}, {\"cName\": \"t2C\", \"tName\": \"t2\", \"insert\": \"false\", \"select\": \"true\", \"delete\": \"false\", \"update\": \"true\"}]");
+                        String tabName = request.getParameter("element");
+                        //out.print("[{\"cName\": \"t1C\", \"tName\": \"t1\", \"select\": \"true\", \"delete\": \"true\", \"update\": \"true\"}, {\"cName\": \"t2C\", \"tName\": \"t2\", \"insert\": \"false\", \"select\": \"true\", \"delete\": \"false\", \"update\": \"true\"}]");
+                        String debugeando = perman.toStringPrivLevelColumns(tabName);
+                        out.print(debugeando);
                         break;
                     /*Call for resources*/
                     case "rsrc":
@@ -40,10 +44,12 @@ public class SensibilityService extends HttpServlet {
                         break;
                 }
             } else if (request.getParameter("new") != null) { /*New Level*/
-                /*getParameter("name")-->Nombre de nuevo nivel*/
-
+                String name = request.getParameter("name");//-->Nombre de nuevo nivel
+                perman.createPrivLevel(name);
+                response.sendRedirect("sensibility.jsp");
             } else /*Delete Level*/ if (request.getParameter("delete") != null) {
                 //(request.getParameter("delete")); Devuelve sensibilidad a eliminar
+                System.err.println("NOT YET SORRY");
             } else {
                 String str = request.getParameter("set");
                 switch (str) {

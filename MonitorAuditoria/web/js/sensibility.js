@@ -63,6 +63,7 @@ function genTables(i) {
                 nom = tb[i].tName;
                 ar += "<tr>" +
                         "<td>" + nom + "</td>" +
+                        "<td>" + tb[i].tablespace + "</td>" +
                         "<td><input type='checkbox' name='" + nom + "'" + ((eval(tb[i].select)) ? " checked='checked'" : "") + "/></td>" +
                         "<td><input type='checkbox' name='" + nom + "'" + ((eval(tb[i].insert)) ? " checked='checked'" : "") + "/></td>" +
                         "<td><input type='checkbox' name='" + nom + "'" + ((eval(tb[i].delete)) ? " checked='checked'" : "") + "/></td>" +
@@ -144,6 +145,7 @@ function tableToJSON() {
     tb.forEach(function (x) {
         ar = tTable.$("input[name=" + x.tName + "]");
         str += '{"tName":"' + x.tName +
+                '", "tablespace":"' + x.tablespace +
                 '", "select":"' + ar[0].checked +
                 '", "insert":"' + ar[1].checked +
                 '", "delete":"' + ar[2].checked +
@@ -171,7 +173,9 @@ function columnsToJSON() {
         ar = cTable.$("input[name=" + x.tName + "_" + x.cName + "]");
         str += '{"tName":"' + x.tName +
                 '", "cName":"' + x.cName +
-                '", "update":"' + ar[0].checked + '"},';
+                '", "update":"' + ar[0].checked +
+                '", "tablespace":"' + x.tablespace +
+                '"},';
     });
     str = str.slice(0, str.length - 1) + "]";
     $.ajax({
@@ -247,4 +251,3 @@ $('#changes').click(function () {
     columnsToJSON();
     tableToJSON();
 });
-

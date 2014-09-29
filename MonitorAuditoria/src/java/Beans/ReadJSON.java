@@ -7,11 +7,12 @@ public class ReadJSON {
     public void setTables(String json, String level) {
         Tables[] t = new Gson().fromJson(json, Tables[].class);
         for (Tables tt : t) {
-//            tt.tName;
+//             tt.tName;
 //             tt.insert;
 //             tt.select;
 //             tt.delte;
 //             tt.update;
+//             tt.tablespace;
         }
     }
 
@@ -19,9 +20,10 @@ public class ReadJSON {
         Columns[] c = new Gson().fromJson(json, Columns[].class);
         //Then you can loop "t" and get attributes like "tName" or "delete"    
         for (Columns cc : c) {
-//            cc.cName;
+//             cc.cName;
 //             cc.tName;
 //             cc.update;
+//             cc.tablespace;
         }
     }
 
