@@ -26,7 +26,7 @@ public class Model implements Serializable {//Application Level Logical Data Man
     
     public void write() throws FileNotFoundException, IOException
     {
-        FileOutputStream fos = new FileOutputStream("C:\\Users\\Administrador\\Documents\\NetBeansProjects\\Security-Manager\\MonitorAuditoria\\archivos\\Model.bin");
+        FileOutputStream fos = new FileOutputStream("/Model.bin");
         ObjectOutputStream out = new ObjectOutputStream(fos);
         
         out.writeObject(sensData);
@@ -35,7 +35,7 @@ public class Model implements Serializable {//Application Level Logical Data Man
     
     public void read () throws FileNotFoundException, IOException, ClassNotFoundException
     {
-        FileInputStream fis = new FileInputStream("C:\\Users\\Administrador\\Documents\\NetBeansProjects\\Security-Manager\\MonitorAuditoria\\archivos\\Model.bin");
+        FileInputStream fis = new FileInputStream("/Model.bin");
         ObjectInputStream in = new ObjectInputStream(fis);
         
         InfoSensibility aux = new InfoSensibility();

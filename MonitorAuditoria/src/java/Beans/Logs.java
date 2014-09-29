@@ -46,7 +46,7 @@ public class Logs implements Serializable {
     
     public void write() throws FileNotFoundException, IOException
     {
-        FileOutputStream fos = new FileOutputStream("C:\\Users\\Administrador\\Documents\\NetBeansProjects\\Security-Manager\\MonitorAuditoria\\archivos\\Logs.bin");
+        FileOutputStream fos = new FileOutputStream("/Logs.bin");
         ObjectOutputStream out = new ObjectOutputStream(fos);
         
         out.writeObject(log);
@@ -54,7 +54,7 @@ public class Logs implements Serializable {
     
     public void read () throws FileNotFoundException, IOException, ClassNotFoundException
     {
-        FileInputStream fis = new FileInputStream("C:\\Users\\Administrador\\Documents\\NetBeansProjects\\Security-Manager\\MonitorAuditoria\\archivos\\Logs.bin");
+        FileInputStream fis = new FileInputStream("/Logs.bin");
         ObjectInputStream in = new ObjectInputStream(fis);
         
         StringBuilder aux = new StringBuilder();
