@@ -133,8 +133,8 @@
                                         <table class="table table-striped table-bordered table-hover" id="tablas">
                                             <thead>
                                                 <tr>
-                                                    <th>Table Name</th>
                                                     <th>Tablespace</th>
+                                                    <th>Table Name</th>                                                    
                                                     <th>Select</th>
                                                     <th>Insert</th>
                                                     <th>Delete</th>

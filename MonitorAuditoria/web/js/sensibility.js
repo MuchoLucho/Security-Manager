@@ -145,6 +145,7 @@ function tableToJSON() {
     tb.forEach(function (x) {
         ar = tTable.$("input[name=" + x.tName + "]");
         str += '{"tName":"' + x.tName +
+                '", "tablespace":"' + x.tablespace +
                 '", "select":"' + ar[0].checked +
                 '", "insert":"' + ar[1].checked +
                 '", "delete":"' + ar[2].checked +
@@ -172,7 +173,9 @@ function columnsToJSON() {
         ar = cTable.$("input[name=" + x.tName + "_" + x.cName + "]");
         str += '{"tName":"' + x.tName +
                 '", "cName":"' + x.cName +
-                '", "update":"' + ar[0].checked + '"},';
+                '", "update":"' + ar[0].checked +
+                '", "tablespace":"' + x.tablespace +
+                '"},';
     });
     str = str.slice(0, str.length - 1) + "]";
     $.ajax({
@@ -248,4 +251,3 @@ $('#changes').click(function () {
     columnsToJSON();
     tableToJSON();
 });
-
