@@ -5,8 +5,8 @@ import com.google.gson.Gson;
 public class ReadJSON {
 
     public void setTables(String json, String level) {
-        Tables[] t = new Gson().fromJson(json, Tables[].class);
-        for (Tables tt : t) {
+        JSONTable[] t = new Gson().fromJson(json, JSONTable[].class);
+        for (JSONTable tt : t) {
 //            tt.tName;
 //             tt.tablespace;
 //             tt.insert;
@@ -17,9 +17,9 @@ public class ReadJSON {
     }
 
     public void setColumns(String json, String level) {
-        Columns[] c = new Gson().fromJson(json, Columns[].class);
+        JSONColumn[] c = new Gson().fromJson(json, JSONColumn[].class);
         //Then you can loop "t" and get attributes like "tName" or "delete"    
-        for (Columns cc : c) {
+        for (JSONColumn cc : c) {
 //            cc.cName;
 //             cc.tName;
 //             cc.update;
@@ -27,8 +27,8 @@ public class ReadJSON {
     }
 
     public void setRsrc(String json, String level) {
-        Rsrc[] r = new Gson().fromJson(json, Rsrc[].class);
-        for (Rsrc rr : r) {
+        JSONRsrc[] r = new Gson().fromJson(json, JSONRsrc[].class);
+        for (JSONRsrc rr : r) {
             //rr.rName;
             //rr.type;
             //rr.selected;
@@ -36,16 +36,16 @@ public class ReadJSON {
     }
 
     public void setSens(String json, String rol) {
-        Sens[] s = new Gson().fromJson(json, Sens[].class);
-        for (Sens ss : s) {
+        JSONSens[] s = new Gson().fromJson(json, JSONSens[].class);
+        for (JSONSens ss : s) {
             //ss.name;
             //ss.selected;
         }
     }
 
     public void setRoles(String json, String user) {
-        Roles[] r = new Gson().fromJson(json, Roles[].class);
-        for (Roles rr : r) {
+        JSONRole[] r = new Gson().fromJson(json, JSONRole[].class);
+        for (JSONRole rr : r) {
             //rr.name;
             //rr.selected;
         }
@@ -53,7 +53,7 @@ public class ReadJSON {
 };
 
 /*Dummy Classes for extracting info from JSON as Java Objects*/
-class Tables {
+class JSONTable {
 
     public String tName;
     public String tablespace;
@@ -63,27 +63,27 @@ class Tables {
     public boolean update;
 };
 
-class Columns {
+class JSONColumn {
 
     public String tName;
     public String cName;
     public boolean update;
 };
 
-class Rsrc {
+class JSONRsrc {
 
     public String rName;
     public String type;
     public boolean selected;
 };
 
-class Sens {
+class JSONSens {
 
     public String name;
     public boolean selected;
 };
 
-class Roles {
+class JSONRole {
 
     public String name;
     public boolean selected;
