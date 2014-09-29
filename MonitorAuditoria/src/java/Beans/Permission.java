@@ -64,8 +64,8 @@ public class Permission implements Comparable<Permission>{
     public void setPrivileges(boolean select, boolean insert, boolean delete, boolean update) {//For a table
         privileges[0] = select;
         privileges[1] = insert;
-        privileges[2] = update;
-        privileges[3] = delete;
+        privileges[2] = delete;
+        privileges[3] = update;
     }
 
     public void setPrivileges(boolean update) {//For a Column
@@ -119,13 +119,16 @@ public class Permission implements Comparable<Permission>{
            
             if(subject instanceof Table)
             {
-                json.append("\"tName\":\"").append(this.subject.getName()).append("\",");
+                String[] tbsdottb = this.subject.getDBDir().split("\\.");
+                json.append("\"tName\":\"").append(tbsdottb[1]).append("\",");
+                json.append("\"tablespace\":\"").append(tbsdottb[0]).append("\",");
                 /*if(privileges[0])*/json.append("\"select\":\"").append(privileges[0] ? "true":"false").append("\",");
                 /*if(privileges[1])*/json.append("\"insert\":\"").append(privileges[1] ? "true":"false").append("\",");
                 /*if(privileges[2])*/json.append("\"update\":\"").append(privileges[2] ? "true":"false").append("\",");
                 /*if(privileges[3])*/json.append("\"delete\":\"").append(privileges[3] ? "true":"false").append("\"");
             } else {
-                    String tName = this.subject.getDBDir().split(".")[0];
+                    String aux = this.subject.getDBDir();
+                    String tName = aux.split("\\.")[0];
                     json.append("\"tName\":\"").append(tName).append("\",");
                     json.append("\"cName\":\"").append(this.subject.getName()).append("\",");
                     /*if(privileges[1])*/json.append("\"update\":\"").append(privileges[2] ? "true":"false").append("\"");

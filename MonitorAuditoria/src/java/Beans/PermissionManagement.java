@@ -171,7 +171,6 @@ public class PermissionManagement {
                 }
             }
         }
-
     }
 
     public boolean existsPrivilege(String d) {
@@ -198,7 +197,6 @@ public class PermissionManagement {
             this.listPrivL.add(privlvl);
             this.createTrash(privlvl.getDesc());
         }
-        listPrivL.add(privlvl);
         return privlvl;
     }
 
@@ -267,7 +265,6 @@ public class PermissionManagement {
         PrivLevel p = this.listPrivL.stream().filter(x -> x.getDesc().equals(privLevel)).findFirst().get();
         str.append(p.toString(false))
                 .replace(str.length() - 1, str.length(), "]");
-
         return str.toString();
     }
 

@@ -2,6 +2,7 @@ package Services;
 
 import Beans.Model;
 import Beans.PermissionManagement;
+import Beans.ReadJSON;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -49,6 +50,9 @@ public class SensibilityService extends HttpServlet {
                 //(request.getParameter("delete")); Devuelve sensibilidad a eliminar
                 System.err.println("NOT YET SORRY");
             } else {
+                /*String jeisonk = request.getParameter("element");//JSON
+                 String senlev = request.getParameter("sens");//Selected level
+                 ReadJSON.setTables(jeisonk, perman, senlev);  */
                 request.getParameter("tables");
                 request.getParameter("columns");
                 request.getParameter("rsrc");

@@ -4,49 +4,44 @@ import com.google.gson.Gson;
 
 public class ReadJSON {
 
-    public void setTables(String json, String level) {
-        Tables[] t = new Gson().fromJson(json, Tables[].class);
-        for (Tables tt : t) {
-//             tt.tName;
-//             tt.insert;
-//             tt.select;
-//             tt.delte;
-//             tt.update;
-//             tt.tablespace;
+    public static void setTables(String json,PermissionManagement perMan,String levelName) {
+        JSONTable[] t = new Gson().fromJson(json, JSONTable[].class);
+        
+        for (JSONTable tt : t) {
+                perMan.editPermission(levelName,tt.tablespace,tt.tName,tt.select, tt.insert,tt.delete,tt.update);
         }
     }
 
-    public void setColumns(String json, String level) {
-        Columns[] c = new Gson().fromJson(json, Columns[].class);
+    public static void setColumns(String json, String level) {
+        JSONColumn[] c = new Gson().fromJson(json, JSONColumn[].class);
         //Then you can loop "t" and get attributes like "tName" or "delete"    
-        for (Columns cc : c) {
-//             cc.cName;
+        for (JSONColumn cc : c) {
+//            cc.cName;
 //             cc.tName;
 //             cc.update;
-//             cc.tablespace;
         }
     }
 
-    public void setRsrc(String json, String level) {
-        Rsrc[] r = new Gson().fromJson(json, Rsrc[].class);
-        for (Rsrc rr : r) {
+    public static void setRsrc(String json, String level) {
+        JSONRsrc[] r = new Gson().fromJson(json, JSONRsrc[].class);
+        for (JSONRsrc rr : r) {
             //rr.rName;
             //rr.type;
             //rr.selected;
         }
     }
 
-    public void setSens(String json, String rol) {
-        Sens[] s = new Gson().fromJson(json, Sens[].class);
-        for (Sens ss : s) {
+    public static void setSens(String json, String rol) {
+        JSONSens[] s = new Gson().fromJson(json, JSONSens[].class);
+        for (JSONSens ss : s) {
             //ss.name;
             //ss.selected;
         }
     }
 
-    public void setRoles(String json, String user) {
-        Roles[] r = new Gson().fromJson(json, Roles[].class);
-        for (Roles rr : r) {
+    public static void setRoles(String json, String user) {
+        JSONRole[] r = new Gson().fromJson(json, JSONRole[].class);
+        for (JSONRole rr : r) {
             //rr.name;
             //rr.selected;
         }
@@ -54,37 +49,36 @@ public class ReadJSON {
 };
 
 /*Dummy Classes for extracting info from JSON as Java Objects*/
-class Tables {
-
+class JSONTable {
     public String tName;
     public String tablespace;
     public boolean insert;
     public boolean select;
-    public boolean delte;
+    public boolean delete;
     public boolean update;
 };
 
-class Columns {
+class JSONColumn {
 
     public String tName;
     public String cName;
     public boolean update;
 };
 
-class Rsrc {
+class JSONRsrc {
 
     public String rName;
     public String type;
     public boolean selected;
 };
 
-class Sens {
+class JSONSens {
 
     public String name;
     public boolean selected;
 };
 
-class Roles {
+class JSONRole {
 
     public String name;
     public boolean selected;

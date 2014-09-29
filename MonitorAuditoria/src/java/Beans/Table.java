@@ -2,40 +2,29 @@ package Beans;
 
 import java.util.ArrayList;
 
-public class Table implements Permissible{
+public class Table implements Permissible {
+
     //private PrivLevel level;
+
     private String name;
     ArrayList<Column> cols = new ArrayList<>();
+    Tablespace tbs;
 
-    public ArrayList<Column> getCols() {
-        return cols;
-    }
-
-    public Table(String name) {
+    public Table(Tablespace tbs, String name) {
+        this.tbs = tbs;
         this.name = name;
     }
 
     public Table() {
     }
 
-//    public Table(PrivLevel nivel) {
-//        this.level = nivel;
-//    }
-//
-//    public PrivLevel getPrivLevel() {
-//        return level;
-//    }
-
-//    public void setPrivLevel(PrivLevel nivel) {
-//        //this.level = nivel;
-//        cols.stream().forEach((c) -> {
-//            c.setPrivLevel(nivel);
-//        });
-//    }
+    public ArrayList<Column> getCols() {
+        return cols;
+    }
 
     public Column getColumn(String n) {
         return cols.stream()
-                .filter((c)->c.getName().equals(n))
+                .filter((c) -> c.getName().equals(n))
                 .findFirst().orElse(null);
     }
 
@@ -46,7 +35,7 @@ public class Table implements Permissible{
 
     public boolean setColumn(String name) {
         if (!containsColumn(name)) {
-            return cols.add(new Column(this,name));
+            return cols.add(new Column(this, name));
         }
         return false;
     }
@@ -54,7 +43,7 @@ public class Table implements Permissible{
     public String getName() {
         return name;
     }
-    
+
     public void setName(String name) {
         this.name = name;
     }
@@ -66,7 +55,7 @@ public class Table implements Permissible{
         //cols.stream().forEach((c) -> str.append(c.toString()).append("\n"));
         return str.toString();
     }
-    
+
     public String toStringCols() {
         StringBuilder str = new StringBuilder();
         str.append(name).append(";").append("\n");
@@ -74,6 +63,28 @@ public class Table implements Permissible{
         return str.toString();
     }
 
+    @Override
+    public String getDBDir(){//THIS WONT ACTUALLY WORK
+        return new StringBuilder()
+                .append(tbs.getName())
+                .append(".")
+                .append(name).toString();
+    }
+}
+
+//    public Table(PrivLevel nivel) {
+//        this.level = nivel;
+//    }
+//
+//    public PrivLevel getPrivLevel() {
+//        return level;
+//    }
+//    public void setPrivLevel(PrivLevel nivel) {
+//        //this.level = nivel;
+//        cols.stream().forEach((c) -> {
+//            c.setPrivLevel(nivel);
+//        });
+//    }
 //    public boolean setSensibility(String column, int lvl) {
 //        Column aux = this.getColumn(name);
 //        PrivLevel privs = PrivLevel.getPrivLevel(lvl);
@@ -94,9 +105,3 @@ public class Table implements Permissible{
 //        }
 //        return false;
 //    }
-
-    @Override
-    public String getDBDir() {//Might have to include a reference to tablespace to put complete name.
-        return name;
-    }
-}
