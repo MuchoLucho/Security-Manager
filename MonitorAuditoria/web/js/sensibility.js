@@ -63,7 +63,6 @@ function genTables(i) {
                 nom = tb[i].tName;
                 ar += "<tr>" +
                         "<td>" + nom + "</td>" +
-                        "<td>" + tb[i].tablespace + "</td>" +
                         "<td><input type='checkbox' name='" + nom + "'" + ((eval(tb[i].select)) ? " checked='checked'" : "") + "/></td>" +
                         "<td><input type='checkbox' name='" + nom + "'" + ((eval(tb[i].insert)) ? " checked='checked'" : "") + "/></td>" +
                         "<td><input type='checkbox' name='" + nom + "'" + ((eval(tb[i].delete)) ? " checked='checked'" : "") + "/></td>" +

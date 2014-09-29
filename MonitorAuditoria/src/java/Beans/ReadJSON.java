@@ -8,7 +8,6 @@ public class ReadJSON {
         Tables[] t = new Gson().fromJson(json, Tables[].class);
         for (Tables tt : t) {
 //            tt.tName;
-//             tt.tablespace;
 //             tt.insert;
 //             tt.select;
 //             tt.delte;
