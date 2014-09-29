@@ -2,6 +2,7 @@ package Services;
 
 import Beans.Model;
 import Beans.PermissionManagement;
+import Beans.ReadJSON;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -54,8 +55,9 @@ public class SensibilityService extends HttpServlet {
                 String str = request.getParameter("set");
                 switch (str) {
                     case "tables":
-                        //(request.getParameter("element")); //JSON
-                        //(request.getParameter("sens")); // Selected Level
+                        String jeisonk = request.getParameter("element");//JSON
+                        String senlev = request.getParameter("sens");//Selected level
+                        ReadJSON.setTables(jeisonk, perman, senlev);
                         break;
                     case "columns":
                         //(request.getParameter("element"));//JSON
