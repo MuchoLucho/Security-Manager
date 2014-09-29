@@ -156,7 +156,6 @@
                                                 <tr>
                                                     <th>Table Name</th>
                                                     <th>Column Name</th>                                                    
-                                                    <th>Select</th>
                                                     <th>Update</th>
                                                 </tr>
                                             </thead>

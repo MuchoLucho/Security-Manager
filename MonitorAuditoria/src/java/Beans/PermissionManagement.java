@@ -30,23 +30,24 @@ public class PermissionManagement {
                 .get();
     }
 
-    public boolean insertUser(String name,String pass) {
+    public boolean insertUser(String name, String pass) {
         if (!listUsers.stream().anyMatch(((x) -> x.getName().equals(name)))) {
             DBConnector.CreateUser(name, pass);
+            BitacoraLuis.logCreation("user");
             return listUsers.add(new User(name));
         }
         return false;
     }
 
-    public boolean insertUser(User u,String pass) {
+    public boolean insertUser(User u, String pass) {
         if (!listUsers.stream().anyMatch(((x) -> x.getName().equals(u.getName())))) {
             DBConnector.CreateUser(u.getName(), pass);
+            BitacoraLuis.logCreation("user");
             return listUsers.add(u);
         }
         return false;
     }
 
-    
     public String toStringUsers() {
         StringBuilder str = new StringBuilder();
         listUsers.stream()
@@ -54,12 +55,12 @@ public class PermissionManagement {
         return str.toString();
     }
 
-    public String toStringRoles(){
+    public String toStringRoles() {
         StringBuilder str = new StringBuilder();
         listRoles.stream().forEach(x -> str.append(x.toString()));
         return str.toString();
     }
-    
+
     public Role getRole(String roleName) {
         return listRoles.stream()
                 .filter((x) -> x.getName().equals(roleName))
@@ -69,27 +70,32 @@ public class PermissionManagement {
 
     public boolean insertRole(String name) {
         if (!listRoles.stream().anyMatch(((x) -> x.getName().equals(name)))) {
+            BitacoraLuis.logCreation("role");
             return listRoles.add(new Role(name));
         }
         return false;
     }
-    
-    public boolean grantRole(String user,String roleName){
+
+    public boolean grantRole(String user, String roleName) {
         Role r = this.getRole(roleName);
         User u = this.getUser(user);
-        if(r!=null && u!=null){
+        if (r != null && u != null) {
             u.setRole(r);
             DBConnector.GrantRoles(roleName, user);
             return true;
         }
         return false;
     }
-    
-     //Manage Table Permissions 
+
+    //Manage Table Permissions 
     public boolean addPermission(String levelName, String tableSpaceName, String tableName, boolean select, boolean insert, boolean delete, boolean update) {//For a table
         Table t = this.infoSens.getTable(tableSpaceName, tableName);
         PrivLevel p = this.getPrivLevel(levelName);
-        return (t != null && p != null) ? p.addPermission(new Permission(t, select, insert, delete, update)) : false;
+        if (t != null && p != null) {
+            BitacoraLuis.logCreation("permission");
+            return p.addPermission(new Permission(t, select, insert, delete, update));
+        }
+        return false;
     }
 
     public boolean editPermission(String levelName, String tableSpaceName, String tableName, boolean select, boolean insert, boolean delete, boolean update) {//For a table
@@ -97,7 +103,9 @@ public class PermissionManagement {
         PrivLevel p = this.getPrivLevel(levelName);
         return (t != null && p != null) ? p.editPermission(t, select, insert, delete, update) : false;
     }
+
     //Manage Column Permissions
+
     public boolean addPermission(String levelName, String tableSpaceName, String tableName, String colName, boolean select, boolean update) {//For a column
         Column c = this.infoSens.getColumn(tableSpaceName, tableName, colName);
         PrivLevel p = this.getPrivLevel(levelName);
@@ -107,11 +115,10 @@ public class PermissionManagement {
     public boolean editPermission(String levelName, String tableSpaceName, String tableName, String colName, boolean select, boolean update) {//For a column
         Column c = this.infoSens.getColumn(tableSpaceName, tableName, colName);
         PrivLevel p = this.getPrivLevel(levelName);
+
         return (c != null && p != null) ? p.editPermission(c, select, update) : false;
     }
-    
-    
-    
+
 //    //Manage Table Permissions 
 //    public boolean addPermission(String roleName, String tableSpaceName, String tableName, boolean select, boolean insert, boolean delete, boolean update) {//For a table
 //        Table t = this.infoSens.getTable(tableSpaceName, tableName);
@@ -137,11 +144,14 @@ public class PermissionManagement {
 //        Role r = this.getRole(roleName);
 //        return (c != null && r != null) ? this.getRole(roleName).editPermission(c, select, update) : false;
 //    }
-    
     //Manage Function/Procedure Permissions
     //Not implemented yet.  
     private void getFromDatabase() {
         System.out.println("YOU CANT GET USERS OR ROLE FROM DATABASE YET.");
+        DBConnector con = new DBConnector();
+        //LEER DE ARCHIVO.
+        DBConnector.Usuarios(listUsers);
+        DBConnector.getRoles(listRoles);
     }
     ////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////
@@ -151,41 +161,41 @@ public class PermissionManagement {
 //            return listPermissions.containsKey(n) ? listPermissions.get(n) : null;
 //    }
 
-    private void createTrash(String privlvl){
+    private void createTrash(String privlvl) {
         ArrayList<Tablespace> lista = infoSens.tbsList;
-        for(Tablespace tbs:lista){
-            for(Table tab:tbs.getTabs()){
-                this.addPermission(privlvl, tbs.getName(),tab.getName(), false, false, false,false);
-                for(Column col:tab.getCols()){
-                    this.addPermission(privlvl, tbs.getName(),tab.getName(),col.getName(), false, false);
+        for (Tablespace tbs : lista) {
+            for (Table tab : tbs.getTabs()) {
+                this.addPermission(privlvl, tbs.getName(), tab.getName(), false, false, false, false);
+                for (Column col : tab.getCols()) {
+                    this.addPermission(privlvl, tbs.getName(), tab.getName(), col.getName(), false, false);
                 }
             }
-        }   
-                
-    
+        }
+
     }
-    
-    public boolean existsPrivilege(String d){
-        return listPrivL.stream().anyMatch(x->x.getDesc().equals(d));
+
+    public boolean existsPrivilege(String d) {
+        return listPrivL.stream().anyMatch(x -> x.getDesc().equals(d));
     }
-    
+
     public PrivLevel getPrivLevel(String levelName) {
         return listPrivL.stream()
                 .filter((x) -> x.getDesc().equals(levelName))
                 .findFirst()
                 .orElse(null);
     }
-    
-    public String getAllPrivLevels(){
+
+    public String getAllPrivLevels() {
         StringBuilder str = new StringBuilder();
         listPrivL.stream().forEach(x -> str.append(x.toString()));
         return str.toString();
     }
-    
+
     public PrivLevel createPrivLevel(String d) {
-        PrivLevel privlvl = !existsPrivilege(d) ? (new PrivLevel(d)):null;
-        if(privlvl!=null)
+        PrivLevel privlvl = !existsPrivilege(d) ? (new PrivLevel(d)) : null;
+        if (privlvl != null) {
             this.createTrash(privlvl.getDesc());
+        }
         listPrivL.add(privlvl);
         return privlvl;
     }
@@ -201,8 +211,7 @@ public class PermissionManagement {
 //        }
 //        return null;
 //    }
-
-    public boolean editPrivLevel(String oldDesc,String newDesc) {
+    public boolean editPrivLevel(String oldDesc, String newDesc) {
         PrivLevel lev = listPrivL.stream()
                 .filter((lvl) -> lvl.getDesc().equals(oldDesc))
                 .findFirst().orElse(null);
@@ -212,89 +221,86 @@ public class PermissionManagement {
         }
         return false;
     }
-    
-    public boolean editPrivLevelPermissionsTable(String lvlDesc,String tablespace,String table,boolean select,boolean insert,boolean update,boolean delete){
+
+    public boolean editPrivLevelPermissionsTable(String lvlDesc, String tablespace, String table, boolean select, boolean insert, boolean update, boolean delete) {
         PrivLevel lev = this.getPrivLevel(lvlDesc);
-        Table tab = this.infoSens.getTable(tablespace,table);
+        Table tab = this.infoSens.getTable(tablespace, table);
         return lev.editPermission(tab, select, insert, delete, update);
     }
-    
-    public boolean editPrivLevelPermissionsColumn(String lvlDesc,String tablespace,String table,String column,boolean update){
+
+    public boolean editPrivLevelPermissionsColumn(String lvlDesc, String tablespace, String table, String column, boolean update) {
         PrivLevel lev = this.getPrivLevel(lvlDesc);
-        Column col = this.infoSens.getTable(tablespace,table).getColumn(column);
+        Column col = this.infoSens.getTable(tablespace, table).getColumn(column);
         return lev.editPermission(col, update);
     }
-    
+
     public int listPermissionSize() {//How many levels currently in map.
         return listPrivL.size();
     }
 
     public String toStringAllPrivLevels() {
         StringBuilder str = new StringBuilder("\"[");
-        
+
         listPrivL.stream().forEach((p) -> {
-            str.append(p.toStringSummary());
+            str.append(p.toStringSummary());//names only
         });
-        str.replace(str.length()-1,str.length(),"]\"");
+        str.replace(str.length() - 1, str.length(), "]\"");
         return str.toString();
     }
-    
+
     public String toStringPrivLevelTables(String privLevel) {
         StringBuilder str = new StringBuilder("\"[");
-        PrivLevel p = this.listPrivL.stream().filter(x->x.getDesc().equals(privLevel)).findFirst().get();
+        PrivLevel p = this.listPrivL.stream().filter(x -> x.getDesc().equals(privLevel)).findFirst().get();
         str.append(p.toString(true))
-            .replace(str.length()-1,str.length(),"]\"");
+                .replace(str.length() - 1, str.length(), "]\"");
 
         return str.toString();
     }
-    
+
     public String toStringPrivLevelColumns(String privLevel) {
         StringBuilder str = new StringBuilder("\"[");
-        PrivLevel p = this.listPrivL.stream().filter(x->x.getDesc().equals(privLevel)).findFirst().get();
+        PrivLevel p = this.listPrivL.stream().filter(x -> x.getDesc().equals(privLevel)).findFirst().get();
         str.append(p.toString(false))
-            .replace(str.length()-1,str.length(),"]\"");
+                .replace(str.length() - 1, str.length(), "]\"");
 
         return str.toString();
     }
-    
+
     public String toStringRolesSpecific(String roles) {
         StringBuilder str = new StringBuilder("\"[");
-        Role p = this.listRoles.stream().filter(x->x.getName().equals(roles)).findFirst().get();
+        Role p = this.listRoles.stream().filter(x -> x.getName().equals(roles)).findFirst().get();
         str.append(p.toString())
-            .replace(str.length()-1,str.length(),"]\"");
+                .replace(str.length() - 1, str.length(), "]\"");
         return str.toString();
     }
-    
-    
+
     public String toStringRolesGeneral() {
         StringBuilder str = new StringBuilder("\"[");
-        
+
         listRoles.stream().forEach((p) -> {
             str.append(p.toStringSummary());
         });
-        str.replace(str.length()-1,str.length(),"]\"");
+        str.replace(str.length() - 1, str.length(), "]\"");
         return str.toString();
     }
-    
+
     public String toStringUsersSpecific(String userName) {
         StringBuilder str = new StringBuilder("\"[");
-        User u = this.listUsers.stream().filter(x->x.getName().equals(userName)).findFirst().get();
+        User u = this.listUsers.stream().filter(x -> x.getName().equals(userName)).findFirst().get();
         str.append(u.toString())
-            .replace(str.length()-1,str.length(),"]\"");
+                .replace(str.length() - 1, str.length(), "]\"");
 
         return str.toString();
     }
-    
+
     public String toStringUsersGeneral() {
         StringBuilder str = new StringBuilder("\"[");
-        
+
         listUsers.stream().forEach((p) -> {
             str.append(p.toStringSummary());
         });
-        str.replace(str.length()-1,str.length(),"]\"");
+        str.replace(str.length() - 1, str.length(), "]\"");
         return str.toString();
     }
-    
-    
 
 }
