@@ -27,14 +27,14 @@ public class RolesService extends HttpServlet {
                         String seed = request.getParameter("element") ;
                         String sensAndRole = perman.toJSONRolesPrivs(seed);
                         out.print(sensAndRole);
-                        response.sendRedirect("roles.jsp");
+                        //response.sendRedirect("roles.jsp");
                         //request.getParameter("element") // Role Seed
                         break;
                     case "roles":
                         //out.print("[{\"name\": \"admin\"}, {\"name\": \"peasant\"}]");
                         String sumRoles = perman.toStringRolesGeneral();
                         out.print(sumRoles);
-                        response.sendRedirect("roles.jsp");
+                        //response.sendRedirect("roles.jsp");
                         //out. todos los roles
                         break;
                 }

@@ -4,6 +4,7 @@
  http://creativecommons.org/licenses/by/3.0/ 
  ==============================================================*/
 
+/*JSON received*/
 var tb;
 var col;
 var rsrc;
@@ -100,7 +101,9 @@ function genCols(i) {
                         "</tr>";
             }
             document.getElementById("contenido_columnas").innerHTML = ar;
-            cTable = $('#columnas').dataTable();
+            cTable = $('#columnas').dataTable({
+                "bFilter": false
+            });
         },
         error: function (response) {
             //Error Message
@@ -151,19 +154,7 @@ function tableToJSON() {
                 '", "delete":"' + ar[2].checked +
                 '", "update":"' + ar[3].checked + '"},';
     });
-    str = str.slice(0, str.length - 1) + "]";
-    $.ajax({
-        type: 'post',
-        dataType: 'json',
-        url: "SensibilityService",
-        data: {set: "tables", element: str, sens: selectedLevel},
-        success: function (response) {
-            console.log(response);
-        }/*,
-         error: function (response) {
-         //If u can not connect
-         }*/
-    });
+    return str.slice(0, str.length - 1) + "]";
 }
 
 function columnsToJSON() {
@@ -177,19 +168,7 @@ function columnsToJSON() {
                 '", "tablespace":"' + x.tablespace +
                 '"},';
     });
-    str = str.slice(0, str.length - 1) + "]";
-    $.ajax({
-        type: 'post',
-        dataType: 'json',
-        url: "SensibilityService",
-        data: {set: "columns", element: str, sens: selectedLevel},
-        success: function (response) {
-            console.log(response);
-        }/*,
-         error: function (response) {
-         //If u can not connect
-         }*/
-    });
+    return str.slice(0, str.length - 1) + "]";
 }
 
 function rsrcToJSON() {
@@ -201,20 +180,23 @@ function rsrcToJSON() {
                 '", "type":"' + x.type +
                 '", "selected":"' + ar[0].checked + '"},';
     });
-    str = str.slice(0, str.length - 1) + "]";
+    return str.slice(0, str.length - 1) + "]";
+}
+
+/*Push data*/
+
+function sendNewData() {
     $.ajax({
         type: 'post',
         dataType: 'json',
         url: "SensibilityService",
-        data: {set: "rsrc", element: str, sens: selectedLevel}/*,
-         success: function (response) {
-         //Message from server
-         },
-         error: function (response) {
-         //If u can not connect
-         }*/
+        data: {tables: tableToJSON(), columns: columnsToJSON(), rsrc: rsrcToJSON, sens: selectedLevel},
+        success: function (response) {
+            console.log(response);
+        }
     });
 }
+
 
 /*Some Listeners*/
 

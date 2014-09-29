@@ -22,14 +22,12 @@ public class SensibilityService extends HttpServlet {
                     /*Call for Tables*/
                     case "tables":
                         String tbsName = request.getParameter("element");
-                        //out.print("[{\"tName\": \"t1\", \"tablespace\":\"swag\", \"insert\": \"false\", \"select\": \"true\", \"delete\": \"true\", \"update\": \"true\"}, {\"tName\": \"t2\", \"tablespace\":\"swag\", \"insert\": \"false\", \"select\": \"true\", \"delete\": \"false\", \"update\": \"true\"}]");
                         String debugeandoA = perman.toStringPrivLevelTables(tbsName);
                         out.print(debugeandoA);
                         break;
                     /*Call for columns*/
                     case "columns":
                         String tabName = request.getParameter("element");
-                        //out.print("[{\"cName\": \"t1C\", \"tName\": \"t1\", \"select\": \"true\", \"delete\": \"true\", \"update\": \"true\"}, {\"cName\": \"t2C\", \"tName\": \"t2\", \"insert\": \"false\", \"select\": \"true\", \"delete\": \"false\", \"update\": \"true\"}]");
                         String debugeando = perman.toStringPrivLevelColumns(tabName);
                         out.print(debugeando);
                         break;
@@ -40,39 +38,25 @@ public class SensibilityService extends HttpServlet {
                         break;
                     /*Call for sensibilities*/
                     case "sens":
-                        //out.print("[{\"sName\": \"admin\"}, {\"sName\": \"peasant\"}]");
                         out.print(perman.toStringAllPrivLevels());
                         break;
                 }
             } else if (request.getParameter("new") != null) { /*New Level*/
+
                 String name = request.getParameter("name");//-->Nombre de nuevo nivel
                 perman.createPrivLevel(name);
                 response.sendRedirect("sensibility.jsp");
-            } else /*Delete Level*/ if (request.getParameter("delete") != null) {
+            } else if (request.getParameter("delete") != null) {
                 //(request.getParameter("delete")); Devuelve sensibilidad a eliminar
                 System.err.println("NOT YET SORRY");
             } else {
-                String str = request.getParameter("set");
-                switch (str) {
-                    case "tables":
-                        String jeisonk = request.getParameter("element");//JSON
-                        String senlev = request.getParameter("sens");//Selected level
-                        ReadJSON.setTables(jeisonk, perman, senlev);    
-                        response.sendRedirect("sensibility.jsp");
-                        break;
-                    case "columns":
-                        System.out.println("CANT YET SEND COLUMNS");
-                        //(request.getParameter("element"));//JSON
-                        //(request.getParameter("sens")); // Selected Level
-                        break;
-                    case "rsrc":
-                        //(request.getParameter("element"));//JSON
-                        //(request.getParameter("sens")); // Selected Level
-                        break;
-                    default:
-                        break;
-                }
-                
+                /*String jeisonk = request.getParameter("element");//JSON
+                 String senlev = request.getParameter("sens");//Selected level
+                 ReadJSON.setTables(jeisonk, perman, senlev);  */
+                request.getParameter("tables");
+                request.getParameter("columns");
+                request.getParameter("rsrc");
+                request.getParameter("sens"); //Level selected
             }
             
         }
@@ -81,7 +65,6 @@ public class SensibilityService extends HttpServlet {
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
