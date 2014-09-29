@@ -72,13 +72,14 @@ public class DBConnector {
     public static boolean conectDB() {
         try {
             Class.forName("oracle.jdbc.OracleDriver");
-            con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "sys as sysdba", "root");
+            con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "sys as sysdba", "root");
         } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
             return false;
         }
         return true;
     }
+    
 
     public static void getRoles(ArrayList<Role> lista) {
 

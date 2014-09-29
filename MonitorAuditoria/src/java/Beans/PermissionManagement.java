@@ -239,12 +239,16 @@ public class PermissionManagement {
     }
 
     public String toStringAllPrivLevels() {
-        StringBuilder str = new StringBuilder("\"[");
-
-        listPrivL.stream().forEach((p) -> {
-            str.append(p.toStringSummary());//names only
-        });
-        str.replace(str.length() - 1, str.length(), "]\"");
+        StringBuilder str = new StringBuilder("[");
+        if(!listPrivL.isEmpty()){
+            listPrivL.stream().forEach((p) -> {
+                str.append(p.toStringSummary());//names only
+             });
+        }
+        else{
+            str.append("[{\"sName\":\"No Data\"}]");
+        }
+        str.replace(str.length() - 1, str.length(), "]");
         return str.toString();
     }
 
