@@ -171,7 +171,6 @@ public class PermissionManagement {
                 }
             }
         }
-
     }
 
     public boolean existsPrivilege(String d) {
@@ -198,7 +197,6 @@ public class PermissionManagement {
             this.listPrivL.add(privlvl);
             this.createTrash(privlvl.getDesc());
         }
-        listPrivL.add(privlvl);
         return privlvl;
     }
 

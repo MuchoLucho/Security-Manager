@@ -5,13 +5,14 @@
  */
 package Beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author Javier
  */
-public class Tablespace {
+public class Tablespace{
 
     private String name;
     ArrayList<Table> tabs = new ArrayList<>();
@@ -48,7 +49,7 @@ public class Tablespace {
 
     public boolean setTable(String name) {
         if (!containsTable(name)) {
-            return tabs.add(new Table(name));
+            return tabs.add(new Table(this,name));
         }
         return false;
     }

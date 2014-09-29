@@ -57,8 +57,10 @@ public class Column implements Permissible {
 
     @Override
     public String getDBDir(){//THIS WONT ACTUALLY WORK
+        
         return new StringBuilder()
-                .append(table.getDBDir())
+                .append(table.getName())
+                .append(".")
                 .append(name).toString();
     }
     
