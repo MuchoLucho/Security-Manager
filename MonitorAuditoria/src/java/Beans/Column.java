@@ -5,11 +5,17 @@
  */
 package Beans;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 /*
  *
  * @author Javier
  */
-public class Column implements Permissible {
+public class Column implements Permissible, Serializable {
 
     private String name;
     //private PrivLevel nivel;
@@ -73,4 +79,6 @@ public class Column implements Permissible {
         str.append(name).append(";").append(nivel.toString());
         return str.toString();*/
     }
+    
+    
 }

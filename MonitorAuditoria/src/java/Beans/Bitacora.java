@@ -1,5 +1,12 @@
 package Beans;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -21,7 +28,7 @@ import java.util.Date;
         Desactivar auditoria: A02
         Consultar auditoria: A03
 */
-public class Bitacora {
+public class Bitacora implements Serializable {
     private static final ArrayList<String> l1 = new ArrayList();
     
     public static void crearUsuario(){

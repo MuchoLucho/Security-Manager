@@ -1,9 +1,10 @@
 package Beans;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class BitacoraLuis {
+public class BitacoraLuis implements Serializable {
     /*Declaration*/
 
     private static final StringBuilder log = new StringBuilder();

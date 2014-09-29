@@ -1,8 +1,9 @@
 package Beans;
 
 import com.google.gson.Gson;
+import java.io.Serializable;
 
-public class ReadJSON {
+public class ReadJSON implements Serializable {
 
     public static void setTables(String json, PermissionManagement perMan, String levelName) {
         JSONTable[] t = new Gson().fromJson(json, JSONTable[].class);

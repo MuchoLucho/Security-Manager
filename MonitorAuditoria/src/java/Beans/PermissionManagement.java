@@ -5,6 +5,13 @@
  */
 package Beans;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,7 +19,7 @@ import java.util.HashMap;
  *
  * @author Javier
  */
-public class PermissionManagement {
+public class PermissionManagement implements Serializable{
 
     private ArrayList<User> listUsers = new ArrayList<>();
     private ArrayList<Role> listRoles = new ArrayList<>();
@@ -323,6 +330,32 @@ public class PermissionManagement {
        r.removeLevel(level);
     }
 
+//    public void write() throws FileNotFoundException, IOException
+//    {
+//        FileOutputStream fos = new FileOutputStream("C:\\Users\\Administrador\\Documents\\NetBeansProjects\\Security-Manager\\MonitorAuditoria\\archivos\\PermissionManagement.bin");
+//        ObjectOutputStream out = new ObjectOutputStream(fos);
+//        
+//        out.writeObject(listUsers);
+//        out.writeObject(listRoles);
+//        out.writeObject(listPrivL);
+//    }
+//    
+//    public ArrayList read () throws FileNotFoundException, IOException, ClassNotFoundException
+//    {
+//        FileInputStream fis = new FileInputStream("C:\\Users\\Administrador\\Documents\\NetBeansProjects\\Security-Manager\\MonitorAuditoria\\archivos\\PermissionManagement.bin");
+//        ObjectInputStream in = new ObjectInputStream(fis);
+//        
+//        ArrayList<User> aux = new ArrayList<>();
+//        ArrayList<Role> aux2 = new ArrayList<>();
+//        ArrayList<PrivLevel> aux3 = new ArrayList<>();
+//        
+//        aux = (ArrayList)in.readObject();
+//        aux2 = (ArrayList)in.readObject();
+//        aux3 = (ArrayList)in.readObject();
+//
+//        return aux;
+//    }
+    
 }
 
 //    public PrivLevel createPrivLevelFunctional(int n, String d) {//A little test.

@@ -5,6 +5,13 @@
  */
 package Beans;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,7 +19,7 @@ import java.util.HashMap;
  *
  * @author Javier
  */
-class PrivLevel {
+class PrivLevel implements Serializable {
     //private int levelNo;
     private String desc;
     private ArrayList<Permission> listPermissions =  new ArrayList<>();
@@ -123,6 +130,25 @@ class PrivLevel {
         json.append("{\"sName\":\"").append(desc).append("\"},");
         return json.toString();
     }
+    
+//    public void write() throws FileNotFoundException, IOException
+//    {
+//        FileOutputStream fos = new FileOutputStream("C:\\Users\\Administrador\\Documents\\NetBeansProjects\\Security-Manager\\MonitorAuditoria\\archivos\\PrivLevel.bin");
+//        ObjectOutputStream out = new ObjectOutputStream(fos);
+//        
+//        out.writeObject(listPermissions);
+//    }
+//    
+//    public ArrayList read () throws FileNotFoundException, IOException, ClassNotFoundException
+//    {
+//        FileInputStream fis = new FileInputStream("C:\\Users\\Administrador\\Documents\\NetBeansProjects\\Security-Manager\\MonitorAuditoria\\archivos\\PrivLevel.bin");
+//        ObjectInputStream in = new ObjectInputStream(fis);
+//        
+//        ArrayList<Permission> aux = new ArrayList<>();
+//        aux = (ArrayList)in.readObject();
+//
+//        return aux;
+//    }
 
     ///////////////STATIC METHODS.
 //    public static PrivLevel getPrivLevel(int n) {
