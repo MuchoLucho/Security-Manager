@@ -32,7 +32,7 @@ public class PermissionManagement {
 
     public boolean insertUser(String name, String pass) {
         if (!listUsers.stream().anyMatch(((x) -> x.getName().equals(name)))) {
-            DBConnector.CreateUser(name, pass);
+            DBConnector.createUser(name, pass);
             BitacoraLuis.logCreation("user");
             return listUsers.add(new User(name));
         }
@@ -41,7 +41,7 @@ public class PermissionManagement {
 
     public boolean insertUser(User u, String pass) {
         if (!listUsers.stream().anyMatch(((x) -> x.getName().equals(u.getName())))) {
-            DBConnector.CreateUser(u.getName(), pass);
+            DBConnector.createUser(u.getName(), pass);
             BitacoraLuis.logCreation("user");
             return listUsers.add(u);
         }
@@ -151,7 +151,7 @@ public class PermissionManagement {
         DBConnector con = new DBConnector();
         //LEER DE ARCHIVO.
         DBConnector.Usuarios(listUsers);
-        DBConnector.getRoles(listRoles);
+        DBConnector.getAllRoles(listRoles);
     }
     ////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////
@@ -193,7 +193,9 @@ public class PermissionManagement {
 
     public PrivLevel createPrivLevel(String d) {
         PrivLevel privlvl = !existsPrivilege(d) ? (new PrivLevel(d)) : null;
+        
         if (privlvl != null) {
+            this.listPrivL.add(privlvl);
             this.createTrash(privlvl.getDesc());
         }
         listPrivL.add(privlvl);
@@ -253,19 +255,18 @@ public class PermissionManagement {
     }
 
     public String toStringPrivLevelTables(String privLevel) {
-        StringBuilder str = new StringBuilder("\"[");
+        StringBuilder str = new StringBuilder("[");
         PrivLevel p = this.listPrivL.stream().filter(x -> x.getDesc().equals(privLevel)).findFirst().get();
         str.append(p.toString(true))
-                .replace(str.length() - 1, str.length(), "]\"");
-
+                .replace(str.length() - 1, str.length(), "]");
         return str.toString();
     }
 
     public String toStringPrivLevelColumns(String privLevel) {
-        StringBuilder str = new StringBuilder("\"[");
+        StringBuilder str = new StringBuilder("[");
         PrivLevel p = this.listPrivL.stream().filter(x -> x.getDesc().equals(privLevel)).findFirst().get();
         str.append(p.toString(false))
-                .replace(str.length() - 1, str.length(), "]\"");
+                .replace(str.length() - 1, str.length(), "]");
 
         return str.toString();
     }

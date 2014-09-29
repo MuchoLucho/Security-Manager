@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Tablespace {
 
     private String name;
-    ArrayList<Table> tabs;
+    ArrayList<Table> tabs = new ArrayList<>();
 
     public ArrayList<Table> getTabs() {
         return tabs;

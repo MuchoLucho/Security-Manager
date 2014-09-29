@@ -22,13 +22,15 @@ public class SensibilityService extends HttpServlet {
                     case "tables":
                         String tbsName = request.getParameter("element");
                         //out.print("[{\"tName\": \"t1\", \"tablespace\":\"swag\", \"insert\": \"false\", \"select\": \"true\", \"delete\": \"true\", \"update\": \"true\"}, {\"tName\": \"t2\", \"tablespace\":\"swag\", \"insert\": \"false\", \"select\": \"true\", \"delete\": \"false\", \"update\": \"true\"}]");
-                        out.print(perman.toStringPrivLevelTables(tbsName));
+                        String debugeandoA = perman.toStringPrivLevelTables(tbsName);
+                        out.print(debugeandoA);
                         break;
                     /*Call for columns*/
                     case "columns":
                         String tabName = request.getParameter("element");
                         //out.print("[{\"cName\": \"t1C\", \"tName\": \"t1\", \"select\": \"true\", \"delete\": \"true\", \"update\": \"true\"}, {\"cName\": \"t2C\", \"tName\": \"t2\", \"insert\": \"false\", \"select\": \"true\", \"delete\": \"false\", \"update\": \"true\"}]");
-                        out.print(perman.toStringPrivLevelTables(tabName));
+                        String debugeando = perman.toStringPrivLevelColumns(tabName);
+                        out.print(debugeando);
                         break;
                     /*Call for resources*/
                     case "rsrc":

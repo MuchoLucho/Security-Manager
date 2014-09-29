@@ -13,10 +13,9 @@ import java.util.HashMap;
  * @author Javier
  */
 class PrivLevel {
-
     //private int levelNo;
     private String desc;
-    private ArrayList<Permission> listPermissions;
+    private ArrayList<Permission> listPermissions =  new ArrayList<>();
     //public static HashMap<Integer,PrivLevel> mapNiveles = new HashMap<>();
 
     public PrivLevel() {
@@ -103,17 +102,18 @@ class PrivLevel {
 //    }
     public String toString(boolean s) {
         StringBuilder json = new StringBuilder();
-        json.append("{\"sName\":\"").append(desc).append("\",");
+        //json.append("{\"sName\":\"").append(desc).append("\",");
+        //json.append("{");
         if (s) {
             listPermissions.stream().filter(x -> x.getSubject() instanceof Table).forEach((p) -> {
-                json.append(p.toString());
+                json.append("{").append(p.toString()).append("},");
             });
         } else {
             listPermissions.stream().filter(x -> x.getSubject() instanceof Column).forEach((p) -> {
-                json.append(p.toString());
+                json.append("{").append(p.toString()).append("},");
             });
         }
-        json.append("},");
+        //json.append("},");
 
         return json.toString();
     }

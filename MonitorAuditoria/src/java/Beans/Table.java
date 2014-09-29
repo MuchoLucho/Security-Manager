@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Table implements Permissible{
     //private PrivLevel level;
     private String name;
-    ArrayList<Column> cols;
+    ArrayList<Column> cols = new ArrayList<>();
 
     public ArrayList<Column> getCols() {
         return cols;
