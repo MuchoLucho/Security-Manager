@@ -1,8 +1,9 @@
 package Beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Table implements Permissible {
+public class Table implements Permissible, Serializable {
 
     //private PrivLevel level;
 

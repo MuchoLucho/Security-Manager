@@ -1,8 +1,13 @@
 package Beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Role {
+/**
+ *
+ * @author Javier
+ */
+public class Role implements Serializable {
 
     private String name;
     //private ArrayList<Permission> listPerm = new ArrayList<>();

@@ -1,6 +1,8 @@
 package Beans;
 
-public class Column implements Permissible {
+import java.io.Serializable;
+
+public class Column implements Permissible, Serializable {
 
     private String name;
     //private PrivLevel nivel;
@@ -58,8 +60,4 @@ public class Column implements Permissible {
 //        StringBuilder str = new StringBuilder();
 //        str.append(name).append(";").append(nivel.toString());
 //        return str.toString();
-//    }
-//    public Column(String nombre, PrivLevel nivel) {
-//        this.name = nombre;
-//        this.nivel = nivel;
 //    }

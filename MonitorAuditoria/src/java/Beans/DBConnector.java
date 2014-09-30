@@ -2,11 +2,12 @@ package Beans;
 
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.sql.*;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
-public class DBConnector {
+public class DBConnector implements Serializable {
 
     private static Connection con = null;
     public static PreparedStatement pst;

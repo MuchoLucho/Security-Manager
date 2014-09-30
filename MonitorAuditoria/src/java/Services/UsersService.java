@@ -16,8 +16,7 @@ public class UsersService extends HttpServlet {
                 String str = request.getParameter("call");
                 switch (str) {
                     /*Call for Sens*/
-                    case "users":
-                        
+                    case "users":                        
                         out.print("[{\"name\": \"luis\", \"selected\": true}, {\"name\": \"jota\", \"selected\": false}]");
                         //out. todos los roles
                         break;

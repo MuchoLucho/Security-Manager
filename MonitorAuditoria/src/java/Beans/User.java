@@ -1,9 +1,14 @@
 
 package Beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class User {
+/**
+ *
+ * @author Javier
+ */
+public class User implements Serializable {
     private String name;
     private PrivLevel userLevel;//DEPRECATED.
     private boolean auditing;

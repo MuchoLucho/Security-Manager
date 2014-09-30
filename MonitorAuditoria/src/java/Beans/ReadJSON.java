@@ -1,8 +1,9 @@
 package Beans;
 
 import com.google.gson.Gson;
+import java.io.Serializable;
 
-public class ReadJSON {
+public class ReadJSON implements Serializable {
 
     public static void setTables(String json, PermissionManagement perMan, String levelName) {
         JSONTable[] t = new Gson().fromJson(json, JSONTable[].class);
@@ -15,8 +16,8 @@ public class ReadJSON {
         JSONColumn[] c = new Gson().fromJson(json, JSONColumn[].class);
         for (JSONColumn cc : c) {
 //            cc.cName;
-//             cc.tName;
-//             cc.update;
+//            cc.tName;
+//            cc.update;
         }
     }
 
@@ -42,8 +43,6 @@ public class ReadJSON {
                         perman.givePrivsToRole(rol, ss.name);
                     }
                 }
-                //ss.name;
-                //ss.selected;
             }
         }
 

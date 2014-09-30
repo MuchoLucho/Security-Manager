@@ -63,42 +63,28 @@
                     <div class="row">
                         <div class="col-md-12">
                             <h2>Settings</h2> 
-                            <form method="post" action="#">
-                                <div class="input-group">
-                                    <button class="btn btn-danger">Suspend Audit</button>
-                                    <button class=" btn btn-success">Enable Audit</button>
-                                </div><br/>
-                                <h4>Audit Parameters</h4>
-                                <div class="form-group"><select>
-                                        <option onselect="$('#user').Attr('style','display: none')">Session</option>
-                                        <option onselect="$('#user').removeAttr('style')">User</option>
-                                        <option onselect="$('#user').Attr('style','display: none')">Access</option>
-                                    </select><br/>
-                                    <label for="w">Whenever not succesful</label><input id="w" type="checkbox"/>
-                                    <label for="z">Whenever succesful</label><input id="z" type="checkbox"/><br/>
-                                    <input id="user" type="text" placeholder="username" />*in case of user audit selected
-                                </div>
-
-                            </form>
                         </div>
                     </div><!-- /. ROW -->
                     <hr/>
-                   <!-- <div class="input-group">
-                        <button class="btn btn-success btn-lg">Activate Audit</button>                        
-                    </div>      
-                    <br/> <br/>
-                    <div class="input-group">
-                        <select>
-                            <option>By User</option>
-                            <option>By Session</option>
-                            <option>By Access</option>
-                            <option>All</option>
-                        </select>
-                        <input type="text" placeholder="username"/>
-                    </div>-->
-                   <div class="input-group">
-                        <button class="btn btn-danger btn-lg">Disable Audit</button>                        
-                    </div>  
+                    <p>You must provide a User for access audit, in audit by <strong>Session</strong> or <strong>All</strong> the user is optional</p>
+                    <p>Click <strong>Change Audit Method </strong> to apply the changes</p>
+                    <hr/>
+                    <form method="post" action="#">
+                        <h4>Audit Parameters</h4>
+                        <div class="form-group">
+                            <select class="input-lg">  
+                                <option>All</option>
+                                <option>Session</option>
+                                <option>Access</option>
+                            </select>
+                            <input class="input-lg" id="user" type="text" placeholder="username"/>
+                            <button class="btn btn-primary btn-lg">Change Audit Method</button>
+                        </div><hr/>
+                        <div class="input-group">
+                            <button class="btn btn-danger btn-lg">Suspend Audit</button>
+                            <button class=" btn btn-success btn-lg">Enable Audit</button>
+                        </div>
+                    </form>
                 </div><!-- /. PAGE INNER -->
             </div><!-- /. PAGE WRAPPER -->
         </div><!-- /. WRAPPER -->
