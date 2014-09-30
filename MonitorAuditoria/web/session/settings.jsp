@@ -81,8 +81,7 @@
                             <button class="btn btn-primary btn-lg">Change Audit Method</button>
                         </div><hr/>
                         <div class="input-group">
-                            <button class="btn btn-danger btn-lg">Suspend Audit</button>
-                            <button class=" btn btn-success btn-lg">Enable Audit</button>
+                            <span id="buttons"></span>                            
                         </div>
                     </form>
                 </div><!-- /. PAGE INNER -->
@@ -92,5 +91,6 @@
         <script src="../js/bootstrap.min.js"></script>
         <script src="../js/jquery.metisMenu.js"></script>
         <script src="../js/custom.js"></script>
+        <script src="../js/settings.js"></script>
     </body>
 </html>
