@@ -74,7 +74,6 @@ public class DBConnector implements Serializable {
     }
 
     public static void AuditarSesUsr(int modo) {
-
         switch (modo) {
             case 1:
                 sql = "audit session";
@@ -83,7 +82,6 @@ public class DBConnector implements Serializable {
                 sql = "audit all";
                 break;
         }
-
         try {
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
@@ -91,14 +89,11 @@ public class DBConnector implements Serializable {
             System.out.println("Audit simple activado");
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            System.out.println("Error");
+            //ex.printStackTrace();
         }
-
     }
 
     public static void AuditarSesUsr(int modo, String User) {
-
         switch (modo) {
             case 1:
                 sql = "audit session by " + User;
@@ -109,13 +104,10 @@ public class DBConnector implements Serializable {
             case 3:
                 sql = "audit all by " + User + " by access";
         }
-
         try {
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
-
             System.out.println("Audit Activado");
-
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Error");
@@ -134,9 +126,7 @@ public class DBConnector implements Serializable {
     }
 
     public static void getAllRoles(ArrayList<Role> lista) {
-
         sql = "select DISTINCT granted_role \"ROL\" from dba_role_privs where grantee not in ('OUTLN', 'DATAPUMP_IMP_FULL_DATABASE', 'SELECT_CATALOG_ROLE', 'HS_ADMIN_ROLE', 'EXP_FULL_DATABASE', 'DBSNMP', 'IMP_FULL_DATABASE', 'LOGSTDBY_ADMINISTRATOR', 'OEM_MONITOR', 'EXECUTE_CATALOG_ROLE', 'DATAPUMP_EXP_FULL_DATABASE')";
-
         try {
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
@@ -146,8 +136,7 @@ public class DBConnector implements Serializable {
                 lista.add(new Role(rol));
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            System.out.println("Error");
+            //ex.printStackTrace();
         }
     }
 
@@ -191,8 +180,7 @@ public class DBConnector implements Serializable {
                 System.out.println(tsname);
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            System.out.println("Error");
+            //ex.printStackTrace();
         }
     }
 
@@ -218,8 +206,7 @@ public class DBConnector implements Serializable {
                 }
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            System.out.println("Error");
+            //ex.printStackTrace();
         }
     }
 
@@ -246,7 +233,6 @@ public class DBConnector implements Serializable {
         String Usr = usr.toUpperCase();
         String Pass = pas.toUpperCase();
         sql = "CREATE USER " + Usr + " IDENTIFIED BY " + Pass;
-
         try {
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
@@ -255,7 +241,6 @@ public class DBConnector implements Serializable {
 
         } catch (SQLException ex) {
             //ex.printStackTrace();
-            System.out.println("Error");
         }
     }
 
@@ -263,7 +248,6 @@ public class DBConnector implements Serializable {
         String Rol = rol.toUpperCase();
         String Usr = usr.toUpperCase();
         sql = "GRANT " + Rol + " TO " + Usr;
-
         try {
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
@@ -271,15 +255,13 @@ public class DBConnector implements Serializable {
             System.out.println(Rol + " otorgado a " + Usr);
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            System.out.println("Error");
+            //ex.printStackTrace();
         }
     }
 
     public static void getRolesUser(String usr) {//NOT CURRENTLY IN USE.
         String Usr = usr.toUpperCase();
         sql = "SELECT grantee \"USR\", granted_role \"ROL\" from dba_role_privs where grantee = '" + Usr + "' order by grantee";
-
         try {
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
@@ -292,8 +274,7 @@ public class DBConnector implements Serializable {
                 System.out.println(rol);
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            System.out.println("Error");
+            //ex.printStackTrace();
         }
     }
 
@@ -356,27 +337,22 @@ public class DBConnector implements Serializable {
 
     public static void accionesAudit() {
         sql = "SELECT ACTION_NAME \"ACC\", COUNT(DISTINCT ACTION_NAME) \"SUM\" FROM DBA_AUDIT_TRAIL WHERE ACTION_NAME NOT IN ('LOGON', 'CREATE PROCEDURE') AND ACTION_NAME NOT LIKE 'LOGOFF%' GROUP BY ACTION_NAME";
-
         try {
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
-
             while (rs.next()) {
                 String Acc = rs.getString("ACC");
                 String Total = rs.getString("SUM");
-
                 System.out.println(Acc);
                 System.out.println(Total);
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            System.out.println("Error");
+            //ex.printStackTrace();
         }
     }
 
     public static void consultasxUsuario() {
         sql = "SELECT USERNAME \"USER\", COUNT(ACTION_NAME) \"SUM\" FROM DBA_AUDIT_TRAIL GROUP BY USERNAME";
-
         try {
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
@@ -384,19 +360,16 @@ public class DBConnector implements Serializable {
             while (rs.next()) {
                 String User = rs.getString("USER");
                 String Total = rs.getString("SUM");
-
                 System.out.println(User);
                 System.out.println(Total);
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            System.out.println("Error");
+            //ex.printStackTrace();
         }
     }
 
     public static void Procedures() {
         sql = "SELECT DISTINCT name \"NOM\", type \"TIPO\", owner \"DUEÑO\" FROM ALL_SOURCE WHERE OWNER NOT IN ('SYS', 'SYSTEM', 'OUTLN', 'DATAPUMP_IMP_FULL_DATABASE', 'SELECT_CATALOG_ROLE', 'HS_ADMIN_ROLE', 'EXP_FULL_DATABASE', 'DBSNMP', 'IMP_FULL_DATABASE', 'LOGSTDBY_ADMINISTRATOR', 'OEM_MONITOR', 'EXECUTE_CATALOG_ROLE', 'DATAPUMP_EXP_FULL_DATABASE', 'APEX_040000', 'HR', 'MDSYS', 'XDB', 'CTXSYS') AND TYPE IN ('PROCEDURE','FUNCTION') ORDER BY 2";
-
         try {
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
@@ -411,8 +384,7 @@ public class DBConnector implements Serializable {
                 System.out.println(Own);
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            System.out.println("Error");
+            //ex.printStackTrace();
         }
     }
 
@@ -425,16 +397,13 @@ public class DBConnector implements Serializable {
             rs = pst.executeQuery();
             System.out.println(Rol + " removido de " + User);
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            System.out.println("Error");
+            //ex.printStackTrace();
         }
     }
 
-    public static void ReiniciarBase() {
+    public static void ReiniciarBase(String xe) {
         Runtime aplicacion = Runtime.getRuntime();
-
-        escribir("XE");
-
+        escribir(xe);
         try {
             System.out.println("Reiniciando la base de datos");
             aplicacion.exec("cmd.exe /K C:\\prueba.bat");
@@ -444,41 +413,34 @@ public class DBConnector implements Serializable {
         }
     }
 
-    public static void ActivarAudit() {
-        sql = "ALTER SYSTEM SET audit_trail = DB_EXTENDED SCOPE=SPFILE";
-
+    public static void modAudit() {
+        if (AuditActivo()) {
+            sql = "ALTER SYSTEM SET audit_trail = NONE SCOPE=SPFILE";
+        } else {
+            sql = "ALTER SYSTEM SET audit_trail = DB_EXTENDED SCOPE=SPFILE";
+        }
         try {
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
-
-            System.out.println("Auditoria activada ");
-
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            System.out.println("Error");
+            //ex.printStackTrace();
         }
     }
 
     public static boolean AuditActivo() {
         sql = "select value \"VAL\" from v$parameter where name like 'audit_trail'";
-
         try {
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
-
             while (rs.next()) {
                 String Estado = rs.getString("VAL");
-
                 if (Estado.equals("NONE")) {
                     return false;
                 }
             }
-
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            System.out.println("Error");
+            //ex.printStackTrace();
         }
-
         return true;
     }
 

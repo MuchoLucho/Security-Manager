@@ -68,20 +68,24 @@
                     <hr/>
                     <p>You must provide a User for access audit, in audit by <strong>Session</strong> or <strong>All</strong> the user is optional</p>
                     <p>Click <strong>Change Audit Method </strong> to apply the changes</p>
-                    <hr/>
+                    <hr/>                    
                     <form method="post" action="#">
-                        <h4>Audit Parameters</h4>
-                        <div class="form-group">
-                            <select class="input-lg">  
-                                <option>All</option>
-                                <option>Session</option>
-                                <option>Access</option>
-                            </select>
-                            <input class="input-lg" id="user" type="text" placeholder="username"/>
-                            <button class="btn btn-primary btn-lg">Change Audit Method</button>
-                        </div><hr/>
+                        <div id="space" style="display: none">
+                            <h4>Audit Parameters</h4>
+                            <div class="form-group">
+                                <select class="input-lg" id="selected">  
+                                    <option disabled="disabled" value="" selected="selected">Select a type</option>
+                                    <option value="2">All</option>
+                                    <option value="1">Session</option>
+                                    <option value="3">Access</option>
+                                </select>
+                                <input class="input-lg" name="user" id="user" type="text" placeholder="username"/>
+                                <button id="change" name="change" class="btn btn-primary btn-lg" disabled="disabled">Change Audit Method</button>
+                            </div><hr/>
+                        </div>
                         <div class="input-group">
-                            <span id="buttons"></span>                            
+                            <button class="btn btn-danger btn-lg" name="suspend" id="suspend" type= "submit" style="display: none">Suspend Audit</button>
+                            <button class=" btn btn-success btn-lg" name="enable" id="enable" type= "submit" style="display: none">Enable Audit</button>
                         </div>
                     </form>
                 </div><!-- /. PAGE INNER -->

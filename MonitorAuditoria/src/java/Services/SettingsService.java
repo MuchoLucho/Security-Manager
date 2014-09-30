@@ -1,5 +1,6 @@
 package Services;
 
+import Beans.DBConnector;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -12,7 +13,21 @@ public class SettingsService extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            out.println("");
+            if (request.getParameter("ask") != null) {
+                out.print("{\"state\":\"" + (DBConnector.AuditActivo() ? "true\"" : "false\"") + "}");
+            } else if (request.getParameter("suspend") != null) {
+                DBConnector.ReiniciarBase("XE");//revisar session
+            } else if (request.getParameter("enable") != null) {
+                DBConnector.ReiniciarBase("XE");//revisar session
+            } else {
+                String user = request.getParameter("user");
+                int modo = Integer.parseInt(request.getParameter("select"));
+                if (!user.equals("")) {
+                    DBConnector.AuditarSesUsr(modo, user);
+                } else {
+                    DBConnector.AuditarSesUsr(modo);
+                }
+            }
         }
     }
 
@@ -33,5 +48,4 @@ public class SettingsService extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

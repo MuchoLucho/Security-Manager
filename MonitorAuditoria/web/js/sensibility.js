@@ -101,9 +101,7 @@ function genCols(i) {
                         "</tr>";
             }
             document.getElementById("contenido_columnas").innerHTML = ar;
-            cTable = $('#columnas').dataTable({
-                "bFilter": false
-            });
+            cTable = $('#columnas').dataTable();
         },
         error: function (response) {
             //Error Message
