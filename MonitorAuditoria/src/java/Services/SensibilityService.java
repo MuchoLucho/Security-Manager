@@ -3,6 +3,7 @@ package Services;
 import Beans.Logs;
 import Beans.Model;
 import Beans.PermissionManagement;
+import Beans.ReadJSON;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -41,7 +42,7 @@ public class SensibilityService extends HttpServlet {
                         out.print(perman.toStringAllPrivLevels());
                         break;
                 }
-            } else if (request.getParameter("new") != null) { /*New Level*/
+            } else if (request.getParameter("new") != null) { //New Level
                 String name = request.getParameter("name");//-->Nombre de nuevo nivel
                 perman.createPrivLevel(name);
                 Logs.logCreation("sensibilidad");
@@ -51,18 +52,19 @@ public class SensibilityService extends HttpServlet {
                 Logs.logDelete("sensibilidad");
                 System.err.println("NOT YET SORRY");
             } else {
-                /*String jeisonk = request.getParameter("element");//JSON
-                 String senlev = request.getParameter("sens");//Selected level
-                 ReadJSON.setTables(jeisonk, perman, senlev);  */
-                request.getParameter("tables");
-                request.getParameter("columns");
-                request.getParameter("rsrc");
+                String jeisonk = request.getParameter("tables");//JSON
+                String senlev = request.getParameter("sens");//Selected level
+                ReadJSON.setTables(jeisonk, perman, senlev);
+                //request.getParameter("tables");
+                //request.getParameter("columns");
+                //request.getParameter("rsrc");
                 request.getParameter("sens"); //Level selected
                 Logs.logEdit("sensibilidad");
+                //response.sendRedirect("sensibility.jsp");
             }
-            
+
         }
-         
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

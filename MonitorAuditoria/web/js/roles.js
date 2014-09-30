@@ -79,8 +79,8 @@ function sensToJSON() {
     var str = "[";
     var ar = [];
     sens.forEach(function (x) {
-        ar = sTable.$("input[name=" + x.tName + "]");
-        str += '{"name":"' + x.tName +
+        ar = sTable.$("input[name=" + x.name + "]");
+        str += '{"name":"' + x.name +
                 '", "selected":"' + ar[0].checked + '"},';
     });
     str = str.slice(0, str.length - 1) + "]";
@@ -91,10 +91,10 @@ function sensToJSON() {
         data: {set: selectedRole, element: str},
         success: function (response) {
             console.log(response);
-        }/*,
-         error: function (response) {
-         //If u can not connect
-         }*/
+            location.reload(true);
+        }, error: function (response) {
+            location.reload(true);
+        }
     });
 }
 
