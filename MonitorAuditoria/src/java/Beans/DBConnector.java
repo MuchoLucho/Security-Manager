@@ -65,6 +65,14 @@ public class DBConnector implements Serializable {
         }
     }
 
+    public static void grantColToRole(String col, String table, String action, String role) {
+        try {
+            pst = con.prepareStatement("GRANT " + action + "( " + col + ") ON " +table+ " TO " + role);
+            rs = pst.executeQuery();
+        } catch (SQLException ex) {
+        }
+    }
+
     public static void grantToRoles(String accion, String objeto, String rol) {
         try {
             pst = con.prepareStatement("GRANT " + accion + " ON " + objeto + " TO " + rol);

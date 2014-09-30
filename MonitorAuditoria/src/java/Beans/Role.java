@@ -37,7 +37,8 @@ public class Role {
                 DBConnector.grantToRoles(Permission.getPrivilegeString(Permission.UPDATE),per.getSubject().getName(),this.name);
             }
             else{
-                DBConnector.grantToRoles(Permission.getPrivilegeString(Permission.UPDATE),per.getSubject().getDBDir(),this.name);
+                String table = per.getSubject().getDBDir().split("\\.")[0];
+                DBConnector.grantColToRole(per.getSubject().getName(),table,Permission.getPrivilegeString(Permission.UPDATE),this.name);
             }
         });
         
