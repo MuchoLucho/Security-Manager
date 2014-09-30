@@ -60,8 +60,8 @@ $(document).ready(function () {
                         "<td>" +
                         "<button type='button' class='btn btn-primary' onclick='cog(\"" + nom + "\")'>" +
                         "<i class='fa fa-cog'></i>&nbsp;Modify user</button>&nbsp;" +
-                        "<button type='button' onclick='borra(\"" + nom + "\")' class='btn btn-danger' data-toggle='modal' data-target='#myModal'>" +
-                        "<i class='fa fa-times'></i>&nbsp;Delete user</button></td>" +
+                        /*"<button type='button' onclick='borra(\"" + nom + "\")' class='btn btn-danger' data-toggle='modal' data-target='#myModal'>" +
+                         "<i class='fa fa-times'></i>&nbsp;Delete user</button></td>" +*/
                         "</tr>";
             }
             document.getElementById("contenido_users").innerHTML = ar;
@@ -91,10 +91,10 @@ function rolesToJSON() {
         data: {set: selecteduser, element: str},
         success: function (response) {
             console.log(response);
-        }/*,
-         error: function (response) {
-         //If u can not connect
-         }*/
+            location.reload(true);
+        }, error: function (response) {
+            location.reload(true);
+        }
     });
 }
 

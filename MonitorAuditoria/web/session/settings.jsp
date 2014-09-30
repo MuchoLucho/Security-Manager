@@ -24,7 +24,7 @@
                     <a class="navbar-brand" href="lastEvents.jsp"> <i class="fa fa-umbrella"></i> NARF Suite</a> 
                 </div>
                 <div style="color: white;padding: 15px 50px 5px 50px;float: right;font-size: 16px;">
-                    <a href="#" class="btn btn-danger square-btn-adjust">Logout &nbsp; <i class="fa fa-sign-out"></i></a>
+                    <form method="post" action="Logout"><button type="submit" class="btn btn-danger square-btn-adjust">Logout &nbsp; <i class="fa fa-sign-out"></i></button></form>
                 </div>
             </nav><!-- /. NAV TOP -->
             <nav class="navbar-default navbar-side" role="navigation">
@@ -68,6 +68,7 @@
                     <hr/>
                     <p>You must provide a User for access audit, in audit by <strong>Session</strong> or <strong>All</strong> the user is optional</p>
                     <p>Click <strong>Change Audit Method </strong> to apply the changes</p>
+                    <p>After enable or disable audit be patient, wait at least one minute according to use the software again</p>
                     <hr/>                    
                     <form method="post" action="#">
                         <div id="space" style="display: none">

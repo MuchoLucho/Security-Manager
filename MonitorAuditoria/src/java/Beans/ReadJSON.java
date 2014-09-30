@@ -50,10 +50,22 @@ public class ReadJSON implements Serializable {
 
     public static void setRoles(PermissionManagement perman, String user, String json) {
         JSONRole[] r = new Gson().fromJson(json, JSONRole[].class);
-        for (JSONRole rr : r) {
+        User u = perman.getUser(user);
+        if(u!=null){
+            for (JSONRole rr : r) {
+                if(u.hasRole(rr.name)&&!rr.selected){
+                    perman.removeRoleFromUser(user,rr.name);
+                }
+                 else{
+                    if(!u.hasRole(rr.name)&&rr.selected){
+                        perman.grantRole(user,rr.name);
+                    }
+                }
             //rr.name;
             //rr.selected;
+            }
         }
+        
     }
 };
 

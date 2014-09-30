@@ -15,7 +15,7 @@
         <![endif]-->
     </head>
     <body style="background-color: #222">
-        <br/><div class="container" style="border: 2px #000 solid">
+        <br/><div class="container" style="border: 2px #000 solid">            
             <br/><div class="col-md-12" style="text-align: center; background-color: #d2322d; padding: 15px;margin: 0px; color: white">
                 <h1>Connection Parameters</h1>
             </div>
@@ -23,24 +23,27 @@
                 <div class="col-md-4">
                     <br/><br/><br/><img class="center-block" src="img/logo.png" alt="NARF Privacy Manager"/>
                 </div>
+                <h1 style="color: white">Connection Parameters</h1>
+                <h3 style="color: red">The connection has been rejected. Check the login data as well as the parameters of the database and try again</h3>
+                <h2 style="color: white">User Information</h2>
                 <form action="Login" method="post">
                     <div class="col-md-8">                    
                         <h2 style="color: white">User Information</h2>
                         <div class="form-group">
-                            <input type="text" class="form-control input-lg" placeholder="Username" name="Username">
+                            <input type="text" class="form-control input-lg" placeholder="Username" name="Username" value="luis">
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-control input-lg" placeholder="Password" name="Password">
+                            <input type="password" class="form-control input-lg" placeholder="Password" name="Password" value="rontokbro">
                         </div>
                         <h2 style="color: white">Database Information</h2>
                         <div class='form-group'>
-                            <input type='text' class='form-control input-lg' placeholder='SID' name='SID'>
+                            <input type='text' class='form-control input-lg' placeholder='SID' name='SID' value="XE">
                         </div>
                         <div class='form-group'>
-                            <input type='text' class='form-control input-lg' placeholder='Host Name' name='HostName'>
+                            <input type='text' class='form-control input-lg' placeholder='Host Name' name='HostName' value="localhost">
                         </div>
                         <div class='form-group'>
-                            <input type='text' class='form-control input-lg' placeholder='Port' name='Port'>
+                            <input type='text' class='form-control input-lg' placeholder='Port' name='Port' value="1521">
                         </div><br/>
                     </div>
                     <div class="col-md-12">

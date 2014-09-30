@@ -1,5 +1,12 @@
 package Beans;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -9,6 +16,19 @@ public class InfoSensibility implements Serializable {
 
     public InfoSensibility() {
         // PrivLevel.createPrivLevel(-1, "Indefinido");
+        File fichero = new File("InfoSens.bin");
+        if(fichero.exists())
+        {
+            try {
+                this.read();
+            } catch(IOException e)
+                    {
+                        
+                    } catch (ClassNotFoundException e)
+                        {
+                        
+                        }
+        }
         this.getFromDatabase();
     }
 
@@ -73,22 +93,22 @@ public class InfoSensibility implements Serializable {
 //        return PrivLevel.toStringPrivLevels();
 //    }
     
-//    public void write() throws FileNotFoundException, IOException
-//    {
-//        FileOutputStream fos = new FileOutputStream("C:\\Users\\Administrador\\Documents\\NetBeansProjects\\Security-Manager\\MonitorAuditoria\\archivos\\InfoSensibility.bin");
-//        ObjectOutputStream out = new ObjectOutputStream(fos);
-//        
-//        out.writeObject(tbsList);
-//    }
-//    
-//    public ArrayList read () throws FileNotFoundException, IOException, ClassNotFoundException
-//    {
-//        FileInputStream fis = new FileInputStream("C:\\Users\\Administrador\\Documents\\NetBeansProjects\\Security-Manager\\MonitorAuditoria\\archivos\\InfoSensibility.bin");
-//        ObjectInputStream in = new ObjectInputStream(fis);
-//        
-//        ArrayList<Tablespace> aux = new ArrayList<>();
-//        aux = (ArrayList)in.readObject();
-//
-//        return aux;
-//    }
+    public void write() throws FileNotFoundException, IOException
+    {
+        FileOutputStream fos = new FileOutputStream("InfoSens.bin");
+        ObjectOutputStream out = new ObjectOutputStream(fos);
+        
+        out.writeObject(tbsList);
+    }
+    
+    public void read () throws FileNotFoundException, IOException, ClassNotFoundException
+    {
+        FileInputStream fis = new FileInputStream("InfoSens.bin");
+        ObjectInputStream in = new ObjectInputStream(fis);
+        
+        ArrayList<Tablespace> aux = new ArrayList<>();
+        aux = (ArrayList)in.readObject();
+        tbsList = aux;
+
+    }
 }

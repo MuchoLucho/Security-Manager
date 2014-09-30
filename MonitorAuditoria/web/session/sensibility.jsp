@@ -24,7 +24,7 @@
                     <a class="navbar-brand" href="lastEvents.jsp"> <i class="fa fa-umbrella"></i> NARF Suite</a> 
                 </div>
                 <div style="color: white;padding: 15px 50px 5px 50px;float: right;font-size: 16px;">
-                    <a href="Logout" class="btn btn-danger square-btn-adjust">Logout &nbsp; <i class="fa fa-sign-out"></i></a>
+                    <form method="post" action="Logout"><button type="submit" class="btn btn-danger square-btn-adjust">Logout &nbsp; <i class="fa fa-sign-out"></i></button></form>
                 </div>
             </nav><!-- /. NAV TOP -->
             <nav class="navbar-default navbar-side" role="navigation">
@@ -67,7 +67,7 @@
                     </div><!-- /. ROW -->
                     <hr/>
                     <div class="row" id="select"><!--FIRST ONE-->
-                        <p>Select a level to modify (<i class="fa fa-cog"></i>) or delete (<i class="fa fa-times"></i>) or Create a new one (<i class="fa fa-plus"></i>)</p><br/>
+                        <p>Select a level to modify (<i class="fa fa-cog"></i>) <!--or delete (<i class="fa fa-times"></i>)--> or Create a new one (<i class="fa fa-plus"></i>)</p><br/>
                         <button type="button" id="plus" class="btn btn-success" title="New Level"><i class="fa fa-plus">&nbsp;New Security Level</i></button>
                         <br/><br/>
                         <div id="sens_select">

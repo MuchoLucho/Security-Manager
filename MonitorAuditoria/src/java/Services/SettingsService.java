@@ -16,9 +16,11 @@ public class SettingsService extends HttpServlet {
             if (request.getParameter("ask") != null) {
                 out.print("{\"state\":\"" + (DBConnector.AuditActivo() ? "true\"" : "false\"") + "}");
             } else if (request.getParameter("suspend") != null) {
-                DBConnector.ReiniciarBase("XE");//revisar session
+                DBConnector.modAudit();
+                DBConnector.ReiniciarBase();
             } else if (request.getParameter("enable") != null) {
-                DBConnector.ReiniciarBase("XE");//revisar session
+                DBConnector.modAudit();
+                DBConnector.ReiniciarBase();
             } else {
                 String user = request.getParameter("user");
                 int modo = Integer.parseInt(request.getParameter("select"));

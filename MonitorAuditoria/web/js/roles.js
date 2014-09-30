@@ -60,8 +60,8 @@ $(document).ready(function () {
                         "<td>" +
                         "<button type='button' class='btn btn-primary' onclick='cog(\"" + nom + "\")'>" +
                         "<i class='fa fa-cog'></i>&nbsp;Modify Role</button>&nbsp;" +
-                        "<button type='button' onclick='borra(\"" + nom + "\")' class='btn btn-danger' data-toggle='modal' data-target='#myModal'>" +
-                        "<i class='fa fa-times'></i>&nbsp;Delete Role</button></td>" +
+                        /*"<button type='button' onclick='borra(\"" + nom + "\")' class='btn btn-danger' data-toggle='modal' data-target='#myModal'>" +
+                        "<i class='fa fa-times'></i>&nbsp;Delete Role</button></td>" +*/
                         "</tr>";
             }
             document.getElementById("contenido_roles").innerHTML = ar;

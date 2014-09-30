@@ -15,6 +15,7 @@ public class DBConnector implements Serializable {
     public static String sql;
     public static FileWriter fichero = null;
     public static PrintWriter pw = null;
+    public static String SID = "";
 
     public static void escribir(String SID) {
         try {
@@ -58,7 +59,7 @@ public class DBConnector implements Serializable {
                     System.out.println(rol + " concedido a " + master);
                 } catch (SQLException ex) {
                     //ex.printStackTrace();
-                    System.out.println("Grant fallido");
+                    System.out.println("Grant failed");
                 }
                 rol = "";
             }
@@ -70,6 +71,18 @@ public class DBConnector implements Serializable {
             pst = con.prepareStatement("GRANT " + accion + " ON " + objeto + " TO " + rol);
             rs = pst.executeQuery();
         } catch (SQLException ex) {
+        }
+    }
+
+    public static void revokePrivileges(String rol) {
+        try {
+            CallableStatement cst = con.prepareCall("{call rev (?)}");
+            cst.setString(1, rol);
+            cst.execute();
+            System.out.println("Privilegios retirados");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Fallo en retiro de privilegios");
         }
     }
 
@@ -110,8 +123,20 @@ public class DBConnector implements Serializable {
             System.out.println("Audit Activado");
         } catch (SQLException ex) {
             ex.printStackTrace();
-            System.out.println("Error");
+            System.out.println("Error in AuditarSesUsr 2");
         }
+    }
+
+    public static boolean conectDB(String username, String pass, String hostName, String port, String SID) {
+        DBConnector.SID = SID;
+        try {
+            Class.forName("oracle.jdbc.OracleDriver");
+            con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:" + port + ":" + SID, username, pass);
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public static boolean conectDB() {
@@ -154,7 +179,7 @@ public class DBConnector implements Serializable {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            System.out.println("Error");
+            System.out.println("Error getTablespaces");
         }
     }
 
@@ -225,7 +250,7 @@ public class DBConnector implements Serializable {
             System.out.println("Rol Creado");
         } catch (SQLException ex) {
             //ex.printStackTrace();
-            System.out.println("Error");
+            System.out.println("Error createRole");
         }
     }
 
@@ -401,9 +426,9 @@ public class DBConnector implements Serializable {
         }
     }
 
-    public static void ReiniciarBase(String xe) {
+    public static void ReiniciarBase() {
         Runtime aplicacion = Runtime.getRuntime();
-        escribir(xe);
+        escribir(SID);
         try {
             System.out.println("Reiniciando la base de datos");
             aplicacion.exec("cmd.exe /K C:\\prueba.bat");

@@ -21,7 +21,7 @@ public class Role {
     }
 
     public boolean addAssignedLevel(PrivLevel pr) {
-            return !listAssignedLevels.stream().anyMatch((p) -> p.getDesc().equals(pr.getDesc())) ? listAssignedLevels.add(pr) : false;
+        return !listAssignedLevels.stream().anyMatch((p) -> p.getDesc().equals(pr.getDesc())) ? listAssignedLevels.add(pr) : false;
     }
 
     public PrivLevel getAssignedLevel(String name) {
