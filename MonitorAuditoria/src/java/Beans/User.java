@@ -43,6 +43,7 @@ public class User implements Serializable {
     public void grantRole(Role rol) {
         this.setRole(rol);
         //ADD DATABASE UPDATE COMMAND HERE.
+        DBConnector.otorgaRol(rol.getName(), name);
     }
 
     public PrivLevel getUserLevel() {

@@ -45,6 +45,7 @@ public class SensibilityService extends HttpServlet {
             } else if (request.getParameter("new") != null) { //New Level
                 String name = request.getParameter("name");//-->Nombre de nuevo nivel
                 perman.createPrivLevel(name);
+                perman.writePrivs();//AQUI VA 1
                 Logs.logCreation("sensibilidad");
                 response.sendRedirect("sensibility.jsp");
             } else if (request.getParameter("delete") != null) {
