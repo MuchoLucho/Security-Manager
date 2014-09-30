@@ -1,5 +1,6 @@
 package Services;
 
+import Beans.Logs;
 import Beans.Model;
 import Beans.PermissionManagement;
 import Beans.ReadJSON;
@@ -27,32 +28,33 @@ public class RolesService extends HttpServlet {
                         String seed = request.getParameter("element") ;
                         String sensAndRole = perman.toJSONRolesPrivs(seed);
                         out.print(sensAndRole);
-                        //response.sendRedirect("roles.jsp");
-                        //request.getParameter("element") // Role Seed
                         break;
                     case "roles":
                         //out.print("[{\"name\": \"admin\"}, {\"name\": \"peasant\"}]");
                         String sumRoles = perman.toStringRolesGeneral();
                         out.print(sumRoles);
-                        //response.sendRedirect("roles.jsp");
-                        //out. todos los roles
                         break;
                 }
             } else if (request.getParameter("new") != null) {
                perman.insertRole(request.getParameter("name")); //WATCH OUT IF YOU HAVE TO DO SMETHING ELSE TO CREATE IN DB.
+               perman.writeRoles();
+               Logs.logCreation("rol");
                response.sendRedirect("roles.jsp");
                 /*getParameter("name")-->Nombre de nuevo rol*/
             } else if (request.getParameter("delete") != null) {
                 String paramDelete = request.getParameter("delete");
                 perman.removeRole(paramDelete);
+                perman.writeRoles();
+                Logs.logDelete("rol");
                 response.sendRedirect("roles.jsp");
                 //(request.getParameter("delete"));  rol a eliminar
             } else if (request.getParameter("set") != null) {
                 String roleName = request.getParameter("set");
                 String jsonPerms = request.getParameter("element");
-                ReadJSON.setRoles(perman,roleName, jsonPerms);
+                ReadJSON.setSens(perman,roleName, jsonPerms);
+                perman.writeRoles();
+                Logs.logEdit("rol");
                 response.sendRedirect("roles.jsp");
-
             }
         }
     }

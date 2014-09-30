@@ -53,12 +53,15 @@ public class SensibilityService extends HttpServlet {
                 Logs.logDelete("sensibilidad");
                 System.err.println("NOT YET SORRY");
             } else {
-                String jeisonk = request.getParameter("tables");//JSON
+                String jsonTables = request.getParameter("tables");//JSON
+                String jsonColumns = request.getParameter("columns");//JSON
                 String senlev = request.getParameter("sens");//Selected level
-                ReadJSON.setTables(jeisonk, perman, senlev);
+                ReadJSON.setTables(perman,jsonTables,senlev);
+                ReadJSON.setColumns(perman,jsonColumns,senlev);
+                 perman.writePrivs();//AQUI VA 1
                 //request.getParameter("tables");
                 //request.getParameter("columns");
-                //request.getParameter("rsrc");
+                request.getParameter("rsrc");
                 request.getParameter("sens"); //Level selected
                 response.sendRedirect("sensibility.jsp");   
                 Logs.logEdit("sensibilidad");

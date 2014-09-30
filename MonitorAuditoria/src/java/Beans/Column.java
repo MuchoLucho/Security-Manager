@@ -30,7 +30,7 @@ public class Column implements Permissible, Serializable {
     }
 
     @Override
-    public String getDBDir() {//THIS WONT ACTUALLY WORK        
+    public String getDBDir() {
         return new StringBuilder()
                 .append(table.getName())
                 .append(".")
@@ -42,22 +42,5 @@ public class Column implements Permissible, Serializable {
         StringBuilder json = new StringBuilder();
         json.append("[{\"tName\":\"").append(name).append("}]");
         return json.toString();
-        /*StringBuilder str = new StringBuilder();
-         str.append(name).append(";").append(nivel.toString());
-         return str.toString();*/
     }
 }
-
-//    public PrivLevel getPrivLevel() {
-//        return nivel;
-//    }
-//
-//    public void setPrivLevel(PrivLevel nivel) {
-//        this.nivel = nivel;
-//    }
-//    @Override
-//    public String toString() {
-//        StringBuilder str = new StringBuilder();
-//        str.append(name).append(";").append(nivel.toString());
-//        return str.toString();
-//    }

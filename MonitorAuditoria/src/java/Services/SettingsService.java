@@ -1,6 +1,7 @@
 package Services;
 
 import Beans.DBConnector;
+import Beans.Logs;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -17,9 +18,11 @@ public class SettingsService extends HttpServlet {
                 out.print("{\"state\":\"" + (DBConnector.AuditActivo() ? "true\"" : "false\"") + "}");
             } else if (request.getParameter("suspend") != null) {
                 DBConnector.modAudit();
+                Logs.logAudit("deactivate");
                 DBConnector.ReiniciarBase();
             } else if (request.getParameter("enable") != null) {
                 DBConnector.modAudit();
+                Logs.logAudit("activate");
                 DBConnector.ReiniciarBase();
             } else {
                 String user = request.getParameter("user");

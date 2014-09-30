@@ -100,14 +100,12 @@ public class Logs {
     public static void logAudit(String action) {
         logAction(action, "audit");
     }
-    
-    public void write() throws FileNotFoundException, IOException
-    {
+
+    public void write() throws FileNotFoundException, IOException {
         FileOutputStream fos = new FileOutputStream("/Logs.bin");
         ObjectOutputStream out = new ObjectOutputStream(fos);
         out.writeObject(log);
     }
-
 
     public void read() throws FileNotFoundException, IOException, ClassNotFoundException {
         FileInputStream fis = new FileInputStream("/Logs.bin");

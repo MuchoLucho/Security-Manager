@@ -1,5 +1,6 @@
 package Services;
 
+import Beans.Logs;
 import Beans.Model;
 import Beans.PermissionManagement;
 import Beans.ReadJSON;
@@ -37,18 +38,24 @@ public class UsersService extends HttpServlet {
                 String user = request.getParameter("name");
                 String pass = request.getParameter("pass");
                 perman.insertUser(user, pass);
+                perman.writeUsers();
+                Logs.logCreation("usuario");
                 response.sendRedirect("users.jsp");
                 /*getParameter("name") --> new user*/
 
             } else if (request.getParameter("delete") != null) {
                 String user = request.getParameter("delete");
                 perman.removeUser(user);
+                perman.writeUsers();
+                Logs.logDelete("usuario");
                 response.sendRedirect("users.jsp");
                 //(request.getParameter("delete")); user to delete
             } else if (request.getParameter("set") != null) {
                 String user = request.getParameter("set");
                 String jsonPerms = request.getParameter("element");
                 ReadJSON.setRoles(perman,user,jsonPerms);
+                perman.writeUsers();
+                Logs.logEdit("usuario");
                 response.sendRedirect("roles.jsp");
                 //(request.getParameter("set")); //Selected User
                 //(request.getParameter("element")); //JSON

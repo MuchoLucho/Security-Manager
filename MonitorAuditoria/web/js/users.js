@@ -36,7 +36,7 @@ function genroles(i) {
                         "</tr>";
             }
             document.getElementById("contenido_roles").innerHTML = ar;
-            sTable = $('#roles').dataTable();
+            rTable = $('#roles').dataTable();
         },
         error: function (response) {
             //Error Message
@@ -61,7 +61,7 @@ $(document).ready(function () {
                         "<button type='button' class='btn btn-primary' onclick='cog(\"" + nom + "\")'>" +
                         "<i class='fa fa-cog'></i>&nbsp;Modify user</button>&nbsp;" +
                         /*"<button type='button' onclick='borra(\"" + nom + "\")' class='btn btn-danger' data-toggle='modal' data-target='#myModal'>" +
-                         "<i class='fa fa-times'></i>&nbsp;Delete user</button></td>" +*/
+                        "<i class='fa fa-times'></i>&nbsp;Delete user</button></td>" +*/
                         "</tr>";
             }
             document.getElementById("contenido_users").innerHTML = ar;
@@ -79,15 +79,15 @@ function rolesToJSON() {
     var str = "[";
     var ar = [];
     roles.forEach(function (x) {
-        ar = sTable.$("input[name=" + x.tName + "]");
-        str += '{"name":"' + x.tName +
+        ar = rTable.$("input[name=" + x.name + "]");
+        str += '{"name":"' + x.name +
                 '", "selected":"' + ar[0].checked + '"},';
     });
     str = str.slice(0, str.length - 1) + "]";
     $.ajax({
         type: 'post',
         dataType: 'json',
-        url: "rolesibilityService",
+        url: "UsersService",
         data: {set: selecteduser, element: str},
         success: function (response) {
             console.log(response);

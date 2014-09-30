@@ -1,5 +1,6 @@
 package Services;
 
+import Beans.Logs;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -22,6 +23,7 @@ public class LastEvents extends HttpServlet {
                 } else {
                     s = "[{\"User\":\"No data\", \"Statement\":\"No data\", \"SQL\":\"No data\",\"Date\":\"No data\",\"State\":\"No data\"}]";
                 }
+                Logs.logAudit("consult");
                 out.print(s);
             }
         } catch (SQLException ex) {
