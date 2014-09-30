@@ -1,5 +1,12 @@
 package Beans;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +19,48 @@ public class PermissionManagement implements Serializable {
     private InfoSensibility infoSens = null;
 
     public PermissionManagement(InfoSensibility info) {
+       
+        File fichero = new File("Users.bin");
+        File fichero2 = new File("Roles.bin");
+        File fichero3 = new File("Privs.bin");
+        if(fichero.exists())
+        {
+            try {
+                this.readUsers();
+                
+            } catch(IOException e)
+                    {
+                        
+                    } catch (ClassNotFoundException e)
+                        {
+                        
+                        }
+        } else if(fichero2.exists())
+                {
+                    try {
+                        this.readRoles();
+
+                    } catch(IOException e)
+                        {
+
+                        } catch (ClassNotFoundException e)
+                            {
+
+                            }
+                } else if(fichero3.exists())
+                        {
+                            try {
+                                this.readPrivs();
+
+                            } catch(IOException e)
+                                {
+
+                                } catch (ClassNotFoundException e)
+                                    {
+
+                                    }
+                        }
+        
         this.getFromDatabase();
         infoSens = info;
     }
@@ -348,35 +397,70 @@ public class PermissionManagement implements Serializable {
         return false;
     }
 
+    public void writeUsers() throws FileNotFoundException, IOException
+    {
+        FileOutputStream fos = new FileOutputStream("Users.bin");
+        ObjectOutputStream out = new ObjectOutputStream(fos);
+        
+        out.writeObject(listUsers);
+    }
+    
+    public void writeRoles() throws FileNotFoundException, IOException
+    {
+        FileOutputStream fos = new FileOutputStream("Roles.bin");
+        ObjectOutputStream out = new ObjectOutputStream(fos);
+        
+        out.writeObject(listRoles);
+    }
+    
+    public void writePrivs() throws FileNotFoundException, IOException
+    {
+        FileOutputStream fos = new FileOutputStream("Privs.bin");
+        ObjectOutputStream out = new ObjectOutputStream(fos);
+        
+        out.writeObject(listPrivL);
+    }
+    
+    public void readUsers () throws FileNotFoundException, IOException, ClassNotFoundException
+    {
+        FileInputStream fis = new FileInputStream("Users.bin");
+        ObjectInputStream in = new ObjectInputStream(fis);
+        
+        ArrayList<User> aux = new ArrayList<>();
+        
+        aux = (ArrayList)in.readObject();
+
+        listUsers = aux;
+    }
+    
+    public void readRoles () throws FileNotFoundException, IOException, ClassNotFoundException
+    {
+        FileInputStream fis = new FileInputStream("Roles.bin");
+        ObjectInputStream in = new ObjectInputStream(fis);
+        
+        ArrayList<Role> aux2 = new ArrayList<>();
+        
+        aux2 = (ArrayList)in.readObject();
+
+        listRoles = aux2;
+    }
+    
+    public void readPrivs () throws FileNotFoundException, IOException, ClassNotFoundException
+    {
+        FileInputStream fis = new FileInputStream("Privs.bin");
+        ObjectInputStream in = new ObjectInputStream(fis);
+        
+        ArrayList<PrivLevel> aux3 = new ArrayList<>();
+        
+        aux3 = (ArrayList)in.readObject();
+
+        listPrivL = aux3;
+    }
+
 }
     
 
-//    public void write() throws FileNotFoundException, IOException
-//    {
-//        FileOutputStream fos = new FileOutputStream("C:\\Users\\Administrador\\Documents\\NetBeansProjects\\Security-Manager\\MonitorAuditoria\\archivos\\PermissionManagement.bin");
-//        ObjectOutputStream out = new ObjectOutputStream(fos);
-//        
-//        out.writeObject(listUsers);
-//        out.writeObject(listRoles);
-//        out.writeObject(listPrivL);
-//    }
-//    
-//    public ArrayList read () throws FileNotFoundException, IOException, ClassNotFoundException
-//    {
-//        FileInputStream fis = new FileInputStream("C:\\Users\\Administrador\\Documents\\NetBeansProjects\\Security-Manager\\MonitorAuditoria\\archivos\\PermissionManagement.bin");
-//        ObjectInputStream in = new ObjectInputStream(fis);
-//        
-//        ArrayList<User> aux = new ArrayList<>();
-//        ArrayList<Role> aux2 = new ArrayList<>();
-//        ArrayList<PrivLevel> aux3 = new ArrayList<>();
-//        
-//        aux = (ArrayList)in.readObject();
-//        aux2 = (ArrayList)in.readObject();
-//        aux3 = (ArrayList)in.readObject();
-//
-//        return aux;
-//    }
-
+    
 
 //    public PrivLevel createPrivLevelFunctional(int n, String d) {//A little test.
 //        if (!listPermissions.containsKey(n) && listPermissions.size() >= n - 1) {
