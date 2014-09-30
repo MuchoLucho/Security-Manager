@@ -459,6 +459,10 @@ public class PermissionManagement implements Serializable {
         listPrivL = aux3;
     }
 
+    public InfoSensibility getInfoSens() {
+        return infoSens;
+    }
+
 }
     
 

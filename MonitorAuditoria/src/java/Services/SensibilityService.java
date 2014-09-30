@@ -58,6 +58,7 @@ public class SensibilityService extends HttpServlet {
                 String senlev = request.getParameter("sens");//Selected level
                 ReadJSON.setTables(perman,jsonTables,senlev);
                 ReadJSON.setColumns(perman,jsonColumns,senlev);
+                 perman.writePrivs();//AQUI VA 1
                 //request.getParameter("tables");
                 //request.getParameter("columns");
                 request.getParameter("rsrc");

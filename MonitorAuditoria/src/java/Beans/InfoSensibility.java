@@ -17,17 +17,14 @@ public class InfoSensibility implements Serializable {
     public InfoSensibility() {
         // PrivLevel.createPrivLevel(-1, "Indefinido");
         File fichero = new File("InfoSens.bin");
-        if(fichero.exists())
-        {
+        if (fichero.exists()) {
             try {
                 this.read();
-            } catch(IOException e)
-                    {
-                        
-                    } catch (ClassNotFoundException e)
-                        {
-                        
-                        }
+            } catch (IOException e) {
+
+            } catch (ClassNotFoundException e) {
+
+            }
         }
         this.getFromDatabase();
     }
@@ -40,7 +37,7 @@ public class InfoSensibility implements Serializable {
 
     public Table getTable(String tablespace, String table) {
         Tablespace aux = this.getTableSpace(tablespace);
-        return aux!=null ? aux.getTable(table):null;
+        return aux != null ? aux.getTable(table) : null;
     }
 
     public Column getColumn(String tablespace, String table, String col) {
@@ -71,6 +68,11 @@ public class InfoSensibility implements Serializable {
         DBConnector.getDatabaseElements(tbsList);
     }
 
+    public Tablespace belongsTablespace(String table) {
+        Tablespace aux = tbsList.stream().filter(tbs -> tbs.containsTable(table)).findFirst().get();
+        return aux;
+    }
+
 //DEPRECATED
 //    public boolean setSensibiltiy(String tablespace, String table, String column, int sens) {//CHANGE A COLUMN'S SENSITIVITY
 //        Tablespace tbsp = this.getTableSpace(tablespace);
@@ -92,22 +94,19 @@ public class InfoSensibility implements Serializable {
 //    public String toStringLevels() {
 //        return PrivLevel.toStringPrivLevels();
 //    }
-    
-    public void write() throws FileNotFoundException, IOException
-    {
+    public void write() throws FileNotFoundException, IOException {
         FileOutputStream fos = new FileOutputStream("InfoSens.bin");
         ObjectOutputStream out = new ObjectOutputStream(fos);
-        
+
         out.writeObject(tbsList);
     }
-    
-    public void read () throws FileNotFoundException, IOException, ClassNotFoundException
-    {
+
+    public void read() throws FileNotFoundException, IOException, ClassNotFoundException {
         FileInputStream fis = new FileInputStream("InfoSens.bin");
         ObjectInputStream in = new ObjectInputStream(fis);
-        
+
         ArrayList<Tablespace> aux = new ArrayList<>();
-        aux = (ArrayList)in.readObject();
+        aux = (ArrayList) in.readObject();
         tbsList = aux;
 
     }

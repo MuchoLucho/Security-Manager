@@ -171,108 +171,109 @@ public class Role {
 //                .filter((priv) -> priv.getSubject().equals(p))
 //                .findFirst().orElse(null);
 //    }
-package Beans;
-
-import java.util.ArrayList;
-
-public class Role {
-    private String name;
-    //private ArrayList<Permission> listPerm = new ArrayList<>();
-    private final ArrayList<PrivLevel> listAssignedLevels = new ArrayList<>();
-
-    public Role(String name) {
-        this.name = name;
-        DBConnector.createRole(name); //Si Si Si, No No No, la puta madre
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public boolean addAssignedLevel(PrivLevel pr) {
-        return !listAssignedLevels.stream().anyMatch((p) -> p.getDesc().equals(pr.getDesc())) ? listAssignedLevels.add(pr) : false;
-    }
-
-    public PrivLevel getAssignedLevel(String name) {
-        return listAssignedLevels.stream()
-                .filter((priv) -> priv.getDesc().equals(name))
-                .findFirst().orElse(null);
-    }
-
-    public boolean removeLevel(String name) {
-        return listAssignedLevels.remove(this.getAssignedLevel(name));
-    }
-   
-    public static Role createFromDatabase() {
-        return null;//Should somehow get a role already created and represent it as a logical object.
-    }
-
-    public ArrayList<Permission> getUnifiedPermissions() {//This with more lambdas would be nice.
-        ArrayList<Permission> allPerms = new ArrayList<>();
-        ArrayList<Permission> distinctPerms = new ArrayList<>();
-        listAssignedLevels.stream()
-                .forEach(p -> allPerms.addAll(p.getAllPermissions()));
-        allPerms.stream()
-                .sorted()
-                .forEach(x -> System.out.println(x.getSubject().getName()));
-        //Watch out!
-        Permission a;
-        Permission b;
-        Permission aux = null;
-        for (int i = 0; i < allPerms.size() - 1; i++) {
-            a = allPerms.get(i);
-            b = allPerms.get(i + 1);
-            if (a.compareTo(b) == 0) {
-                if (aux == null) {
-                    aux = Permission.mergePermissions(a, b);
-                } else {
-                    aux = Permission.mergePermissions(b, aux);
-                }
-            } else {
-                if (aux == null) {
-                    distinctPerms.add(a);
-                } else {
-                    distinctPerms.add(aux);
-                    aux = null;
-                }
-            }
-        }
-        return distinctPerms;
-    }
-
-    public void generateDBRoles() {
-        this.getUnifiedPermissions().stream().forEach(
-                x -> {
-                    DBConnector.GrantRoles(x.toQuery(), this.name);
-                }
-        );
-    }
-
-    public String toString() {
-        StringBuilder json = new StringBuilder();
-        json.append("{\"name\":\"").append(this.name).append("\",");
-        listAssignedLevels.stream().forEach((p) -> {
-            json.append(p.toStringSummary());
-        });
-        json.append("},");
-        return json.toString();
-    }
-
-    public String toStringSummary() {
-        StringBuilder json = new StringBuilder();
-        json.append("{\"name\":\"").append(this.name).append("\"},");
-        return json.toString();
-    }
-
-    public boolean hasPriv(String desc) {
-        boolean success = this.listAssignedLevels.stream().anyMatch(x->x.getDesc().equals(desc));
-            return success;
-    }
-}
+//---------*/WEIRD MERGE CONFLICT
+//package Beans;
+//
+//import java.util.ArrayList;
+//
+//public class Role {
+//    private String name;
+//    //private ArrayList<Permission> listPerm = new ArrayList<>();
+//    private final ArrayList<PrivLevel> listAssignedLevels = new ArrayList<>();
+//
+//    public Role(String name) {
+//        this.name = name;
+//        DBConnector.createRole(name); //Si Si Si, No No No, la puta madre
+//    }
+//
+//    public String getName() {
+//        return name;
+//    }
+//
+//    public void setName(String name) {
+//        this.name = name;
+//    }
+//
+//    public boolean addAssignedLevel(PrivLevel pr) {
+//        return !listAssignedLevels.stream().anyMatch((p) -> p.getDesc().equals(pr.getDesc())) ? listAssignedLevels.add(pr) : false;
+//    }
+//
+//    public PrivLevel getAssignedLevel(String name) {
+//        return listAssignedLevels.stream()
+//                .filter((priv) -> priv.getDesc().equals(name))
+//                .findFirst().orElse(null);
+//    }
+//
+//    public boolean removeLevel(String name) {
+//        return listAssignedLevels.remove(this.getAssignedLevel(name));
+//    }
+//   
+//    public static Role createFromDatabase() {
+//        return null;//Should somehow get a role already created and represent it as a logical object.
+//    }
+//
+//    public ArrayList<Permission> getUnifiedPermissions() {//This with more lambdas would be nice.
+//        ArrayList<Permission> allPerms = new ArrayList<>();
+//        ArrayList<Permission> distinctPerms = new ArrayList<>();
+//        listAssignedLevels.stream()
+//                .forEach(p -> allPerms.addAll(p.getAllPermissions()));
+//        allPerms.stream()
+//                .sorted()
+//                .forEach(x -> System.out.println(x.getSubject().getName()));
+//        //Watch out!
+//        Permission a;
+//        Permission b;
+//        Permission aux = null;
+//        for (int i = 0; i < allPerms.size() - 1; i++) {
+//            a = allPerms.get(i);
+//            b = allPerms.get(i + 1);
+//            if (a.compareTo(b) == 0) {
+//                if (aux == null) {
+//                    aux = Permission.mergePermissions(a, b);
+//                } else {
+//                    aux = Permission.mergePermissions(b, aux);
+//                }
+//            } else {
+//                if (aux == null) {
+//                    distinctPerms.add(a);
+//                } else {
+//                    distinctPerms.add(aux);
+//                    aux = null;
+//                }
+//            }
+//        }
+//        return distinctPerms;
+//    }
+//
+//    public void generateDBRoles() {
+//        this.getUnifiedPermissions().stream().forEach(
+//                x -> {
+//                    DBConnector.GrantRoles(x.toQuery(), this.name);
+//                }
+//        );
+//    }
+//
+//    public String toString() {
+//        StringBuilder json = new StringBuilder();
+//        json.append("{\"name\":\"").append(this.name).append("\",");
+//        listAssignedLevels.stream().forEach((p) -> {
+//            json.append(p.toStringSummary());
+//        });
+//        json.append("},");
+//        return json.toString();
+//    }
+//
+//    public String toStringSummary() {
+//        StringBuilder json = new StringBuilder();
+//        json.append("{\"name\":\"").append(this.name).append("\"},");
+//        return json.toString();
+//    }
+//
+//    public boolean hasPriv(String desc) {
+//        boolean success = this.listAssignedLevels.stream().anyMatch(x->x.getDesc().equals(desc));
+//            return success;
+//    }
+//}
 
 //Exported to PrivLevel which owns  permissions now.
 //    public boolean editPermission(Table t, boolean select, boolean insert, boolean delete, boolean update) {
