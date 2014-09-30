@@ -72,6 +72,19 @@ public class DBConnector implements Serializable {
         } catch (SQLException ex) {
         }
     }
+    
+    public static void revokePrivileges(String rol)
+    {
+        try {
+                CallableStatement cst = con.prepareCall("{call rev (?)}");
+                cst.setString(1, rol);
+                cst.execute();
+                System.out.println("Privilegios retirados");
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                System.out.println("Fallo en retiro de privilegios");
+            }
+    }
 
     public static void AuditarSesUsr(int modo) {
 
