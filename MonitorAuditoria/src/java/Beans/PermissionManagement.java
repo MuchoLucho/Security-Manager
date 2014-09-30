@@ -66,18 +66,18 @@ public class PermissionManagement implements Serializable{
             Logs.logCreation("role");
             Role rol = new Role(name);
             listRoles.add(rol);
-            this.createThrashRole(name);
-            return listRoles.add(rol);
+           // this.createThrashRole(name);
+            return true;
         }
         return false;
     }
 
-    public void createThrashRole(String role) {
-        listPrivL.stream().forEach(x -> {
-            this.givePrivsToRole(role, x.getDesc());
-        });
-
-    }
+//    public void createThrashRole(String role) {
+//        listPrivL.stream().forEach(x -> {
+//            this.givePrivsToRole(role, x.getDesc());
+//        });
+//
+//    }
 
     public boolean givePrivsToRole(String role, String prilvl) {
         Role r = this.getRole(role);
@@ -264,8 +264,8 @@ public class PermissionManagement implements Serializable{
         StringBuilder json = new StringBuilder("[");
         HashMap<String, Boolean> privileges = this.generateHashMap(role);
         for(String s:privileges.keySet()){
-            json.append("{\"name\":\"").append(s).append("\", ").append("\"selected\":\"")
-                    .append(privileges.get(s) ? "\"true\"":"\"false\"},");
+            json.append("{\"name\":\"").append(s).append("\", ").append("\"selected\":")
+                    .append(privileges.get(s) ? "\"true\"},\"":"\"false\"},");
             privileges.get(s);
         }
         json.replace(json.length() - 1, json.length(), "]");

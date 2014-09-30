@@ -64,6 +64,52 @@ public class DBConnector implements Serializable {
             }
         }
     }
+    
+    public static void AuditarSesUsr(int modo) {
+    
+        switch(modo)
+        {
+            case 1: sql ="audit session" ;
+                break;
+            case 2: sql ="audit all" ;
+                break;
+        }
+        
+        try {
+            pst = con.prepareStatement(sql);
+            rs = pst.executeQuery();
+
+            System.out.println("Audit simple activado");
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Error");
+        }
+    
+    }
+    
+    public static void AuditarSesUsr(int modo, String User) {
+    
+        switch(modo)
+        {
+            case 1: sql ="audit session by "+User ;
+                break;
+            case 2: sql ="audit all by "+User ;
+                break;
+            case 3: sql ="audit all by "+User+" by access" ;
+        }
+        
+        try {
+            pst = con.prepareStatement(sql);
+            rs = pst.executeQuery();
+
+            System.out.println("Audit Activado");
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Error");
+        }
+    }
 
     public static boolean conectDB() {
         try {
@@ -405,6 +451,31 @@ public class DBConnector implements Serializable {
             ex.printStackTrace();
             System.out.println("Error");
         }
+    }
+    
+    public static boolean AuditActivo ()
+    {
+        sql = "select value \"VAL\" from v$parameter where name like 'audit_trail'" ;
+        
+        try {
+            pst = con.prepareStatement(sql);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                String Estado = rs.getString("VAL");
+                
+                if(Estado.equals("NONE"))
+                {
+                    return false;
+                }
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Error");
+        }  
+        
+        return true;
     }
 
 //    public static void main(String[] args) {

@@ -40,7 +40,8 @@ public class RolesService extends HttpServlet {
                 }
             } else if (request.getParameter("new") != null) {
                perman.insertRole(request.getParameter("name")); //WATCH OUT IF YOU HAVE TO DO SMETHING ELSE TO CREATE IN DB.
-               /*getParameter("name")-->Nombre de nuevo rol*/
+               response.sendRedirect("roles.jsp");
+                /*getParameter("name")-->Nombre de nuevo rol*/
             } else if (request.getParameter("delete") != null) {
                 String paramDelete = request.getParameter("delete");
                 perman.removeRole(paramDelete);
