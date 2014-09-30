@@ -41,6 +41,7 @@ public class Table implements Permissible, Serializable {
         return false;
     }
 
+    @Override
     public String getName() {
         return name;
     }

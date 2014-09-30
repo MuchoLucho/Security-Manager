@@ -1,24 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Beans;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- *
- * @author Javier
- */
 public class PermissionManagement implements Serializable{
 
     private ArrayList<User> listUsers = new ArrayList<>();
@@ -41,7 +26,7 @@ public class PermissionManagement implements Serializable{
     public boolean insertUser(String name, String pass) {
         if (!listUsers.stream().anyMatch(((x) -> x.getName().equals(name)))) {
             DBConnector.createUser(name, pass);
-            BitacoraLuis.logCreation("user");
+            Logs.logCreation("user");
             return listUsers.add(new User(name));
         }
         return false;
@@ -50,7 +35,7 @@ public class PermissionManagement implements Serializable{
     public boolean insertUser(User u, String pass) {
         if (!listUsers.stream().anyMatch(((x) -> x.getName().equals(u.getName())))) {
             DBConnector.createUser(u.getName(), pass);
-            BitacoraLuis.logCreation("user");
+            Logs.logCreation("user");
             return listUsers.add(u);
         }
         return false;
@@ -78,21 +63,21 @@ public class PermissionManagement implements Serializable{
 
     public boolean insertRole(String name) {
         if (!listRoles.stream().anyMatch(((x) -> x.getName().equals(name)))) {
-            BitacoraLuis.logCreation("role");
+            Logs.logCreation("role");
             Role rol = new Role(name);
             listRoles.add(rol);
-            this.createThrashRole(name);
-            return listRoles.add(rol);
+           // this.createThrashRole(name);
+            return true;
         }
         return false;
     }
 
-    public void createThrashRole(String role) {
-        listPrivL.stream().forEach(x -> {
-            this.givePrivsToRole(role, x.getDesc());
-        });
-
-    }
+//    public void createThrashRole(String role) {
+//        listPrivL.stream().forEach(x -> {
+//            this.givePrivsToRole(role, x.getDesc());
+//        });
+//
+//    }
 
     public boolean givePrivsToRole(String role, String prilvl) {
         Role r = this.getRole(role);
@@ -119,7 +104,6 @@ public class PermissionManagement implements Serializable{
         Table t = this.infoSens.getTable(tableSpaceName, tableName);
         PrivLevel p = this.getPrivLevel(levelName);
         if (t != null && p != null) {
-            BitacoraLuis.logCreation("permission");
             return p.addPermission(new Permission(t, select, insert, delete, update));
         }
         return false;
@@ -141,7 +125,7 @@ public class PermissionManagement implements Serializable{
     public boolean editPermission(String levelName, String tableSpaceName, String tableName, String colName, boolean select, boolean update) {//For a column
         Column c = this.infoSens.getColumn(tableSpaceName, tableName, colName);
         PrivLevel p = this.getPrivLevel(levelName);
-
+        
         return (c != null && p != null) ? p.editPermission(c, select, update) : false;
     }
 
@@ -280,8 +264,8 @@ public class PermissionManagement implements Serializable{
         StringBuilder json = new StringBuilder("[");
         HashMap<String, Boolean> privileges = this.generateHashMap(role);
         for(String s:privileges.keySet()){
-            json.append("{\"name\":\"").append(s).append("\", ").append("\"selected\":\"")
-                    .append(privileges.get(s) ? "\"true\"":"\"false\"},");
+            json.append("{\"name\":\"").append(s).append("\", ").append("\"selected\":")
+                    .append(privileges.get(s) ? "\"true\"},\"":"\"false\"},");
             privileges.get(s);
         }
         json.replace(json.length() - 1, json.length(), "]");

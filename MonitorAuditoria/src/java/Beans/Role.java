@@ -5,14 +5,13 @@
  */
 package Beans;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author Javier
  */
-public class Role implements Serializable {
+public class Role {
 
     private String name;
     //private ArrayList<Permission> listPerm = new ArrayList<>();
@@ -31,7 +30,7 @@ public class Role implements Serializable {
     }
 
     public boolean addAssignedLevel(PrivLevel pr) {
-        return !listAssignedLevels.stream().anyMatch((p) -> p.getDesc().equals(pr.getDesc())) ? listAssignedLevels.add(pr) : false;
+            return !listAssignedLevels.stream().anyMatch((p) -> p.getDesc().equals(pr.getDesc())) ? listAssignedLevels.add(pr) : false;
     }
 
     public PrivLevel getAssignedLevel(String name) {
@@ -44,7 +43,7 @@ public class Role implements Serializable {
         return listAssignedLevels.remove(this.getAssignedLevel(name));
     }
 
-//Exported to PrivLevel which owns permissions now.
+//Exported to PrivLevel which owns  permissions now.
 //    public boolean editPermission(Table t, boolean select, boolean insert, boolean delete, boolean update) {
 //        Permission p = this.getPerm(t);
 //        if (p != null) {
@@ -142,7 +141,8 @@ public class Role implements Serializable {
 //    }
 
     public boolean hasPriv(String desc) {
-        return this.listAssignedLevels.stream().anyMatch(x->x.getDesc().equals(desc));
+        boolean success = this.listAssignedLevels.stream().anyMatch(x->x.getDesc().equals(desc));
+            return success;
     }
 
 

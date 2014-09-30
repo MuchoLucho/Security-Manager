@@ -38,8 +38,9 @@ public class RolesService extends HttpServlet {
                         //out. todos los roles
                         break;
                 }
-            } else if (request.getParameter("new") != null) { /*New Level*/
+            } else if (request.getParameter("new") != null) {
                perman.insertRole(request.getParameter("name")); //WATCH OUT IF YOU HAVE TO DO SMETHING ELSE TO CREATE IN DB.
+               response.sendRedirect("roles.jsp");
                 /*getParameter("name")-->Nombre de nuevo rol*/
             } else if (request.getParameter("delete") != null) {
                 String paramDelete = request.getParameter("delete");
@@ -51,8 +52,7 @@ public class RolesService extends HttpServlet {
                 String jsonPerms = request.getParameter("element");
                 ReadJSON.setRoles(perman,roleName, jsonPerms);
                 response.sendRedirect("roles.jsp");
-                //(request.getParameter("set")); //Rol seleccionado
-                //(request.getParameter("element")); //JSON
+
             }
         }
     }
