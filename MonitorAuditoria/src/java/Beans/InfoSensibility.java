@@ -18,6 +18,7 @@ public class InfoSensibility implements Serializable {
                 .findFirst().orElse(null);
     }
 
+    
     public Table getTable(String tablespace, String table) {
         Tablespace aux = this.getTableSpace(tablespace);
         return aux!=null ? aux.getTable(table):null;
@@ -49,6 +50,10 @@ public class InfoSensibility implements Serializable {
     private void getFromDatabase() {
         System.out.println("GETTING TABLES AND STUFF FROM DATABASE.");
         DBConnector.getDatabaseElements(tbsList);
+    }
+     public Tablespace belongsTablespace(String table){
+         Tablespace aux = tbsList.stream().filter(tbs->tbs.containsTable(table)).findFirst().get();
+         return aux;
     }
 
 //DEPRECATED

@@ -131,6 +131,7 @@ class PrivLevel implements Serializable {
         return json.toString();
     }
     
+   
 //    public void write() throws FileNotFoundException, IOException
 //    {
 //        FileOutputStream fos = new FileOutputStream("C:\\Users\\Administrador\\Documents\\NetBeansProjects\\Security-Manager\\MonitorAuditoria\\archivos\\PrivLevel.bin");

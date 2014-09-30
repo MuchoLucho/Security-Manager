@@ -133,7 +133,7 @@ public class Permission implements Comparable<Permission>, Serializable{
                     String tName = aux.split("\\.")[0];
                     json.append("\"tName\":\"").append(tName).append("\",");
                     json.append("\"cName\":\"").append(this.subject.getName()).append("\",");
-                    /*if(privileges[1])*/json.append("\"update\":\"").append(privileges[2] ? "true":"false").append("\"");
+                    /*if(privileges[1])*/json.append("\"update\":\"").append(privileges[1] ? "true":"false").append("\"");
                 }
             return json.toString();
 	}

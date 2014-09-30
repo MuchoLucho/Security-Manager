@@ -127,6 +127,8 @@ public class PermissionManagement implements Serializable {
 
         return (c != null && p != null) ? p.editPermission(c, select, update) : false;
     }
+    
+   
 
     //Manage Function/Procedure Permissions
     //Not implemented yet.  
@@ -258,7 +260,7 @@ public class PermissionManagement implements Serializable {
         HashMap<String, Boolean> privileges = this.generateRoleSensHash(role);
         for (String s : privileges.keySet()) {
             json.append("{\"name\":\"").append(s).append("\", ").append("\"selected\":")
-                    .append(privileges.get(s) ? "\"true\"},\"" : "\"false\"},");
+                    .append(privileges.get(s) ? "\"true\"}," : "\"false\"},");
             privileges.get(s);
         }
         json.replace(json.length() - 1, json.length(), "]");
@@ -285,12 +287,12 @@ public class PermissionManagement implements Serializable {
     }
 
     public String toStringUsersGeneral() {
-        StringBuilder str = new StringBuilder("\"[");
+        StringBuilder str = new StringBuilder("[");
 
         listUsers.stream().forEach((p) -> {
             str.append(p.toStringSummary());
         });
-        str.replace(str.length() - 1, str.length(), "]\"");
+        str.replace(str.length() - 1, str.length(), "]");
         return str.toString();
     }
 
@@ -346,6 +348,10 @@ public class PermissionManagement implements Serializable {
             }
         }
         return false;
+    }
+
+    InfoSensibility getInfoSens() {
+        return infoSens;
     }
 
 }

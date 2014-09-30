@@ -5,19 +5,23 @@ import java.io.Serializable;
 
 public class ReadJSON implements Serializable {
 
-    public static void setTables(String json, PermissionManagement perMan, String levelName) {
+    public static void setTables(PermissionManagement perMan,String json,String levelName) {
         JSONTable[] t = new Gson().fromJson(json, JSONTable[].class);
         for (JSONTable tt : t) {
             perMan.editPermission(levelName, tt.tablespace, tt.tName, tt.select, tt.insert, tt.delete, tt.update);
         }
     }
 
-    public static void setColumns(String json, String level) {
+    public static void setColumns(PermissionManagement perman,String json, String level) {
         JSONColumn[] c = new Gson().fromJson(json, JSONColumn[].class);
+        Tablespace aux;
         for (JSONColumn cc : c) {
+                aux = perman.getInfoSens().belongsTablespace(cc.tName);
+                perman.editPermission(level,aux.getName(), cc.tName, cc.cName,true,cc.update);
 //            cc.cName;
 //            cc.tName;
 //            cc.update;
+            
         }
     }
 

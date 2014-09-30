@@ -102,7 +102,7 @@ function genCols(i) {
             }
             document.getElementById("contenido_columnas").innerHTML = ar;
             cTable = $('#columnas').dataTable({
-                "bFilter": false
+                "bFilter": true
             });
         },
         error: function (response) {

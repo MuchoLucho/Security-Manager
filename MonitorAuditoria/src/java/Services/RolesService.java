@@ -50,7 +50,7 @@ public class RolesService extends HttpServlet {
             } else if (request.getParameter("set") != null) {
                 String roleName = request.getParameter("set");
                 String jsonPerms = request.getParameter("element");
-                ReadJSON.setRoles(perman,roleName, jsonPerms);
+                ReadJSON.setSens(perman,roleName, jsonPerms);
                 response.sendRedirect("roles.jsp");
 
             }
