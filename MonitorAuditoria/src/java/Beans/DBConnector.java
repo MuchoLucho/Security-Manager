@@ -57,24 +57,33 @@ public class DBConnector implements Serializable {
                     rs = pst.executeQuery();
                     System.out.println(rol + " concedido a " + master);
                 } catch (SQLException ex) {
-                    ex.printStackTrace();
+                    //ex.printStackTrace();
                     System.out.println("Grant fallido");
                 }
-                rol = new String();//="";
+                rol = "";
             }
         }
     }
-    
+
+    public static void grantToRoles(String accion, String objeto, String rol) {
+        try {
+            pst = con.prepareStatement("GRANT " + accion + " ON " + objeto + " TO " + rol);
+            rs = pst.executeQuery();
+        } catch (SQLException ex) {
+        }
+    }
+
     public static void AuditarSesUsr(int modo) {
-    
-        switch(modo)
-        {
-            case 1: sql ="audit session" ;
+
+        switch (modo) {
+            case 1:
+                sql = "audit session";
                 break;
-            case 2: sql ="audit all" ;
+            case 2:
+                sql = "audit all";
                 break;
         }
-        
+
         try {
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
@@ -85,20 +94,22 @@ public class DBConnector implements Serializable {
             ex.printStackTrace();
             System.out.println("Error");
         }
-    
+
     }
-    
+
     public static void AuditarSesUsr(int modo, String User) {
-    
-        switch(modo)
-        {
-            case 1: sql ="audit session by "+User ;
+
+        switch (modo) {
+            case 1:
+                sql = "audit session by " + User;
                 break;
-            case 2: sql ="audit all by "+User ;
+            case 2:
+                sql = "audit all by " + User;
                 break;
-            case 3: sql ="audit all by "+User+" by access" ;
+            case 3:
+                sql = "audit all by " + User + " by access";
         }
-        
+
         try {
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
@@ -129,7 +140,6 @@ public class DBConnector implements Serializable {
         try {
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
-
             while (rs.next()) {
                 String rol = rs.getString("ROL");
                 //System.out.println(rol);
@@ -172,10 +182,11 @@ public class DBConnector implements Serializable {
                 Tablespace aux = tablespaces.stream()
                         .filter(x -> x.getName().equals(tsname))
                         .findAny().get();
-                if(aux!=null)
+                if (aux != null) {
                     aux.setTable(tabname);
-                else
-                    System.err.println("THE TABLESPACE WITH THE NAME"+tsname+"DOESNT EXIST!!!!!");
+                } else {
+                    System.err.println("THE TABLESPACE WITH THE NAME" + tsname + "DOESNT EXIST!!!!!");
+                }
                 System.out.println(tabname);
                 System.out.println(tsname);
             }
@@ -198,7 +209,7 @@ public class DBConnector implements Serializable {
             while (rs.next()) {
                 auxCol = rs.getString("Col");
                 tabName = rs.getString("Tab");
-                for (Tablespace tbs : tablespaces){
+                for (Tablespace tbs : tablespaces) {
                     Table auxTab = tbs.getTable(tabName);
                     if (auxTab != null) {
                         auxTab.setColumn(auxCol);
@@ -221,14 +232,12 @@ public class DBConnector implements Serializable {
     public static void createRole(String rol) {
         String Rol = rol.toUpperCase();
         sql = "CREATE ROLE " + Rol;
-
         try {
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
             System.out.println("Rol Creado");
-
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
             System.out.println("Error");
         }
     }
@@ -245,7 +254,7 @@ public class DBConnector implements Serializable {
             System.out.println("User " + Usr + " Creado");
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
             System.out.println("Error");
         }
     }
@@ -411,13 +420,10 @@ public class DBConnector implements Serializable {
         String Rol = rol.toUpperCase();
         String User = user.toUpperCase();
         sql = "REVOKE " + Rol + " FROM " + User;
-
         try {
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
-
             System.out.println(Rol + " removido de " + User);
-
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Error");
@@ -452,20 +458,18 @@ public class DBConnector implements Serializable {
             System.out.println("Error");
         }
     }
-    
-    public static boolean AuditActivo ()
-    {
-        sql = "select value \"VAL\" from v$parameter where name like 'audit_trail'" ;
-        
+
+    public static boolean AuditActivo() {
+        sql = "select value \"VAL\" from v$parameter where name like 'audit_trail'";
+
         try {
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
 
             while (rs.next()) {
                 String Estado = rs.getString("VAL");
-                
-                if(Estado.equals("NONE"))
-                {
+
+                if (Estado.equals("NONE")) {
                     return false;
                 }
             }
@@ -473,8 +477,8 @@ public class DBConnector implements Serializable {
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Error");
-        }  
-        
+        }
+
         return true;
     }
 
