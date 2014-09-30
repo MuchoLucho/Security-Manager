@@ -58,7 +58,7 @@ public class DBConnector implements Serializable {
                     System.out.println(rol + " concedido a " + master);
                 } catch (SQLException ex) {
                     //ex.printStackTrace();
-                    System.out.println("Grant fallido");
+                    System.out.println("Grant failed");
                 }
                 rol = "";
             }
@@ -92,7 +92,7 @@ public class DBConnector implements Serializable {
 
         } catch (SQLException ex) {
             ex.printStackTrace();
-            System.out.println("Error");
+            System.out.println("Error AuditarSesUsr");
         }
 
     }
@@ -118,14 +118,14 @@ public class DBConnector implements Serializable {
 
         } catch (SQLException ex) {
             ex.printStackTrace();
-            System.out.println("Error");
+            System.out.println("Error in AuditarSesUsr 2");
         }
     }
 
     public static boolean conectDB() {
         try {
             Class.forName("oracle.jdbc.OracleDriver");
-            con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:BD1", "sys as sysdba", "root");
+            con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "sys as sysdba", "root");
         } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
             return false;
@@ -147,7 +147,7 @@ public class DBConnector implements Serializable {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            System.out.println("Error");
+            System.out.println("Error getAllRoles");
         }
     }
 
@@ -165,7 +165,7 @@ public class DBConnector implements Serializable {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            System.out.println("Error");
+            System.out.println("Error getTablespaces");
         }
     }
 
@@ -192,7 +192,7 @@ public class DBConnector implements Serializable {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            System.out.println("Error");
+            System.out.println("Error getTables");
         }
     }
 
@@ -238,7 +238,7 @@ public class DBConnector implements Serializable {
             System.out.println("Rol Creado");
         } catch (SQLException ex) {
             //ex.printStackTrace();
-            System.out.println("Error");
+            System.out.println("Error createRole");
         }
     }
 

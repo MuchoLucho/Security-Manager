@@ -65,7 +65,7 @@ public class PermissionManagement implements Serializable {
         if (!listRoles.stream().anyMatch(((x) -> x.getName().equals(name)))) {
             Logs.logCreation("role");
             Role rol = new Role(name);
-            DBConnector.createRole(name); //Si Si Si, No No No, la puta madre ===================================> Ojo
+            //DBConnector.createRole(name); //Si Si Si, No No No, 
             listRoles.add(rol);
             // this.createThrashRole(name);
             return true;
@@ -92,8 +92,7 @@ public class PermissionManagement implements Serializable {
         Role r = this.getRole(roleName);
         User u = this.getUser(user);
         if (r != null && u != null) {
-            u.setRole(r);
-            DBConnector.GrantRoles(roleName, user);
+            u.grantRole(r);
             return true;
         }
         return false;
@@ -138,13 +137,7 @@ public class PermissionManagement implements Serializable {
         DBConnector.Usuarios(listUsers);
         DBConnector.getAllRoles(listRoles);
     }
-    ////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////
-    //Manage PrivLevels
-//        public PrivLevel getPrivLevel(int n) {
-//            return listPermissions.containsKey(n) ? listPermissions.get(n) : null;
-//    }
+
 
     private void createTrashPriv(String privlvl) {
         ArrayList<Tablespace> lista = infoSens.tbsList;
@@ -248,7 +241,8 @@ public class PermissionManagement implements Serializable {
 //                .replace(str.length() - 1, str.length(), "]\"");
 //        return str.toString();
 //    }
-    public HashMap<String, Boolean> generateHashMap(String role) {
+    public HashMap<String, Boolean> generateRoleSensHash(String role) {
+        /*Generates a Hashmap of all the sensibilities(PrivLVL) a role has (and does not have), for display purposes */
         Role p = this.listRoles.stream().filter(x -> x.getName().equals(role)).findFirst().get();
         HashMap<String, Boolean> hasPrivilege = new HashMap<>();
         if (p != null) {
@@ -261,7 +255,7 @@ public class PermissionManagement implements Serializable {
 
     public String toJSONRolesPrivs(String role) {
         StringBuilder json = new StringBuilder("[");
-        HashMap<String, Boolean> privileges = this.generateHashMap(role);
+        HashMap<String, Boolean> privileges = this.generateRoleSensHash(role);
         for (String s : privileges.keySet()) {
             json.append("{\"name\":\"").append(s).append("\", ").append("\"selected\":")
                     .append(privileges.get(s) ? "\"true\"},\"" : "\"false\"},");
@@ -309,8 +303,53 @@ public class PermissionManagement implements Serializable {
     public void removePrivFromRole(String rol, String level) {
         Role r = this.getRole(rol);
         PrivLevel pr = this.getPrivLevel(level);
-        r.removeLevel(level);
+        if(r!=null&&pr!=null)
+            r.removeLevel(level);
     }
+    
+    public String toJSONUserRoles(String user) {
+        /*Retunes a JSON formatted object with info about all the roles in relation to this user*/
+        StringBuilder json = new StringBuilder("[");
+        HashMap<String, Boolean> privileges = this.generateUserRolesHash(user);
+        for (String s : privileges.keySet()) {
+            json.append("{\"name\":\"").append(s).append("\", ").append("\"selected\":")
+                    .append(privileges.get(s) ? "\"true\"},\"" : "\"false\"},");
+            privileges.get(s);
+        }
+        json.replace(json.length() - 1, json.length(), "]");
+        return json.toString();
+    }
+    
+    public HashMap<String,Boolean> generateUserRolesHash(String user){
+        /*Generates a Hashmap of all the roles a user has (and does not have), for display purposes */
+        User u = this.listUsers.stream().filter(x -> x.getName().equals(user)).findFirst().get();
+        HashMap<String, Boolean> hasRole = new HashMap<>();
+        if (u != null) {
+            listRoles.stream().forEach(rl -> {
+                hasRole.put(rl.getName(),u.hasRole(rl.getName()));
+            });
+        }
+        return hasRole;        
+    }
+
+    public void removeUser(String user) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public boolean removeRoleFromUser(String user, String role) {
+        User u = getUser(user);
+        Role r = getRole(role);
+        if(u!=null){
+            if(u.hasRole(role)){    
+                u.dropRole(r);
+                return true;
+            }
+        }
+        return false;
+    }
+
+}
+    
 
 //    public void write() throws FileNotFoundException, IOException
 //    {
@@ -337,7 +376,7 @@ public class PermissionManagement implements Serializable {
 //
 //        return aux;
 //    }
-}
+
 
 //    public PrivLevel createPrivLevelFunctional(int n, String d) {//A little test.
 //        if (!listPermissions.containsKey(n) && listPermissions.size() >= n - 1) {

@@ -58,6 +58,7 @@ public class SensibilityService extends HttpServlet {
                 request.getParameter("columns");
                 request.getParameter("rsrc");
                 request.getParameter("sens"); //Level selected
+                response.sendRedirect("sensibility.jsp");   
                 Logs.logEdit("sensibilidad");
             }
             
