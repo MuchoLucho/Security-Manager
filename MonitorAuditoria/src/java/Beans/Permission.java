@@ -11,11 +11,32 @@ import java.io.Serializable;
  *
  * @author Javier
  */
-public class Permission implements Comparable<Permission>, Serializable{
+public class Permission implements Comparable<Permission>, Serializable {
 
     private Permissible subject;
     boolean[] privileges = new boolean[4];/* 0-select 1-insert 2-delete 3-update IF PROCEDURE THEN ONLY 0-EXECUT.*/
+
     //FOR COLUMN 2 update
+
+    public static final int SELECT = 0;
+    public static final int INSERT = 1;
+    public static final int DELETE = 2;
+    public static final int UPDATE = 3;
+
+    public static String getPrivilegeString(int a) {
+        String aux="";
+        switch (a) {
+            case 0:
+                aux = "select";
+            case 1:
+                aux = "insert";
+            case 2:
+                aux = "delete";
+            case 3:
+                aux = "update";
+        }
+        return aux;
+    }
 
     public Permission(Permissible p, boolean select, boolean insert, boolean delete, boolean update) {//For a table
         subject = p;
@@ -28,7 +49,7 @@ public class Permission implements Comparable<Permission>, Serializable{
     public Permission(Permissible p, boolean select, boolean update) {//For a column
         subject = p;
         privileges[0] = select;
-        privileges[1] = update;
+        privileges[3] = update;
 
     }
 
@@ -37,14 +58,14 @@ public class Permission implements Comparable<Permission>, Serializable{
             privileges[i] = false;
         }
     }
+
     public Permission(Permissible p) {
         subject = p;
         for (int i = 0; i < 4; i++) {
             privileges[i] = false;
         }
     }
-    
-    
+
     public Permissible getSubject() {
         return subject;
     }
@@ -71,12 +92,12 @@ public class Permission implements Comparable<Permission>, Serializable{
     }
 
     public void setPrivileges(boolean update) {//For a Column
-        privileges[0] = update;
+        privileges[3] = update;
     }
 
     public void setPrivileges(boolean select, boolean update) {//For a Column //DEPRECATED
         privileges[0] = select;
-        privileges[1] = update;
+        privileges[3] = update;
     }
 
     public static Permission mergePermissions(Permission a, Permission b) {//Returns an temporary 
@@ -85,7 +106,7 @@ public class Permission implements Comparable<Permission>, Serializable{
             if (a.getSubject() instanceof Column) {
                 return new Permission(a.getSubject(), a.privileges[0] || b.privileges[0], a.privileges[1] || b.privileges[1]);
             }
-            if (a.getSubject() instanceof Table){
+            if (a.getSubject() instanceof Table) {
                 return new Permission(a.getSubject(), a.privileges[0] || b.privileges[0], a.privileges[1] || b.privileges[1], a.privileges[2] || b.privileges[2], a.privileges[3] || b.privileges[3]);
             }
         }
@@ -94,49 +115,64 @@ public class Permission implements Comparable<Permission>, Serializable{
 
     @Override
     public int compareTo(Permission o) {
-           if(o.subject.equals(null)||this.subject.equals(null))return -1;
-           return this.subject.getName().compareTo(o.subject.getName());
+        if (o.subject.equals(null) || this.subject.equals(null)) {
+            return -1;
+        }
+        return this.subject.getName().compareTo(o.subject.getName());
 
     }
 
     public String toQuery() {
         StringBuilder str = new StringBuilder();
-        if(subject instanceof Table){
-                if(privileges[0])str.append("select").append(";");
-                if(privileges[1])str.append("insert").append(";");
-                if(privileges[2])str.append("update").append(";");
-                if(privileges[3])str.append("delete").append(";");
-        }
-        else{
-            if(privileges[0])str.append("select").append(";");
-            if(privileges[0])str.append("update").append(";");
+        if (subject instanceof Table) {
+            if (privileges[0]) {
+                str.append("select").append(";");
+            }
+            if (privileges[1]) {
+                str.append("insert").append(";");
+            }
+            if (privileges[2]) {
+                str.append("update").append(";");
+            }
+            if (privileges[3]) {
+                str.append("delete").append(";");
+            }
+        } else {
+            if (privileges[0]) {
+                str.append("select").append(";");
+            }
+            if (privileges[0]) {
+                str.append("update").append(";");
+            }
         }
         return str.toString();
     }
-    
+
     public String toString() {
-		
-            StringBuilder json=new StringBuilder();
-            
-           
-            if(subject instanceof Table)
-            {
-                String[] tbsdottb = this.subject.getDBDir().split("\\.");
-                json.append("\"tName\":\"").append(tbsdottb[1]).append("\",");
-                json.append("\"tablespace\":\"").append(tbsdottb[0]).append("\",");
-                /*if(privileges[0])*/json.append("\"select\":\"").append(privileges[0] ? "true":"false").append("\",");
-                /*if(privileges[1])*/json.append("\"insert\":\"").append(privileges[1] ? "true":"false").append("\",");
-                /*if(privileges[2])*/json.append("\"update\":\"").append(privileges[2] ? "true":"false").append("\",");
-                /*if(privileges[3])*/json.append("\"delete\":\"").append(privileges[3] ? "true":"false").append("\"");
-            } else {
-                    String aux = this.subject.getDBDir();
-                    String tName = aux.split("\\.")[0];
-                    json.append("\"tName\":\"").append(tName).append("\",");
-                    json.append("\"cName\":\"").append(this.subject.getName()).append("\",");
-                    /*if(privileges[1])*/json.append("\"update\":\"").append(privileges[1] ? "true":"false").append("\"");
-                }
-            return json.toString();
-	}
-    
+
+        StringBuilder json = new StringBuilder();
+
+        if (subject instanceof Table) {
+            String[] tbsdottb = this.subject.getDBDir().split("\\.");
+            json.append("\"tName\":\"").append(tbsdottb[1]).append("\",");
+            json.append("\"tablespace\":\"").append(tbsdottb[0]).append("\",");
+            /*if(privileges[0])*/
+            json.append("\"select\":\"").append(privileges[0] ? "true" : "false").append("\",");
+            /*if(privileges[1])*/
+            json.append("\"insert\":\"").append(privileges[1] ? "true" : "false").append("\",");
+            /*if(privileges[2])*/
+            json.append("\"update\":\"").append(privileges[2] ? "true" : "false").append("\",");
+            /*if(privileges[3])*/
+            json.append("\"delete\":\"").append(privileges[3] ? "true" : "false").append("\"");
+        } else {
+            String aux = this.subject.getDBDir();
+            String tName = aux.split("\\.")[0];
+            json.append("\"tName\":\"").append(tName).append("\",");
+            json.append("\"cName\":\"").append(this.subject.getName()).append("\",");
+            /*if(privileges[1])*/
+            json.append("\"update\":\"").append(privileges[3] ? "true" : "false").append("\"");
+        }
+        return json.toString();
+    }
 
 }

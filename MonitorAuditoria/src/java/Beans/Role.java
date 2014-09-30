@@ -9,7 +9,7 @@ public class Role {
 
     public Role(String name) {
         this.name = name;
-        DBConnector.createRole(name); //Si Si Si, No No No, la puta madre
+        DBConnector.createRole(name); //Si Si Si, No No No
     }
 
     public String getName() {
@@ -21,7 +21,27 @@ public class Role {
     }
 
     public boolean addAssignedLevel(PrivLevel pr) {
+            if(!listAssignedLevels.stream().anyMatch((p) -> p.getDesc().equals(pr.getDesc()))){
+                listAssignedLevels.add(pr);
+                this.generateGrants(pr);
+            }
             return !listAssignedLevels.stream().anyMatch((p) -> p.getDesc().equals(pr.getDesc())) ? listAssignedLevels.add(pr) : false;
+    }
+    private void generateGrants(PrivLevel pr){
+        ArrayList<Permission> lPerm = pr.getAllPermissions();
+        lPerm.stream().forEach(per->{
+            if(per.getSubject() instanceof Table){
+                DBConnector.grantToRoles(Permission.getPrivilegeString(Permission.SELECT),per.getSubject().getName(),this.name);
+                DBConnector.grantToRoles(Permission.getPrivilegeString(Permission.INSERT),per.getSubject().getName(),this.name);
+                DBConnector.grantToRoles(Permission.getPrivilegeString(Permission.DELETE),per.getSubject().getName(),this.name);
+                DBConnector.grantToRoles(Permission.getPrivilegeString(Permission.UPDATE),per.getSubject().getName(),this.name);
+            }
+            else{
+                DBConnector.grantToRoles(Permission.getPrivilegeString(Permission.UPDATE),per.getSubject().getDBDir(),this.name);
+            }
+        });
+        
+        
     }
 
     public PrivLevel getAssignedLevel(String name) {
