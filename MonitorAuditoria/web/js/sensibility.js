@@ -186,13 +186,19 @@ function rsrcToJSON() {
 /*Push data*/
 
 function sendNewData() {
+    var a = tableToJSON();
+    var b = columnsToJSON();
+    var c = rsrcToJSON();
     $.ajax({
         type: 'post',
         dataType: 'json',
         url: "SensibilityService",
-        data: {tables: tableToJSON(), columns: columnsToJSON(), rsrc: rsrcToJSON, sens: selectedLevel},
+        data: {tables: a, columns: b, rsrc: c, sens: selectedLevel},
         success: function (response) {
             console.log(response);
+            location.reload(true);
+        }, error: function (response) {
+            location.reload(true);
         }
     });
 }
@@ -229,7 +235,5 @@ $('input[name=data]').on('change', function () {
 });
 
 $('#changes').click(function () {
-    rsrcToJSON();
-    columnsToJSON();
-    tableToJSON();
+    sendNewData();
 });

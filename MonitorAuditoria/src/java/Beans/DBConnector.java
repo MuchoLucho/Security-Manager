@@ -135,7 +135,7 @@ public class DBConnector implements Serializable {
 
     public static void getAllRoles(ArrayList<Role> lista) {
 
-        sql = "select DISTINCT granted_role \"ROL\" from dba_role_privs where grantee not in ('OUTLN', 'DATAPUMP_IMP_FULL_DATABASE', 'SELECT_CATALOG_ROLE', 'HS_ADMIN_ROLE', 'EXP_FULL_DATABASE', 'DBSNMP', 'IMP_FULL_DATABASE', 'LOGSTDBY_ADMINISTRATOR', 'OEM_MONITOR', 'EXECUTE_CATALOG_ROLE', 'DATAPUMP_EXP_FULL_DATABASE')";
+        sql = "select DISTINCT granted_role \"ROL\" from dba_role_privs where grantee not in ('OUTLN', 'DATAPUMP_IMP_FULL_DATABASE', 'SELECT_CATALOG_ROLE', 'HS_ADMIN_ROLE', 'EXP_FULL_DATABASE', 'DBSNMP', 'IMP_FULL_DATABASE', 'LOGSTDBY_ADMINISTRATOR', 'OEM_MONITOR', 'EXECUTE_CATALOG_ROLE', 'DATAPUMP_EXP_FULL_DATABASE', 'SYS', 'SYSTEM', 'DBA', 'MDSYS', 'XDB', 'HR', 'CTXSYS', 'APEX_040000')";
 
         try {
             pst = con.prepareStatement(sql);
