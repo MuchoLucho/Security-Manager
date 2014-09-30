@@ -1,18 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- *
- * @author Javier
- */
-public class PermissionManagement {
+public class PermissionManagement implements Serializable{
 
     private ArrayList<User> listUsers = new ArrayList<>();
     private ArrayList<Role> listRoles = new ArrayList<>();
@@ -34,7 +26,7 @@ public class PermissionManagement {
     public boolean insertUser(String name, String pass) {
         if (!listUsers.stream().anyMatch(((x) -> x.getName().equals(name)))) {
             DBConnector.createUser(name, pass);
-            BitacoraLuis.logCreation("user");
+            Logs.logCreation("user");
             return listUsers.add(new User(name));
         }
         return false;
@@ -43,7 +35,7 @@ public class PermissionManagement {
     public boolean insertUser(User u, String pass) {
         if (!listUsers.stream().anyMatch(((x) -> x.getName().equals(u.getName())))) {
             DBConnector.createUser(u.getName(), pass);
-            BitacoraLuis.logCreation("user");
+            Logs.logCreation("user");
             return listUsers.add(u);
         }
         return false;
@@ -71,7 +63,7 @@ public class PermissionManagement {
 
     public boolean insertRole(String name) {
         if (!listRoles.stream().anyMatch(((x) -> x.getName().equals(name)))) {
-            BitacoraLuis.logCreation("role");
+            Logs.logCreation("role");
             Role rol = new Role(name);
             listRoles.add(rol);
            // this.createThrashRole(name);
@@ -112,7 +104,6 @@ public class PermissionManagement {
         Table t = this.infoSens.getTable(tableSpaceName, tableName);
         PrivLevel p = this.getPrivLevel(levelName);
         if (t != null && p != null) {
-            BitacoraLuis.logCreation("permission");
             return p.addPermission(new Permission(t, select, insert, delete, update));
         }
         return false;
@@ -134,7 +125,7 @@ public class PermissionManagement {
     public boolean editPermission(String levelName, String tableSpaceName, String tableName, String colName, boolean select, boolean update) {//For a column
         Column c = this.infoSens.getColumn(tableSpaceName, tableName, colName);
         PrivLevel p = this.getPrivLevel(levelName);
-
+        
         return (c != null && p != null) ? p.editPermission(c, select, update) : false;
     }
 
@@ -323,6 +314,32 @@ public class PermissionManagement {
        r.removeLevel(level);
     }
 
+//    public void write() throws FileNotFoundException, IOException
+//    {
+//        FileOutputStream fos = new FileOutputStream("C:\\Users\\Administrador\\Documents\\NetBeansProjects\\Security-Manager\\MonitorAuditoria\\archivos\\PermissionManagement.bin");
+//        ObjectOutputStream out = new ObjectOutputStream(fos);
+//        
+//        out.writeObject(listUsers);
+//        out.writeObject(listRoles);
+//        out.writeObject(listPrivL);
+//    }
+//    
+//    public ArrayList read () throws FileNotFoundException, IOException, ClassNotFoundException
+//    {
+//        FileInputStream fis = new FileInputStream("C:\\Users\\Administrador\\Documents\\NetBeansProjects\\Security-Manager\\MonitorAuditoria\\archivos\\PermissionManagement.bin");
+//        ObjectInputStream in = new ObjectInputStream(fis);
+//        
+//        ArrayList<User> aux = new ArrayList<>();
+//        ArrayList<Role> aux2 = new ArrayList<>();
+//        ArrayList<PrivLevel> aux3 = new ArrayList<>();
+//        
+//        aux = (ArrayList)in.readObject();
+//        aux2 = (ArrayList)in.readObject();
+//        aux3 = (ArrayList)in.readObject();
+//
+//        return aux;
+//    }
+    
 }
 
 //    public PrivLevel createPrivLevelFunctional(int n, String d) {//A little test.

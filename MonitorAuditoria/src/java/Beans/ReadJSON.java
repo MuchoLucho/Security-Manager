@@ -1,12 +1,12 @@
 package Beans;
 
 import com.google.gson.Gson;
+import java.io.Serializable;
 
-public class ReadJSON {
+public class ReadJSON implements Serializable {
 
     public static void setTables(String json, PermissionManagement perMan, String levelName) {
         JSONTable[] t = new Gson().fromJson(json, JSONTable[].class);
-
         for (JSONTable tt : t) {
             perMan.editPermission(levelName, tt.tablespace, tt.tName, tt.select, tt.insert, tt.delete, tt.update);
         }
@@ -14,11 +14,10 @@ public class ReadJSON {
 
     public static void setColumns(String json, String level) {
         JSONColumn[] c = new Gson().fromJson(json, JSONColumn[].class);
-        //Then you can loop "t" and get attributes like "tName" or "delete"    
         for (JSONColumn cc : c) {
 //            cc.cName;
-//             cc.tName;
-//             cc.update;
+//            cc.tName;
+//            cc.update;
         }
     }
 
@@ -44,8 +43,6 @@ public class ReadJSON {
                         perman.givePrivsToRole(rol, ss.name);
                     }
                 }
-                //ss.name;
-                //ss.selected;
             }
         }
 
@@ -54,7 +51,6 @@ public class ReadJSON {
     public static void setRoles(PermissionManagement perman, String user, String json) {
         JSONRole[] r = new Gson().fromJson(json, JSONRole[].class);
         for (JSONRole rr : r) {
-
             //rr.name;
             //rr.selected;
         }

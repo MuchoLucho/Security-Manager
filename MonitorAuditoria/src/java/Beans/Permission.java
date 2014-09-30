@@ -5,11 +5,13 @@
  */
 package Beans;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Javier
  */
-public class Permission implements Comparable<Permission>{
+public class Permission implements Comparable<Permission>, Serializable{
 
     private Permissible subject;
     boolean[] privileges = new boolean[4];/* 0-select 1-insert 2-delete 3-update IF PROCEDURE THEN ONLY 0-EXECUT.*/

@@ -5,6 +5,12 @@
  */
 package Beans;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -12,7 +18,7 @@ import java.util.ArrayList;
  *
  * @author Javier
  */
-public class Tablespace{
+public class Tablespace implements Serializable{
 
     private String name;
     ArrayList<Table> tabs = new ArrayList<>();
@@ -75,4 +81,22 @@ public class Tablespace{
         return str.toString();
     }
 
+//    public void write() throws FileNotFoundException, IOException
+//    {
+//        FileOutputStream fos = new FileOutputStream("C:\\Users\\Administrador\\Documents\\NetBeansProjects\\Security-Manager\\MonitorAuditoria\\archivos\\Tablespace.bin");
+//        ObjectOutputStream out = new ObjectOutputStream(fos);
+//        
+//        out.writeObject(tabs);
+//    }
+//    
+//    public ArrayList read () throws FileNotFoundException, IOException, ClassNotFoundException
+//    {
+//        FileInputStream fis = new FileInputStream("C:\\Users\\Administrador\\Documents\\NetBeansProjects\\Security-Manager\\MonitorAuditoria\\archivos\\Tablespace.bin");
+//        ObjectInputStream in = new ObjectInputStream(fis);
+//        
+//        ArrayList<Table> aux = new ArrayList<>();
+//        aux = (ArrayList)in.readObject();
+//
+//        return aux;
+//    }
 }

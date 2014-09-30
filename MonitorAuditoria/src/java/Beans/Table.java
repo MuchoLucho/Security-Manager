@@ -1,8 +1,9 @@
 package Beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Table implements Permissible {
+public class Table implements Permissible, Serializable {
 
     //private PrivLevel level;
 
@@ -40,6 +41,7 @@ public class Table implements Permissible {
         return false;
     }
 
+    @Override
     public String getName() {
         return name;
     }

@@ -2,11 +2,12 @@ package Beans;
 
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.sql.*;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
-public class DBConnector {
+public class DBConnector implements Serializable {
 
     private static Connection con = null;
     public static PreparedStatement pst;
@@ -19,7 +20,6 @@ public class DBConnector {
         try {
             fichero = new FileWriter("C:\\prueba.bat", true);
             pw = new PrintWriter(fichero);
-
             pw.print("@echo off \n");
             pw.print("net stop OracleService" + SID + "\n");
             pw.print("if ERRORLEVEL 1 echo Problem while stopping Oracle Service " + SID + "\n");
@@ -31,16 +31,13 @@ public class DBConnector {
             pw.print("if ERRORLEVEL 1 echo Problem while starting Oracle " + SID + " Listener service" + "\n");
             pw.print("pause" + "\n");
             pw.print("exit" + "\n");
-
         } catch (Exception e) {
-            e.printStackTrace();
         } finally {
             try {
                 if (null != fichero) {
                     fichero.close();
                 }
             } catch (Exception e2) {
-                e2.printStackTrace();
             }
         }
     }
@@ -58,7 +55,6 @@ public class DBConnector {
                 try {
                     pst = con.prepareStatement(sql);
                     rs = pst.executeQuery();
-
                     System.out.println(rol + " concedido a " + master);
                 } catch (SQLException ex) {
                     ex.printStackTrace();
@@ -72,7 +68,7 @@ public class DBConnector {
     public static boolean conectDB() {
         try {
             Class.forName("oracle.jdbc.OracleDriver");
-            con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "sys as sysdba", "root");
+            con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:BD1", "sys as sysdba", "root");
         } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
             return false;
@@ -82,7 +78,7 @@ public class DBConnector {
 
     public static void getAllRoles(ArrayList<Role> lista) {
 
-        sql = "select granted_role \"ROL\" from dba_role_privs where grantee not in ('OUTLN', 'DATAPUMP_IMP_FULL_DATABASE', 'SELECT_CATALOG_ROLE', 'HS_ADMIN_ROLE', 'EXP_FULL_DATABASE', 'DBSNMP', 'IMP_FULL_DATABASE', 'LOGSTDBY_ADMINISTRATOR', 'OEM_MONITOR', 'EXECUTE_CATALOG_ROLE', 'DATAPUMP_EXP_FULL_DATABASE')";
+        sql = "select DISTINCT granted_role \"ROL\" from dba_role_privs where grantee not in ('OUTLN', 'DATAPUMP_IMP_FULL_DATABASE', 'SELECT_CATALOG_ROLE', 'HS_ADMIN_ROLE', 'EXP_FULL_DATABASE', 'DBSNMP', 'IMP_FULL_DATABASE', 'LOGSTDBY_ADMINISTRATOR', 'OEM_MONITOR', 'EXECUTE_CATALOG_ROLE', 'DATAPUMP_EXP_FULL_DATABASE')";
 
         try {
             pst = con.prepareStatement(sql);
@@ -183,7 +179,6 @@ public class DBConnector {
         try {
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
-
             System.out.println("Rol Creado");
 
         } catch (SQLException ex) {

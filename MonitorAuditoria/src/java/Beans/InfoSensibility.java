@@ -1,8 +1,9 @@
 package Beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class InfoSensibility {
+public class InfoSensibility implements Serializable {
 
     public ArrayList<Tablespace> tbsList = new ArrayList<>();
 
@@ -70,5 +71,24 @@ public class InfoSensibility {
 //
 //    public String toStringLevels() {
 //        return PrivLevel.toStringPrivLevels();
+//    }
+    
+//    public void write() throws FileNotFoundException, IOException
+//    {
+//        FileOutputStream fos = new FileOutputStream("C:\\Users\\Administrador\\Documents\\NetBeansProjects\\Security-Manager\\MonitorAuditoria\\archivos\\InfoSensibility.bin");
+//        ObjectOutputStream out = new ObjectOutputStream(fos);
+//        
+//        out.writeObject(tbsList);
+//    }
+//    
+//    public ArrayList read () throws FileNotFoundException, IOException, ClassNotFoundException
+//    {
+//        FileInputStream fis = new FileInputStream("C:\\Users\\Administrador\\Documents\\NetBeansProjects\\Security-Manager\\MonitorAuditoria\\archivos\\InfoSensibility.bin");
+//        ObjectInputStream in = new ObjectInputStream(fis);
+//        
+//        ArrayList<Tablespace> aux = new ArrayList<>();
+//        aux = (ArrayList)in.readObject();
+//
+//        return aux;
 //    }
 }
